@@ -14,4 +14,4 @@ INSERT INTO Foods (Calories, Name, Carbs, Protein, Fats)
 --The code above writes the following information about carrots into the table
 
 SELECT Calories, Name, Carbs  FROM Foods;
---The following code above reads the calories names and carbs of all foods from the table and displays the information.
+--The following code above reads the calories names and carbs of all foods from the table and displays the information..
