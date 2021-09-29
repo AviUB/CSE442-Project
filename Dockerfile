@@ -11,4 +11,4 @@ RUN pip install -r requirements.txt
 
 EXPOSE $PORT
 
-python3 ./sample_site/server.py $PORT
+CMD python3 ./sample_site/server.py $PORT
