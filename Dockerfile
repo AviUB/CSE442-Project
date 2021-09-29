@@ -9,6 +9,6 @@ COPY . .
 RUN apt-get -y update
 RUN pip install -r requirements.txt
 
-EXPOSE 8080
+EXPOSE $PORT
 
-CMD ["python3", "./sample_site/server.py"]
+python3 ./sample_site/server.py $PORT
