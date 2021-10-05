@@ -19,7 +19,11 @@ def database_activity():
     cur.execute("INSERT INTO USERS (username, name) VALUES (%s, %s)", ("friendly", "green"))
     cur.execute("SELECT * FROM users;")
     data_from_db = cur.fetchone()
-    return"<p>"+data_from_db+"</p>"
+    str = ''
+    for data in data_from_db:
+        str += data
+        str += ' '
+    return"<p>"+"data from database: "+str+"</p>"
     
 
 if __name__=="__main__":
