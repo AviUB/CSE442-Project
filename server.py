@@ -1,98 +1,43 @@
-from socketserver import TCPServer, BaseRequestHandler
+from flask import Flask, render_template, request
+import sys
+import os
+import psycopg2
 
-class HTTPServer(TCPServer):
+def create_account(username, password):
+    return"<p>"+"You submitted a create account form: "+username+", "+password+"</p>"
 
-    def __init__(self, addr, handler, bind_and_activate=True):
-        super().__init__(addr, handler, bind_and_activate)
+def valid_login(username, password):
+    #if username in db already, return false, else true
+    return True
 
-        # Associates address with a method that returns the MIME type and content
-        self.pages = {"/": self.root, "/style.css": self.style }
+def invalid_account():
+    return "<p>This is not a valid account: Username already in system!</p>"
 
-    def root(self):
-        # /
-        data = self.__get_file_data("index.html")
-        return("text/html; charset=utf-8", data)
+def initialize_db():
+    #Create db tables
+    return True
 
-    def style(self):
-        # style.css
-        data = self.__get_file_data("style.css")
-        return("text/css; charset=utf-8", data)
+app = Flask(__name__)
 
-    def __get_file_data(self, filename):
-        # open and return file data from [filename]
-        with open(filename, "r") as fp:
-            data = fp.read()
-        return data
+@app.route("/")
+def sample_page():
+    return render_template("index.html")
 
-class HTTPRequestHandler(BaseRequestHandler):
-
-    def handle(self):
-        # Handle HTTP request
-        # Get the request type
-        print("got request")
-        data_string = self.request.recv(1024).strip().decode()
-        data = data_string.split("\r\n")
-        request_type = data[0].split()[0]
-
-        if request_type == "GET":
-            response = self.do_get_request(data)
+@app.route("/create_account", methods=['GET','POST'])
+def create_account_page():
+    if request.method == 'POST':
+        if valid_login(request.form['username'],
+                       request.form['password']):
+            return create_account(request.form['username'],
+                                   request.form['password'])
         else:
-            response = b""
-        print("sending  ")
-        self.request.sendall(response)
-
-    def do_get_request(self, data):
-        # Handles GET requests
-        # Get the web page the user is looking for
-        requested_route = data[0].split()[1]
-        # Split along / in case the requested page is /<page>/<page2>
-        split_route = requested_route.split("/")
-
-        # Check if it is a valid route
-        if requested_route not in self.server.pages.keys() and "/"+split_route[1] not in self.server.pages.keys():
-            # Page not found
-            response = self.assemble_response("404", "NOT FOUND", "text/plain", "Page Not Found")
-        else:
-            mime, content = self.server.pages[requested_route]()
-
-        # Check for redirect
-        response = self.assemble_response("200", "OK", mime, content)
-            
-        return response
-
-    def assemble_response(self, code, msg, mime, content):
-        status = "HTTP/1.1 " + code + " " + msg + "\r\n"
-        if code == "200" or code == "404":
-            # Build Header fields
-            #OK or NOT Found
-            try:
-                length = "Content-Length: " + str(len(bytes(content,"ascii"))) + "\r\n"
-            except UnicodeEncodeError:
-                # If the content cannot be converted to ascii, convert to utf-8
-                length = "Content-Length: " + str(len(bytes(content, "utf-8"))) + "\r\n"
-            except TypeError:
-                # For images
-                length = "Content-Lenght: " + str(len(content)) + "\r\n"
-            no_sniff = "X-Content-Type-Options: nosniff\r\n"
-            contenttype = "Content-Type: " + mime + "\r\n\r\n"
-
-            # Construct response
-            header =  status + length + no_sniff + contenttype
-            response = header.encode("ascii")
-        else:
-            response = b""
+            return invalid_account()
+    else:
+        return render_template("create_account.html")
     
-        return response
 
-
-def main():
-    print("starting server:")
-    HOST, PORT = "0.0.0.0", 8000
-
-    with HTTPServer((HOST, PORT), HTTPRequestHandler) as server:
-        server.serve_forever()
-
-if __name__ == "__main__":
-    print("before main")
-    main()
-
+if __name__=="__main__":
+    initialize_db()
+    port = int(sys.argv[1]) if len(sys.argv) > 1 else 8080
+    print(port)
+    app.run(host="0.0.0.0",port=port)
