@@ -76,13 +76,6 @@ def achOne():
 def achTwo():
     return render_template("achievements.js")
 
-@app.route("/achs", methods=['GET', 'POST'])
-def achs():
-    if request.method == 'POST':
-        return render_template(json.dumps({"1": ["Would you look at the time!", "Successfully logged in for the first time.", "0"],
-                            "2": ["Here comes the plane!", "Create your first meal.", "0"],
-                            "3": ["Who's hungry?", "Login on 3 separate occasions.", "0"]}))
-
 
 if __name__=="__main__":
     port = int(sys.argv[1]) if len(sys.argv) > 1 else 8080
