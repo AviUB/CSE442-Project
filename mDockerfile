@@ -11,7 +11,7 @@ WORKDIR /
 COPY . .
 
 RUN apt-get -y update
-RUN pip install -r requirements.txt
+RUN pip install -r mrequirements.txt
 
 EXPOSE $PORT
 
