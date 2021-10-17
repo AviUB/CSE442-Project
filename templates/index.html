@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Meal O' Clock</title>
+        <meta charset="utf-8">
+        <link rel="stylesheet" href="style.css">
+    </head>
+</html>
+
+<body>
+    <div>
+        <header id="banner">
+            <img src="logo.png" alt="Meal O' Clock">
+            <h1>Meal O' Clock</h1>
+        </header>
+    </div>
+
+    <div id="login">
+        <p>Please Login</p>
+        <form action={{url_for("login")}} method="post">
+            <label for="login-name" >Username:</label><br/>
+            <input id="login-name" type="text" name="username" maxlength=20> <br/>
+
+            <label for="login-pw">Password (Minimum 8 Characters):</label><br/>
+            <input id="login-pw" type="password" name="pw" minlength=8 maxlength=20><br/>
+            <div id="under-login">
+                <input type="submit" value="Login">
+                <a id="register" href="/create_account">Register</a>
+            </div>
+        </form>
+    </div>
+</body>
