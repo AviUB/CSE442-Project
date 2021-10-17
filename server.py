@@ -1,40 +1,40 @@
 from flask import Flask, render_template, request, redirect
 import sys
 import os
-import psycopg2
 
 db_config = os.environ["DATABASE_URL"] if "DATABASE_URL" in os.environ else "user=postgres password=password"
-FAKE_DB = {"username":["u_name"], "password": ["testPassword"]}
 
 
 def create_account(username, password):
-    global FAKE_DB
-    FAKE_DB["username"] = username
-    FAKE_DB["password"] = password
-
+    conn = psycopg2.connect(db_config, sslmode='require')
+    cur = conn.cursor()
+    cur.execute("INSERT INTO users VALUES (username, password) VALUES (%s, %s)", (username, password))
+    conn.commit()
+    conn.close()
+    #TODO: Replace this with a redirect
     return render_template("index.html", success=True)
 
 def valid_login(username, password):
     #if username in db already, return false, else true
-    global FAKE_DB
-    try:
-        user_index = FAKE_DB["username"].index(username)
-        if FAKE_DB["password"][user_index] == password:
-            return True
-    except ValueError:
+    conn = psycopg2.connect(db_config, sslmode='require')
+    cur = conn.cursor()
+    cur.execute("SELECT * FROM users WHERE username = %s;", (username, ))
+    account = cur.fetchone()
+    conn.close()
+    if account is None:
+        return True
+    else:
         return False
-
-
-
 
 def invalid_account():
     return "<p>This is not a valid account: Username already in system!</p>"
 
 def initialize_db():
-    global FAKE_DB
     #Create db tables
-    FAKE_DB = {"username": [], "password": []}
-
+    conn = psycopg2.connect(db_config, sslmode='require')
+    cur = conn.cursor()
+    cur.execute("CREATE TABLE IF NOT EXISTS users (username varchar, password varchar);")
+    conn.close
     return True
 
 app = Flask(__name__)
@@ -59,8 +59,6 @@ def user_login_page():
 if __name__=="__main__":
 
     initialize_db()
-    # CREATE A TEST LOGIN
-    create_account("u_name", "testPassword")
     port = int(sys.argv[1]) if len(sys.argv) > 1 else 8080
     print(port)
     app.run(host="0.0.0.0",port=port)
