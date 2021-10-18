@@ -7,7 +7,7 @@ db_config = os.environ["DATABASE_URL"] if "DATABASE_URL" in os.environ else "use
 
 
 def create_account(username, password):
-    conn = psycopg2.connect(db_config, sslmode='require')
+    conn = psycopg2.connect(db_config)
     cur = conn.cursor()
     cur.execute("INSERT INTO users VALUES (%s, %s)", (username, password))
     conn.commit()
@@ -18,10 +18,11 @@ def create_account(username, password):
 
 def valid_login(username, password):
     #if username in db already, return false, else true
-    conn = psycopg2.connect(db_config, sslmode='require')
+    conn = psycopg2.connect(db_config)
     cur = conn.cursor()
     cur.execute("SELECT * FROM users WHERE username = %s;", (username, ))
     account = cur.fetchone()
+    conn.commit()
     conn.close()
     if account is None:
         return True
@@ -33,9 +34,10 @@ def invalid_account():
 
 def initialize_db():
     #Create db tables
-    conn = psycopg2.connect(db_config, sslmode='require')
+    conn = psycopg2.connect(db_config)
     cur = conn.cursor()
     cur.execute("CREATE TABLE IF NOT EXISTS users (username varchar, password varchar);")
+    conn.commit()
     conn.close
     print("Initialized Database")
     return True
