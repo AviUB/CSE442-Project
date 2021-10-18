@@ -9,7 +9,7 @@ db_config = os.environ["DATABASE_URL"] if "DATABASE_URL" in os.environ else "use
 def create_account(username, password):
     conn = psycopg2.connect(db_config, sslmode='require')
     cur = conn.cursor()
-    cur.execute("INSERT INTO users VALUES (username, password) VALUES (%s, %s)", (username, password))
+    cur.execute("INSERT INTO users VALUES (%s, %s)", (username, password))
     conn.commit()
     conn.close()
     #TODO: Replace this with a redirect
