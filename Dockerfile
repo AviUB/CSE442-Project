@@ -1,4 +1,4 @@
-FROM python:3
+FROM python:3.8
 
 RUN apt-get update
 
@@ -10,6 +10,9 @@ WORKDIR /
 
 COPY . .
 
-EXPOSE 8000
+RUN apt-get -y update
+RUN pip install -r requirements.txt
 
-CMD ["python3", "./server.py"]
+EXPOSE $PORT
+
+CMD python3 server.py $PORT
