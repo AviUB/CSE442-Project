@@ -5,6 +5,7 @@ import psycopg2
 
 db_config = os.environ["DATABASE_URL"] if "DATABASE_URL" in os.environ else "user=postgres password=password"
 
+app = Flask(__name__)
 
 def create_account(username, password):
     conn = psycopg2.connect(db_config)
@@ -14,7 +15,7 @@ def create_account(username, password):
     conn.close()
     #TODO: Replace this with a redirect
     print(f"Created account: {username}, {password}")
-    return render_template("index.html", success=True)
+    return
 
 def valid_login(username, password):
     #if username in db already, return false, else true
@@ -27,6 +28,18 @@ def valid_login(username, password):
     if account is None:
         return True
     else:
+        return False
+
+def verify_login(username, password):
+    conn = psycopg2.connect(db_config)
+    cur = conn.cursor()
+    cur.execute("SELECT * FROM users WHERE username = %s;", (username, ))
+    account = cur.fetchone()
+    if account[0] == username and account[1] == password:
+        print("ACCT FOUND")
+        return True
+    else:
+        print("ACCT NOT FOUND")
         return False
 
 def invalid_account():
@@ -42,8 +55,6 @@ def initialize_db():
     print("Initialized Database")
     return True
 
-app = Flask(__name__)
-
 @app.route("/")
 def sample_page():
     return render_template("index.html", success=None)
@@ -51,10 +62,11 @@ def sample_page():
 
 @app.route("/login", methods=["POST"])
 def login():
-    if valid_login(request.form["username"],
+    if verify_login(request.form["username"],
                    request.form["pw"]):
         return redirect("/userlogin")
     else:
+        
         return redirect("/")
         
 @app.route("/userlogin")
