@@ -13,8 +13,6 @@ COPY . .
 RUN apt-get -y update
 RUN pip install -r requirements.txt
 
-ENV FLASK_APP server
-
 EXPOSE $PORT
 
-CMD flask run
+CMD python3 server $PORT
