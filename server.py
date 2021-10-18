@@ -1,6 +1,7 @@
 from flask import Flask, render_template, request, redirect
 import sys
 import os
+import psycopg2
 
 db_config = os.environ["DATABASE_URL"] if "DATABASE_URL" in os.environ else "user=postgres password=password"
 
