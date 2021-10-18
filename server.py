@@ -13,6 +13,7 @@ def create_account(username, password):
     conn.commit()
     conn.close()
     #TODO: Replace this with a redirect
+    print(f"Created account: {username}, {password}")
     return render_template("index.html", success=True)
 
 def valid_login(username, password):
@@ -36,6 +37,7 @@ def initialize_db():
     cur = conn.cursor()
     cur.execute("CREATE TABLE IF NOT EXISTS users (username varchar, password varchar);")
     conn.close
+    print("Initialized Database")
     return True
 
 app = Flask(__name__)
