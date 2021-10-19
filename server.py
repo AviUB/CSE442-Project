@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request
+from flask import Flask, render_template, request, redirect, url_for
 import sys
 import os
 import psycopg2
@@ -8,11 +8,11 @@ db_config = os.environ["DATABASE_URL"] if "DATABASE_URL" in os.environ else "use
 def create_account(username, password):
     conn = psycopg2.connect(db_config, sslmode='require')
     cur = conn.cursor()
-    cur.execute("INSERT INTO users VALUES (username, password) VALUES (%s, %s)", (username, password))
+    cur.execute("INSERT INTO users (username, password) VALUES (%s, %s)", (username, password))
     conn.commit()
     conn.close()
     #TODO: Replace this with a redirect
-    return render_template("index.html", success=True)
+    return redirect(url_for("userlogin"))
 
 def valid_login(username, password):
     #if username in db already, return false, else true
@@ -43,7 +43,7 @@ app = Flask(__name__)
 
 @app.route("/")
 def sample_page():
-    return render_template("index.html", success=None)
+    return render_template("index.html")
 
 @app.route("/create_account", methods=['GET','POST'])
 def create_account_page():
