@@ -88,7 +88,7 @@ def create_account_page():
     
 @app.route('/mealspage')
 def mealspage():
-    return render_template('index.html')
+    return render_template('mealspage.html')
 
 
 if __name__=="__main__":
