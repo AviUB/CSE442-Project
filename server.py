@@ -65,7 +65,7 @@ def sample_page():
 def login():
     if verify_login(request.form["username"],
                    request.form["pw"]):
-        return redirect("/userlogin")
+        return redirect(url_for("mealspage"))
     else:
         
         return redirect("/")
