@@ -85,6 +85,11 @@ def create_account_page():
             return invalid_account()
     else:
         return render_template("create_account.html")
+    
+@app.route('/mealspage')
+def mealspage():
+    return render_template('index.html')
+
 
 if __name__=="__main__":
     setup = initialize_db()
