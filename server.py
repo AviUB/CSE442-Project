@@ -35,6 +35,8 @@ def verify_login(username, password):
     cur = conn.cursor()
     cur.execute("SELECT * FROM users WHERE username = %s;", (username, ))
     account = cur.fetchone()
+    if account is None:
+        return False
     if account[0] == username and account[1] == password:
         print("ACCT FOUND")
         return True
