@@ -20,6 +20,7 @@ def valid_login(username, password):
     cur = conn.cursor()
     cur.execute("SELECT * FROM users WHERE username = %s;", (username, ))
     account = cur.fetchone()
+    conn.commit()
     conn.close()
     if account is None:
         return True
@@ -34,7 +35,8 @@ def initialize_db():
     conn = psycopg2.connect(db_config, sslmode='require')
     cur = conn.cursor()
     cur.execute("CREATE TABLE IF NOT EXISTS users (username varchar, password varchar);")
-    conn.close
+    conn.commit()
+    conn.close()
     return True
 
 app = Flask(__name__)
@@ -57,7 +59,8 @@ def create_account_page():
     
 
 if __name__=="__main__":
-    initialize_db()
-    port = int(sys.argv[1]) if len(sys.argv) > 1 else 8080
-    print(port)
-    app.run(host="0.0.0.0",port=port)
+    setup = initialize_db()
+    if setup:
+        port = int(sys.argv[1]) if len(sys.argv) > 1 else 8080
+        print(port)
+        app.run(host="0.0.0.0",port=port)
