@@ -35,6 +35,8 @@ def verify_login(username, password):
     cur = conn.cursor()
     cur.execute("SELECT * FROM users WHERE username = %s;", (username, ))
     account = cur.fetchone()
+    if account is None:
+        return False
     if account[0] == username and account[1] == password:
         print("ACCT FOUND")
         return True
@@ -63,7 +65,7 @@ def sample_page():
 def login():
     if verify_login(request.form["username"],
                    request.form["pw"]):
-        return redirect("/userlogin")
+        return redirect(url_for("mealspage"))
     else:
         
         return redirect("/")
@@ -83,6 +85,11 @@ def create_account_page():
             return invalid_account()
     else:
         return render_template("create_account.html")
+    
+@app.route('/mealspage')
+def mealspage():
+    return render_template('mealspage.html')
+
 
 if __name__=="__main__":
     setup = initialize_db()
