@@ -1,0 +1,83 @@
+<html>
+<head></head>
+<body>
+<h1>Meals Page</h1>
+
+
+<h1>Breakfast</h1>
+<p><pre class="tab">Food   |   Calories   |   Carbs   |    Fat   |   protein   |</pre> </p>
+<p id="demo"></p>
+<script>
+  document.getElementById("demo").innerHTML = "Enter Food";
+</script>
+<form action="/action_page.php">
+  <label for="fname">Food name:</label>
+  <input type="text" id="fname" name="fname"><br><br>
+  <input type="button" value="Submit" onclick="submitForm();">
+</form>
+<script>
+  function submitForm() {
+    var name =document.getElementById("fname").value;
+    var astr = "200" + "   " +"5"+"   " + "3"+"    "+"31"+"   "+"12"
+    document.getElementById("demo").innerHTML = name+astr;
+  }
+
+</script>
+<h1>Lunch</h1>
+<p><pre class="tab">Food   |   Calories   |   Carbs   |    Fat   |   protein   |</pre> </p>
+<p id="demo1"></p>
+<script>
+  document.getElementById("demo1").innerHTML = "Enter Food";
+</script>
+<form action="/action_page.php">
+  <label for="fname1">Food name:</label>
+  <input type="text" id="fname1" name="fname"><br><br>
+  <input type="button" value="Submit" onclick="submitForm1();">
+</form>
+<script>
+  function submitForm1() {
+    var name =document.getElementById("fname1").value;
+    document.getElementById("demo1").innerHTML = name;
+  }
+
+</script>
+
+<h1>Dinner</h1>
+<p><pre class="tab">Food   |   Calories   |   Carbs   |    Fat   |   protein   |</pre> </p>
+<p id="demo3"></p>
+<script>
+  document.getElementById("demo3").innerHTML = "Enter Food";
+</script>
+<form action="/action_page.php">
+  <label for="fname3">Food name:</label>
+  <input type="text" id="fname3" name="fname"><br><br>
+  <input type="button" value="Submit" onclick="submitForm2();">
+</form>
+<script>
+  function submitForm2() {
+    var name =document.getElementById("fname3").value;
+    document.getElementById("demo3").innerHTML = name;
+  }
+
+</script>
+
+<h1>Snacks</h1>
+<p><pre class="tab">Food   |   Calories   |   Carbs   |    Fat   |   protein   |</pre> </p>
+<p id="demo4"></p>
+<script>
+  document.getElementById("demo4").innerHTML = "Enter Food";
+</script>
+<form action="/action_page.php">
+  <label for="fname">Food name:</label>
+  <input type="text" id="fname4" name="fname"><br><br>
+  <input type="button" value="Submit" onclick="submitForm3();">
+</form>
+<script>
+  function submitForm3() {
+    var name =document.getElementById("fname4").value;
+    document.getElementById("demo4").innerHTML = name;
+  }
+
+</script>
+</body>
+</html>
