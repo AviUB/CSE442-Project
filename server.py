@@ -13,10 +13,12 @@ def create_account(username, password):
     cur.execute("INSERT INTO users (username, password) VALUES (%s, %s)", (username, password))
     conn.commit()
     conn.close()
-    return redirect(url_for("user_login_page"))
+    return redirect(url_for("sample_page"))
 
 def valid_login(username, password):
     #if username in db already, return false, else true
+    if len(password) < 8:
+        return False
     conn = psycopg2.connect(db_config, sslmode='require')
     cur = conn.cursor()
     cur.execute("SELECT * FROM users WHERE username = %s;", (username, ))
@@ -42,7 +44,7 @@ def verify_login(username, password):
 
 def invalid_account():
     #TODO: Make a proper error and redirect
-    return "<p>This is not a valid account: Username already in system!</p>"
+    return render_template("invalid_register.html")
 
 def initialize_db():
     #Create db tables
