@@ -1,0 +1,53 @@
+:root { 
+  --astronaut: #243d6f;
+  --cadet-blue: #a4b0c3;
+  --white: #ffffff;
+ 
+  --font-size-l: 36px;
+  --font-size-m: 29px;
+  --font-size-s: 28px;
+  --font-size-xs: 26px;
+  --font-size-xxs: 22px;
+ 
+  --font-family-roboto-medium: "Roboto-Medium", Helvetica;
+  --font-family-roboto-regular: "Roboto-Regular", Helvetica;
+}
+.roboto-medium-white-29px {
+  color: var(--white);
+  font-family: var(--font-family-roboto-medium);
+  font-size: var(--font-size-m);
+  font-style: normal;
+  font-weight: 500;
+}
+
+.roboto-medium-cadet-blue-26px {
+  color: var(--cadet-blue);
+  font-family: var(--font-family-roboto-medium);
+  font-size: var(--font-size-xs);
+  font-style: normal;
+  font-weight: 500;
+}
+
+.roboto-medium-white-26px {
+  color: var(--white);
+  font-family: var(--font-family-roboto-medium);
+  font-size: var(--font-size-xs);
+  font-style: normal;
+  font-weight: 500;
+}
+
+.roboto-medium-white-22px {
+  color: var(--white);
+  font-family: var(--font-family-roboto-medium);
+  font-size: var(--font-size-xxs);
+  font-style: normal;
+  font-weight: 500;
+}
+
+.roboto-medium-astronaut-28px {
+  color: var(--astronaut);
+  font-family: var(--font-family-roboto-medium);
+  font-size: var(--font-size-s);
+  font-style: normal;
+  font-weight: 500;
+}

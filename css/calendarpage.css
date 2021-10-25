@@ -1,0 +1,109 @@
+/* screen - background-frame */
+
+.background-frame {
+  align-items: flex-start;
+  background-color: #2a2e41;
+  border: 1px solid #000000;
+  display: flex;
+  height: 1024px;
+  padding: 0 78.5px;
+  width: 1440px;
+}
+
+.background-frame .overlap-group {
+  height: 726px;
+  margin-top: 151.5px;
+  position: relative;
+  width: 1283px;
+}
+
+.background-frame .page-background {
+  background-color: #c4c4c4;
+  height: 720px;
+  left: 1px;
+  position: absolute;
+  top: 1px;
+  width: 1280px;
+}
+
+.background-frame .menu-background {
+  background-color: #2a2e41b2;
+  height: 720px;
+  left: 1px;
+  position: absolute;
+  top: 1px;
+  width: 440px;
+}
+
+.background-frame .weekly-calendar-background {
+  background-color: #2a2e41b2;
+  height: 720px;
+  left: 441px;
+  position: absolute;
+  top: 1px;
+  width: 840px;
+}
+
+.background-frame .divider {
+  height: 3px;
+  left: 1px;
+  position: absolute;
+  top: 367px;
+  width: 440px;
+}
+
+.background-frame .divider-1 {
+  height: 721px;
+  left: 412px;
+  position: absolute;
+  top: 4px;
+  width: 20px;
+}
+
+.background-frame .divider-2 {
+  height: 3px;
+  left: 1px;
+  position: absolute;
+  top: 47px;
+  width: 1280px;
+}
+
+.background-frame .border {
+  height: 3px;
+  left: 1px;
+  position: absolute;
+  top: 723px;
+  width: 1280px;
+}
+
+.background-frame .border-1 {
+  height: 3px;
+  left: 1px;
+  position: absolute;
+  top: 3px;
+  width: 1280px;
+}
+
+.background-frame .border-2 {
+  height: 724px;
+  left: 1280px;
+  position: absolute;
+  top: 1px;
+  width: 3px;
+}
+
+.background-frame .border-3 {
+  height: 721px;
+  left: 0;
+  position: absolute;
+  top: 4px;
+  width: 3px;
+}
+
+.background-frame .calendar-page {
+  height: 721px;
+  left: 21px;
+  position: absolute;
+  top: 0;
+  width: 1245px;
+}
