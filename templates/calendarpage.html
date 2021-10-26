@@ -30,10 +30,29 @@
         </div>
       </div>
     </div>
-    Foodname ... <span id="result"></span>
+    
+    Breakfast ... <span id="result1"></span>
+    </p>
+    <script>
+        document.getElementById("result1").innerHTML= localStorage.getItem("foodvalue1")
+    </script>
+    <p>
+    Lunch ... <span id="result2"></span>
+    </p>
+    <script>
+        document.getElementById("result2").innerHTML= localStorage.getItem("foodvalue2")
+    </script>
+    <p>
+    Dinner ... <span id="result3"></span>
+    </p>
+    <script>
+        document.getElementById("result3").innerHTML= localStorage.getItem("foodvalue3")
+    </script>
+    Snacks ... <span id="result"></span>
     <script>
         document.getElementById("result").innerHTML= localStorage.getItem("foodvalue")
     </script>
+    
 
     <footer>
       <a id="aboutus" href="/aboutus">About Us</a>
