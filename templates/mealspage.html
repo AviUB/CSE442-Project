@@ -3,6 +3,7 @@
 <body>
 <h1>Meals Page</h1>
 
+<a href="calendarpage.html" target="_blank">Visit Calendarpage!</a>
 
 <h1>Breakfast</h1>
 <p><pre class="tab">Food   |   Calories   |   Carbs   |    Fat   |   protein   |</pre> </p>
@@ -72,12 +73,27 @@
   <input type="text" id="fname4" name="fname"><br><br>
   <input type="button" value="Submit" onclick="submitForm3();">
 </form>
+<form  action="calendarpage.html">
+    <label for="fname">Food name:</label>
+    <input type="text" id="fname5" name="fname"><br><br>
+    <input type="button" value="Submit to Calendar" onclick="passvalue()">
+</form>
+<script>
+    function passvalue() {
+        var foodname = document.getElementById("fname5").value;
+        localStorage.setItem("foodvalue", foodname);
+        return false
+
+    }
+</script>
 <script>
   function submitForm3() {
     var name =document.getElementById("fname4").value;
     document.getElementById("demo4").innerHTML = name;
+      document.getElementById("snacks").innerHTML = name;
   }
 
 </script>
+
 </body>
 </html>
