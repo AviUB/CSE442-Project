@@ -65,7 +65,7 @@ def sample_page():
 def login():
     if verify_login(request.form["username"],
                    request.form["pw"]):
-        return redirect(url_for("mealspage"))
+        return redirect(url_for("calendarpage"))
     else:
         
         return redirect("/")
@@ -89,6 +89,10 @@ def create_account_page():
 @app.route('/mealspage')
 def mealspage():
     return render_template('mealspage.html')
+
+@app.route('/calendarpage')
+def calendarpage():
+    return render_template('calendarpage.html')
 
 @app.route('/aboutus')
 def aboutus():
