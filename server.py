@@ -90,6 +90,9 @@ def create_account_page():
 def mealspage():
     return render_template('mealspage.html')
 
+@app.route('/aboutus')
+def aboutus():
+    return render_template("aboutus.html")
 
 if __name__=="__main__":
     setup = initialize_db()
