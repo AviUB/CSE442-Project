@@ -111,8 +111,12 @@ def profile():
         else:
             pass
     user = get_user(username)
-    return render_template("profile.html", user={"username": username,"feet": user[0], "inches": user[1], "pounds": user[2]})
-
+    if user != None:
+        return render_template("profile.html", user={"username": username,"feet": user[0], "inches": user[1], "pounds": user[2]})
+    else:
+        print(f"Could NOT Find User: {username}")
+        return render_template("profile.html")
+        
 def update_height(user, feet, inches):
     conn = psycopg2.connect(db_config, sslmode='require')
     cur = conn.cursor()
