@@ -1,20 +1,6 @@
-<!DOCTYPE html>
-<html>
-    <head>
-        <title>Meal O' Clock</title>
-        <meta charset="utf-8">
-        <link rel="stylesheet" href="style.css">
-    </head>
-</html>
+{% extends 'base.html' %}
 
-<body>
-    <div>
-        <header id="banner">
-            <img src="logo.png" alt="Meal O' Clock">
-            <h1>Meal O' Clock</h1>
-        </header>
-    </div>
-
+{% block content %}
     <div id="login">
         <p>Please Login</p>
         <form action={{url_for("login")}} method="post">
@@ -29,4 +15,4 @@
             </div>
         </form>
     </div>
-</body>
+{% endblock %}
