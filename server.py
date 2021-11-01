@@ -44,6 +44,13 @@ def verify_login(username, password):
         print("ACCT NOT FOUND")
         return False
 
+def get_user(username):
+    conn = psycopg2.connect(db_config)
+    cur = conn.cursor()
+    cur.execute("SELECT feet inches weight FROM users WHERE username=%s", (username, ))
+    user = cur.fetchone()
+    return user
+
 def invalid_account():
     #TODO: Make a proper error and redirect
     return render_template("invalid_register.html")
@@ -52,7 +59,7 @@ def initialize_db():
     #Create db tables
     conn = psycopg2.connect(db_config, sslmode='require')
     cur = conn.cursor()
-    cur.execute("CREATE TABLE IF NOT EXISTS users (username varchar, password varchar);")
+    cur.execute("CREATE TABLE IF NOT EXISTS users (username varchar, password varchar, feet int, inches int, weight int);")
     conn.commit()
     conn.close()
     return True
@@ -69,7 +76,7 @@ def login():
     else:
         
         return redirect("/")
-        
+
 @app.route("/userlogin")
 def user_login_page():
     return render_template("userlogin.html")
@@ -90,6 +97,44 @@ def create_account_page():
 def mealspage():
     return render_template('mealspage.html')
 
+@app.route('/profile', methods=["GET", "POST"])
+def profile():
+    username = ""
+    if request.method == "POST":
+        type_ = request.form["type"]
+        if type_ == "height":
+            update_height(username, request.form["height-feet"], request.form["height-inches"])
+        elif type_ == "weight":
+            update_weight(username, request.form["weight-pounds"])
+        elif type_ == "password":
+            update_password(username, request.form["current_pw"], request.form["new_pw"])
+        else:
+            pass
+    user = get_user(username)
+    return render_template("profile.html", user={"username": username,"feet": user[0], "inches": user[1], "pounds": user[2]})
+
+def update_height(user, feet, inches):
+    conn = psycopg2.connect(db_config, sslmode='require')
+    cur = conn.cursor()
+    cur.execute("UPDATE users SET feet=%d inches=%d WHERE username=%s", (feet, inches, username))
+    conn.commit()
+    conn.close()
+
+def update_weight(user, weight):
+    conn = psycopg2.connect(db_config, sslmode='require')
+    cur = conn.cursor()
+    cur.execute("UPDATE users SET weight=%d WHERE username=%s", (weight, username))
+    conn.commit()
+    conn.close()
+
+def update_password(user, current, new):
+    if not verify_login(user, current):
+        return
+    conn = psycopg2.connect(db_config, sslmode='require')
+    cur = conn.cursor()
+    cur.execute("UPDATE users SET password=%s WHERE username=%s", (new, username))
+    conn.commit()
+    conn.close()
 
 if __name__=="__main__":
     setup = initialize_db()
