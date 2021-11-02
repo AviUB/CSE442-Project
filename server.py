@@ -140,7 +140,7 @@ def profile():
 def update_height(username, feet, inches):
     conn = psycopg2.connect(db_config, sslmode='require')
     cur = conn.cursor()
-    cur.execute("UPDATE users SET feet=%s inches=%s WHERE username=%s", (feet, inches, username))
+    cur.execute("UPDATE users SET feet=%s, inches=%s WHERE username=%s", (feet, inches, username))
     conn.commit()
     conn.close()
 
