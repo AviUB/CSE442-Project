@@ -42,10 +42,8 @@ def verify_login(username, password):
         return False
     passhash = hashlib.pbkdf2_hmac('sha256', bytes(password, 'utf-8'), bytes(username, 'utf-8'), 100000)
     if account[0] == username and account[1] == passhash.hex():
-        print("ACCT FOUND")
         return True
     else:
-        print("ACCT NOT FOUND")
         return False
 
 def invalid_account():
@@ -110,6 +108,21 @@ def mealspage():
 @app.route('/aboutus')
 def aboutus():
     return render_template("aboutus.html")
+
+@app.route('/passhash/<username>')
+def getHash(username):
+    if 'username' in session and session['username'] == username:
+        conn = psycopg2.connect(db_config)
+        cur = conn.cursor()
+        cur.execute("SELECT * FROM users WHERE username = %s;", (username, ))
+        account = cur.fetchone()
+        if account is None:
+            abort(404)
+            return 'Never returned'
+        return '<p>This is the hashed password for ' + username + ': ' + account[1] + '</p>'
+    else:
+        abort(404)
+        return 'Never returned'
 
 if __name__=="__main__":
     setup = initialize_db()
