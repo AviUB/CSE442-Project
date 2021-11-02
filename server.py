@@ -51,7 +51,7 @@ def verify_login(username, password):
 def get_user(username):
     conn = psycopg2.connect(db_config)
     cur = conn.cursor()
-    cur.execute("SELECT feet inches weight FROM users WHERE username=%s", (username, ))
+    cur.execute("SELECT feet, inches, weight FROM users WHERE username=%s", (username, ))
     user = cur.fetchone()
     return user
 
