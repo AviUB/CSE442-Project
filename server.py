@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request, redirect, url_for
+from flask import Flask, render_template, request, redirect, url_for, session, abort
 import sys
 import os
 import psycopg2
@@ -6,6 +6,8 @@ import psycopg2
 db_config = os.environ["DATABASE_URL"] if "DATABASE_URL" in os.environ else "user=postgres password=password"
 
 app = Flask(__name__)
+#TODO: Replace this with an environment variable
+app.secret_key = os.environ["SECRET_KEY"] if "SECRET_KEY" in os.environ else 123456
 
 def create_account(username, password):
     conn = psycopg2.connect(db_config, sslmode='require')
@@ -65,6 +67,7 @@ def sample_page():
 def login():
     if verify_login(request.form["username"],
                    request.form["pw"]):
+        session['username'] = request.form["username"]
         return redirect(url_for("mealspage"))
     else:
         
@@ -85,10 +88,22 @@ def create_account_page():
             return invalid_account()
     else:
         return render_template("create_account.html")
+
+@app.route('/calendar/<username>')
+def dummycalendarpage(username):
+    if 'username' in session and session['username'] == username:
+        return '<p>This is the calendar page for: ' + username + '.</p>'
+    else:
+        abort(404)
+        return 'Never returned'
     
 @app.route('/mealspage')
 def mealspage():
-    return render_template('mealspage.html')
+    if 'username' in session:
+        return render_template('mealspage.html')
+    else:
+        abort(404)
+        return 'Never returned'
 
 @app.route('/aboutus')
 def aboutus():
