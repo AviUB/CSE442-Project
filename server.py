@@ -137,22 +137,22 @@ def profile():
         print(f"Could NOT Find User: {username}")
         return render_template("profile.html")
 
-def update_height(user, feet, inches):
+def update_height(username, feet, inches):
     conn = psycopg2.connect(db_config, sslmode='require')
     cur = conn.cursor()
     cur.execute("UPDATE users SET feet=%s inches=%s WHERE username=%s", (feet, inches, username))
     conn.commit()
     conn.close()
 
-def update_weight(user, weight):
+def update_weight(username, weight):
     conn = psycopg2.connect(db_config, sslmode='require')
     cur = conn.cursor()
     cur.execute("UPDATE users SET weight=%s WHERE username=%s", (weight, username))
     conn.commit()
     conn.close()
 
-def update_password(user, current, new):
-    if not verify_login(user, current):
+def update_password(username, current, new):
+    if not verify_login(username, current):
         return
     hashkey = hashlib.pbkdf2_hmac('sha256', bytes(new, 'utf-8'), bytes(username, 'utf-8'), 100000)
     conn = psycopg2.connect(db_config, sslmode='require')
