@@ -9,7 +9,7 @@ db_config = os.environ["DATABASE_URL"] if "DATABASE_URL" in os.environ else "use
 app = Flask(__name__)
 app.secret_key = os.environ["SECRET_KEY"] if "SECRET_KEY" in os.environ else 123456
 
-def create_account(username, password, feet, inches, weights):
+def create_account(username, password, feet, inches, weight):
     conn = psycopg2.connect(db_config, sslmode='require')
     cur = conn.cursor()
 
