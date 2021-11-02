@@ -154,7 +154,7 @@ def update_weight(username, weight):
 def update_password(username, current, new):
     if not verify_login(username, current):
         return
-    hashkey = hashlib.pbkdf2_hmac('sha256', bytes(new, 'utf-8'), bytes(username, 'utf-8'), 100000)
+    hashkey = hashlib.pbkdf2_hmac('sha256', bytes(new, 'utf-8'), bytes(username, 'utf-8'), 100000).hex()
     conn = psycopg2.connect(db_config, sslmode='require')
     cur = conn.cursor()
     cur.execute("UPDATE users SET password=%s WHERE username=%s", (hashkey, username))
