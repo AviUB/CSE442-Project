@@ -9,11 +9,13 @@ db_config = os.environ["DATABASE_URL"] if "DATABASE_URL" in os.environ else "use
 app = Flask(__name__)
 app.secret_key = os.environ["SECRET_KEY"] if "SECRET_KEY" in os.environ else 123456
 
-def create_account(username, password):
+def create_account(username, password, feet, inches, weights):
     conn = psycopg2.connect(db_config, sslmode='require')
     cur = conn.cursor()
+
     hashkey = hashlib.pbkdf2_hmac('sha256', bytes(password, 'utf-8'), bytes(username, 'utf-8'), 100000)
-    cur.execute("INSERT INTO users (username, password) VALUES (%s, %s)", (username, hashkey.hex()))
+    cur.execute("INSERT INTO users (username, password, feet, inches, weight) VALUES (%s, %s, %s, %s, %s)", (username, hashkey.hex(), feet, inches, weight))
+    
     conn.commit()
     conn.close()
     return redirect(url_for("sample_page"))
@@ -46,6 +48,13 @@ def verify_login(username, password):
     else:
         return False
 
+def get_user(username):
+    conn = psycopg2.connect(db_config)
+    cur = conn.cursor()
+    cur.execute("SELECT feet inches weight FROM users WHERE username=%s", (username, ))
+    user = cur.fetchone()
+    return user
+
 def invalid_account():
     #TODO: Make a proper error and redirect
     return render_template("invalid_register.html")
@@ -54,7 +63,7 @@ def initialize_db():
     #Create db tables
     conn = psycopg2.connect(db_config, sslmode='require')
     cur = conn.cursor()
-    cur.execute("CREATE TABLE IF NOT EXISTS users (username varchar, password varchar);")
+    cur.execute("CREATE TABLE IF NOT EXISTS users (username varchar, password varchar, feet int, inches int, weight int);")
     conn.commit()
     conn.close()
     return True
@@ -72,7 +81,7 @@ def login():
     else:
         
         return redirect("/")
-        
+
 @app.route("/userlogin")
 def user_login_page():
     return render_template("userlogin.html")
@@ -83,7 +92,10 @@ def create_account_page():
         if valid_login(request.form['username'],
                        request.form['password']):
             return create_account(request.form['username'],
-                                   request.form['password'])
+                                   request.form['password'],
+                                   request.form['height_ft'],
+                                   request.form['height_in'],
+                                   request.form['weight'])
         else:
             return invalid_account()
     else:
@@ -104,6 +116,50 @@ def mealspage():
     else:
         abort(404)
         return 'Never returned'
+
+@app.route('/profile', methods=["GET", "POST"])
+def profile():
+    username = session['username']
+    if request.method == "POST":
+        type_ = request.form["type"]
+        if type_ == "height":
+            update_height(username, request.form["height_ft"], request.form["height_in"])
+        elif type_ == "weight":
+            update_weight(username, request.form["weight"])
+        elif type_ == "password":
+            update_password(username, request.form["current_pw"], request.form["new_pw"])
+        else:
+            pass
+    user = get_user(username)
+    if user != None:
+        return render_template("profile.html", user={"username": username,"feet": user[0], "inches": user[1], "pounds": user[2]})
+    else:
+        print(f"Could NOT Find User: {username}")
+        return render_template("profile.html")
+
+def update_height(user, feet, inches):
+    conn = psycopg2.connect(db_config, sslmode='require')
+    cur = conn.cursor()
+    cur.execute("UPDATE users SET feet=%s inches=%s WHERE username=%s", (feet, inches, username))
+    conn.commit()
+    conn.close()
+
+def update_weight(user, weight):
+    conn = psycopg2.connect(db_config, sslmode='require')
+    cur = conn.cursor()
+    cur.execute("UPDATE users SET weight=%s WHERE username=%s", (weight, username))
+    conn.commit()
+    conn.close()
+
+def update_password(user, current, new):
+    if not verify_login(user, current):
+        return
+    hashkey = hashlib.pbkdf2_hmac('sha256', bytes(new, 'utf-8'), bytes(username, 'utf-8'), 100000)
+    conn = psycopg2.connect(db_config, sslmode='require')
+    cur = conn.cursor()
+    cur.execute("UPDATE users SET password=%s WHERE username=%s", (hashkey, username))
+    conn.commit()
+    conn.close()
 
 @app.route('/aboutus')
 def aboutus():
