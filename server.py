@@ -2,24 +2,25 @@ from flask import Flask, render_template, request, redirect, url_for, session, a
 import sys
 import os
 import psycopg2
+import hashlib
 
 db_config = os.environ["DATABASE_URL"] if "DATABASE_URL" in os.environ else "user=postgres password=password"
 
 app = Flask(__name__)
-#TODO: Replace this with an environment variable
 app.secret_key = os.environ["SECRET_KEY"] if "SECRET_KEY" in os.environ else 123456
 
 def create_account(username, password):
     conn = psycopg2.connect(db_config, sslmode='require')
     cur = conn.cursor()
-    cur.execute("INSERT INTO users (username, password) VALUES (%s, %s)", (username, password))
+    hashkey = hashlib.pbkdf2_hmac('sha256', bytes(password, 'utf-8'), bytes(username, 'utf-8'), 100000)
+    cur.execute("INSERT INTO users (username, password) VALUES (%s, %s)", (username, hashkey.hex()))
     conn.commit()
     conn.close()
     return redirect(url_for("sample_page"))
 
 def valid_login(username, password):
     #if username in db already, return false, else true
-    if len(password) < 8:
+    if len(password) < 8 or len(password) > 1024:
         return False
     conn = psycopg2.connect(db_config, sslmode='require')
     cur = conn.cursor()
@@ -39,7 +40,8 @@ def verify_login(username, password):
     account = cur.fetchone()
     if account is None:
         return False
-    if account[0] == username and account[1] == password:
+    passhash = hashlib.pbkdf2_hmac('sha256', bytes(password, 'utf-8'), bytes(username, 'utf-8'), 100000)
+    if account[0] == username and account[1] == passhash.hex():
         print("ACCT FOUND")
         return True
     else:
