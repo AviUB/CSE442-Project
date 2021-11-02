@@ -109,21 +109,6 @@ def mealspage():
 def aboutus():
     return render_template("aboutus.html")
 
-@app.route('/passhash/<username>')
-def getHash(username):
-    if 'username' in session and session['username'] == username:
-        conn = psycopg2.connect(db_config)
-        cur = conn.cursor()
-        cur.execute("SELECT * FROM users WHERE username = %s;", (username, ))
-        account = cur.fetchone()
-        if account is None:
-            abort(404)
-            return 'Never returned'
-        return '<p>This is the hashed password for ' + username + ': ' + account[1] + '</p>'
-    else:
-        abort(404)
-        return 'Never returned'
-
 if __name__=="__main__":
     setup = initialize_db()
     if setup:
