@@ -9,7 +9,7 @@ db_config = os.environ["DATABASE_URL"] if "DATABASE_URL" in os.environ else "use
 app = Flask(__name__)
 app.secret_key = os.environ["SECRET_KEY"] if "SECRET_KEY" in os.environ else 123456
 
-def create_account(username, password, feet, inches, weights):
+def create_account(username, password, feet, inches, weight):
     conn = psycopg2.connect(db_config, sslmode='require')
     cur = conn.cursor()
 
@@ -51,7 +51,7 @@ def verify_login(username, password):
 def get_user(username):
     conn = psycopg2.connect(db_config)
     cur = conn.cursor()
-    cur.execute("SELECT feet inches weight FROM users WHERE username=%s", (username, ))
+    cur.execute("SELECT feet, inches, weight FROM users WHERE username=%s", (username, ))
     user = cur.fetchone()
     return user
 
@@ -137,24 +137,24 @@ def profile():
         print(f"Could NOT Find User: {username}")
         return render_template("profile.html")
 
-def update_height(user, feet, inches):
+def update_height(username, feet, inches):
     conn = psycopg2.connect(db_config, sslmode='require')
     cur = conn.cursor()
-    cur.execute("UPDATE users SET feet=%s inches=%s WHERE username=%s", (feet, inches, username))
+    cur.execute("UPDATE users SET feet=%s, inches=%s WHERE username=%s", (feet, inches, username))
     conn.commit()
     conn.close()
 
-def update_weight(user, weight):
+def update_weight(username, weight):
     conn = psycopg2.connect(db_config, sslmode='require')
     cur = conn.cursor()
     cur.execute("UPDATE users SET weight=%s WHERE username=%s", (weight, username))
     conn.commit()
     conn.close()
 
-def update_password(user, current, new):
-    if not verify_login(user, current):
+def update_password(username, current, new):
+    if not verify_login(username, current):
         return
-    hashkey = hashlib.pbkdf2_hmac('sha256', bytes(new, 'utf-8'), bytes(username, 'utf-8'), 100000)
+    hashkey = hashlib.pbkdf2_hmac('sha256', bytes(new, 'utf-8'), bytes(username, 'utf-8'), 100000).hex()
     conn = psycopg2.connect(db_config, sslmode='require')
     cur = conn.cursor()
     cur.execute("UPDATE users SET password=%s WHERE username=%s", (hashkey, username))

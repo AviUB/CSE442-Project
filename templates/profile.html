@@ -1,4 +1,4 @@
-{% extends base.html %}
+{% extends 'base.html' %}
 
 {% block content %}
 <div>
@@ -24,9 +24,9 @@
     <form action="/profile" method="post">
         <input value="password" name="type" type="hidden">
         <label for="current_pw">Current Password:</label>
-        <input id="current_pw" type="text" minlength=8>
+        <input id="current_pw" type="text" minlength=8, name="current_pw">
         <label for="new_pw">New Password:</label>
-        <input id="new_pw" type="text" minlength=8>
+        <input id="new_pw" type="text" minlength=8, name="new_pw">
         <input type="submit" value="Update Password">
     </form>
 </div>
