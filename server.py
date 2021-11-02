@@ -7,10 +7,10 @@ db_config = os.environ["DATABASE_URL"] if "DATABASE_URL" in os.environ else "use
 
 app = Flask(__name__)
 
-def create_account(username, password):
+def create_account(username, password, feet, inches, weights):
     conn = psycopg2.connect(db_config, sslmode='require')
     cur = conn.cursor()
-    cur.execute("INSERT INTO users (username, password) VALUES (%s, %s)", (username, password))
+    cur.execute("INSERT INTO users (username, password, feet, inches, weight) VALUES (%s, %s, %s, %s, %s)", (username, password, feet, inches, weight))
     conn.commit()
     conn.close()
     return redirect(url_for("sample_page"))
@@ -87,7 +87,10 @@ def create_account_page():
         if valid_login(request.form['username'],
                        request.form['password']):
             return create_account(request.form['username'],
-                                   request.form['password'])
+                                   request.form['password'],
+                                   request.form['height_ft'],
+                                   request.form['height_in'],
+                                   request.form['weight'])
         else:
             return invalid_account()
     else:
@@ -99,13 +102,13 @@ def mealspage():
 
 @app.route('/profile', methods=["GET", "POST"])
 def profile():
-    username = ""
+    username = session['username']
     if request.method == "POST":
         type_ = request.form["type"]
         if type_ == "height":
-            update_height(username, request.form["height-feet"], request.form["height-inches"])
+            update_height(username, request.form["height_ft"], request.form["height_in"])
         elif type_ == "weight":
-            update_weight(username, request.form["weight-pounds"])
+            update_weight(username, request.form["weight"])
         elif type_ == "password":
             update_password(username, request.form["current_pw"], request.form["new_pw"])
         else:
@@ -116,18 +119,18 @@ def profile():
     else:
         print(f"Could NOT Find User: {username}")
         return render_template("profile.html")
-        
+
 def update_height(user, feet, inches):
     conn = psycopg2.connect(db_config, sslmode='require')
     cur = conn.cursor()
-    cur.execute("UPDATE users SET feet=%d inches=%d WHERE username=%s", (feet, inches, username))
+    cur.execute("UPDATE users SET feet=%s inches=%s WHERE username=%s", (feet, inches, username))
     conn.commit()
     conn.close()
 
 def update_weight(user, weight):
     conn = psycopg2.connect(db_config, sslmode='require')
     cur = conn.cursor()
-    cur.execute("UPDATE users SET weight=%d WHERE username=%s", (weight, username))
+    cur.execute("UPDATE users SET weight=%s WHERE username=%s", (weight, username))
     conn.commit()
     conn.close()
 
