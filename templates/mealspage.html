@@ -16,6 +16,19 @@
   <input type="text" id="fname" name="fname"><br><br>
   <input type="button" value="Submit" onclick="submitForm();">
 </form>
+<form  action="calendarpage.html">
+    <label for="fname">Food name:</label>
+    <input type="text" id="fname8" name="fname"><br><br>
+    <input type="button" value="Submit to Calendar" onclick="passvalue1()">
+</form>
+<script>
+    function passvalue1() {
+        var foodname = document.getElementById("fname8").value;
+        localStorage.setItem("foodvalue1", foodname);
+        return false
+
+    }
+</script>
 <script>
   function submitForm() {
     var name =document.getElementById("fname").value;
@@ -35,6 +48,19 @@
   <input type="text" id="fname1" name="fname"><br><br>
   <input type="button" value="Submit" onclick="submitForm1();">
 </form>
+<form  action="calendarpage.html">
+    <label for="fname">Food name:</label>
+    <input type="text" id="fname7" name="fname"><br><br>
+    <input type="button" value="Submit to Calendar" onclick="passvalue2()">
+</form>
+<script>
+    function passvalue2() {
+        var foodname = document.getElementById("fname7").value;
+        localStorage.setItem("foodvalue2", foodname);
+        return false
+
+    }
+</script>
 <script>
   function submitForm1() {
     var name =document.getElementById("fname1").value;
@@ -54,6 +80,19 @@
   <input type="text" id="fname3" name="fname"><br><br>
   <input type="button" value="Submit" onclick="submitForm2();">
 </form>
+<form  action="calendarpage.html">
+    <label for="fname">Food name:</label>
+    <input type="text" id="fname6" name="fname"><br><br>
+    <input type="button" value="Submit to Calendar" onclick="passvalue3()">
+</form>
+<script>
+    function passvalue3() {
+        var foodname = document.getElementById("fname6").value;
+        localStorage.setItem("foodvalue3", foodname);
+        return false
+
+    }
+</script>
 <script>
   function submitForm2() {
     var name =document.getElementById("fname3").value;
