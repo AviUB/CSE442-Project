@@ -1,7 +1,8 @@
 <!DOCTYPE html>
 <html>
     <head>
-        <title>Meal O' Clock</title>
+        {% block title %}
+        {% endblock %}
         <meta charset="utf-8">
         <link rel="stylesheet" href="style.css">
     </head>
@@ -15,4 +16,11 @@
         </header>
     </div>
     {% block content %} {% endblock %}
+
+    <footer>
+        <a href="/aboutus">About us</a>
+s
+        {% block footer %}
+        {% endblock %}
+    </footer>
 </body>
