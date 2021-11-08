@@ -26,7 +26,7 @@ jsonThing = {"1": ["Achievement: Would you look at the time!", "Successfully log
 function getTheJSON() {
   var x = new XMLHttpRequest();
   // x.open('POST', 'achievements', true);
-  var url = "http://localhost:8080/achievements";
+  var url = "/achievements";
 
   x.onreadystatechange = function() {
     if (this.readyState == 4 && this.status == 200) {

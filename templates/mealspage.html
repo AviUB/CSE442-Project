@@ -22,9 +22,27 @@
     <input type="button" value="Submit to Calendar" onclick="passvalue1()">
 </form>
 <script>
+
+function mealMade() {
+  var x = new XMLHttpRequest();
+  // x.open('POST', 'achievements', true);
+  var url = "/mealspage";
+
+  x.onreadystatechange = function() {
+    if (this.readyState == 4 && this.status == 200) {
+        var jsonStuff = JSON.parse(this.responseText);
+        // generateAchs(jsonStuff);
+    }
+  };
+  x.open("POST", url, true);
+  x.send();
+}
+
+
     function passvalue1() {
         var foodname = document.getElementById("fname8").value;
         localStorage.setItem("foodvalue1", foodname);
+        mealMade();
         return false
 
     }
@@ -54,9 +72,27 @@
     <input type="button" value="Submit to Calendar" onclick="passvalue2()">
 </form>
 <script>
+
+function mealMade() {
+  var x = new XMLHttpRequest();
+  // x.open('POST', 'achievements', true);
+  var url = "/mealspage";
+
+  x.onreadystatechange = function() {
+    if (this.readyState == 4 && this.status == 200) {
+        var jsonStuff = JSON.parse(this.responseText);
+        // generateAchs(jsonStuff);
+    }
+  };
+  x.open("POST", url, true);
+  x.send();
+}
+
+
     function passvalue2() {
         var foodname = document.getElementById("fname7").value;
         localStorage.setItem("foodvalue2", foodname);
+        mealMade();
         return false
 
     }
@@ -86,7 +122,25 @@
     <input type="button" value="Submit to Calendar" onclick="passvalue3()">
 </form>
 <script>
+
+function mealMade() {
+  var x = new XMLHttpRequest();
+  // x.open('POST', 'achievements', true);
+  var url = "/mealspage";
+
+  x.onreadystatechange = function() {
+    if (this.readyState == 4 && this.status == 200) {
+        var jsonStuff = JSON.parse(this.responseText);
+        // generateAchs(sonStuff);
+    }
+  };
+  x.open("POST", url, true);
+  x.send();
+}
+
+
     function passvalue3() {
+      mealMade();
         var foodname = document.getElementById("fname6").value;
         localStorage.setItem("foodvalue3", foodname);
         return false
@@ -118,9 +172,42 @@
     <input type="button" value="Submit to Calendar" onclick="passvalue()">
 </form>
 <script>
+
+function mealMade() {
+  var x = new XMLHttpRequest();
+  // x.open('POST', 'achievements', true);
+  var url = "/mealspage";
+
+  x.onreadystatechange = function() {
+    if (this.readyState == 4 && this.status == 200) {
+        var jsonStuff = JSON.parse(this.responseText);
+        // generateAchs(jsonStuff);
+    }
+  };
+  x.open("POST", url, true);
+  x.send();
+}
+
+function mealMade() {
+  var x = new XMLHttpRequest();
+  // x.open('POST', 'achievements', true);
+  var url = "/mealspage";
+
+  x.onreadystatechange = function() {
+    if (this.readyState == 4 && this.status == 200) {
+        var jsonStuff = JSON.parse(this.responseText);
+        // generateAchs(jsonStuff);
+    }
+  };
+  x.open("POST", url, true);
+  x.send();
+}
+
     function passvalue() {
+
         var foodname = document.getElementById("fname5").value;
         localStorage.setItem("foodvalue", foodname);
+        mealMade();
         return false
 
     }
@@ -133,6 +220,6 @@
   }
 
 </script>
-
+<a href="/achievements">Achievements</a>
 </body>
 </html>
