@@ -1,9 +1,12 @@
-<html>
-<head></head>
-<body>
-<h1>Meals Page</h1>
+{% extends 'base.html' %}
 
-<a href="calendarpage.html" target="_blank">Visit Calendarpage!</a>
+
+{% block title %}
+<title>Meal's Page</title>
+{% endblock %}
+
+{% block content %}
+<a href="/calendarpage" target="_blank">Visit Calendarpage!</a>
 
 <h1>Breakfast</h1>
 <p><pre class="tab">Food   |   Calories   |   Carbs   |    Fat   |   protein   |</pre> </p>
@@ -133,7 +136,8 @@
   }
 
 </script>
-<a href="/profile">Settings</a>
+{% endblock %}
 
-</body>
-</html>
+{% block footer %}
+<a href="/profile">Profile Settings</a>
+{% endblock %}

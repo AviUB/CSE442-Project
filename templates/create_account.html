@@ -1,8 +1,10 @@
-<!DOCTYPE html>
-<head>
+{% extends 'base.html' %}
+
+{% block title %}
   <title>Sign up</title>
-</head>
-<body>
+{% endblock %}
+
+{% block content %}
   <h1>Create a New Account</h1>
   <form action={{url_for('create_account_page')}} method='post'>
     <label for="username">Username:</label><br>
@@ -19,9 +21,4 @@
     <input type="submit" value="Create Account">
   </form>
   <li><a href={{url_for('sample_page')}}>Back</a></li>
-
-  <footer>
-    <a id="aboutus" href="/aboutus">About Us</a>
-  </footer>
-
-</body>
+{% endblock %}

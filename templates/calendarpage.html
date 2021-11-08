@@ -1,6 +1,6 @@
-<!DOCTYPE html>
-<html>
-  <head>
+{% extends 'base.html' %}
+
+{% block title %}
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=1440, maximum-scale=1.0" />
     <link rel="shortcut icon" type="image/png" href="https://animaproject.s3.amazonaws.com/home/favicon.png" />
@@ -10,8 +10,10 @@
     <link rel="stylesheet" type="text/css" href="css/styleguide.css" />
     <link rel="stylesheet" type="text/css" href="css/globals.css" />
     <meta name="author" content="AnimaApp.com - Design to code, Automated." />
-  </head>
-  <body style="margin: 0; background: #2a2e41">
+{% endblock %}
+
+{% block content %}
+  <div style="margin: 0; background: #2a2e41">
     <input type="hidden" id="anPageName" name="page" value="background-frame" />
     <div class="container-center-horizontal">
       <div class="background-frame screen">
@@ -52,12 +54,9 @@
     <script>
         document.getElementById("result").innerHTML= localStorage.getItem("foodvalue")
     </script>
-    <a href="/profile">Settings</a>
-    
+  </div>
+    {% endblock %}
 
-    <footer>
-      <a id="aboutus" href="/aboutus">About Us</a>
-    </footer>
-
-  </body>
-</html>
+{% block footer %}
+<a href="/profile">Profile Settings</a>
+{% endblock %}
