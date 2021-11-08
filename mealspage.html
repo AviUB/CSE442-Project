@@ -1,0 +1,185 @@
+<html>
+<head><script src = "mealspage.js"></script>
+</head>
+<body>
+<h1>Meals Page</h1>
+
+<a href="calendarpage.html" target="_blank">Visit Calendarpage!</a>
+
+<h1>Breakfast</h1>
+<p><pre class="tab">Food   |   Calories   |   Carbs   |    Fat   |   protein   |</pre> </p>
+<p id="demo"></p>
+<script>
+  document.getElementById("demo").innerHTML = "Enter Food";
+</script>
+<form action="/action_page.php">
+  <label for="fname">Food name:</label>
+  <input type="text" id="fname" name="fname"><br><br>
+  <input type="button" value="Submit" onclick="submitForm();">
+</form>
+<form  action="calendarpage.html">
+    <label for="fname">Food name:</label>
+    <input type="text" id="fname8" name="fname"><br><br>
+    <input type="button" value="Submit to Calendar" onclick="passvalue1()">
+</form>
+<script>
+    function mealMade() {
+        var x = new XMLHttpRequest();
+        // x.open('POST', 'achievements', true);
+        var url = "http://localhost:8080/mealspage";
+
+        x.onreadystatechange = function() {
+            if (this.readyState == 4 && this.status == 200) {
+                var jsonStuff = JSON.parse(this.responseText);
+                // generateAchs(jsonStuff);
+            }
+        };
+        x.open("POST", url, true);
+        x.send();
+    }
+
+    function passvalue1() {
+        var foodname = document.getElementById("fname8").value;
+        localStorage.setItem("foodvalue1", foodname);
+        return false
+
+    }
+</script>
+<script>
+  function submitForm() {
+    var name =document.getElementById("fname").value;
+      const https = require('https')
+      const url = 'https://api.nal.usda.gov/fdc/v1/foods/search?api_key=dhIFeY8WhF9o0tUGenudfxO0tAQEvByUb3N9bGIj&dataType=Survey (FNDDS)&query=';
+      const url2 = url + name
+
+      https.get(url2, res => {
+          let data = '';
+          res.on('data', chunk => {
+              data += chunk;
+          });
+          res.on('end', () => {
+              data = JSON.parse(data);
+              console.log(data);
+              name1 = data.foods[0].description
+              console.log(name1)
+              nutrients =(data.foods[0].foodNutrients)
+
+              protein = nutrients[0]
+              console.log(protein.value)
+              fat = nutrients[1]
+              console.log(fat.value)
+              carbs = nutrients[2]
+              console.log(carbs.value)
+              calories = nutrients[3]
+              console.log(calories.value)
+              var astr = "   "+calories + "   " +carbs+"   " + fat+"    "+protein+"   "+"12"
+              document.getElementById("demo").innerHTML = name1+astr;
+          })
+      }).on('error', err => {
+          console.log(err.message);
+      })
+
+  }
+
+</script>
+<h1>Lunch</h1>
+<p><pre class="tab">Food   |   Calories   |   Carbs   |    Fat   |   protein   |</pre> </p>
+<p id="demo1"></p>
+<script>
+  document.getElementById("demo1").innerHTML = "Enter Food";
+</script>
+<form action="/action_page.php">
+  <label for="fname1">Food name:</label>
+  <input type="text" id="fname1" name="fname"><br><br>
+  <input type="button" value="Submit" onclick="submitForm1();">
+</form>
+<form  action="calendarpage.html">
+    <label for="fname">Food name:</label>
+    <input type="text" id="fname7" name="fname"><br><br>
+    <input type="button" value="Submit to Calendar" onclick="passvalue2()">
+</form>
+<script>
+    function passvalue2() {
+        var foodname = document.getElementById("fname7").value;
+        localStorage.setItem("foodvalue2", foodname);
+        return false
+
+    }
+</script>
+
+<script>
+
+  function submitForm1() {
+    mealMade()
+  }
+
+
+</script>
+
+<h1>Dinner</h1>
+<p><pre class="tab">Food   |   Calories   |   Carbs   |    Fat   |   protein   |</pre> </p>
+<p id="demo3"></p>
+<script>
+  document.getElementById("demo3").innerHTML = "Enter Food";
+</script>
+<form action="/action_page.php">
+  <label for="fname3">Food name:</label>
+  <input type="text" id="fname3" name="fname"><br><br>
+  <input type="button" value="Submit" onclick="submitForm2();">
+</form>
+<form  action="calendarpage.html">
+    <label for="fname">Food name:</label>
+    <input type="text" id="fname6" name="fname"><br><br>
+    <input type="button" value="Submit to Calendar" onclick="passvalue3()">
+</form>
+<script>
+    function passvalue3() {
+        var foodname = document.getElementById("fname6").value;
+        localStorage.setItem("foodvalue3", foodname);
+        return false
+
+    }
+</script>
+<script>
+  function submitForm2() {
+    var name =document.getElementById("fname3").value;
+    document.getElementById("demo3").innerHTML = name;
+  }
+
+</script>
+
+<h1>Snacks</h1>
+<p><pre class="tab">Food   |   Calories   |   Carbs   |    Fat   |   protein   |</pre> </p>
+<p id="demo4"></p>
+<script>
+  document.getElementById("demo4").innerHTML = "Enter Food";
+</script>
+<form action="/action_page.php">
+  <label for="fname">Food name:</label>
+  <input type="text" id="fname4" name="fname"><br><br>
+  <input type="button" value="Submit" onclick="submitForm3();">
+</form>
+<form  action="calendarpage.html">
+    <label for="fname">Food name:</label>
+    <input type="text" id="fname5" name="fname"><br><br>
+    <input type="button" value="Submit to Calendar" onclick="passvalue()">
+</form>
+<script>
+    function passvalue() {
+        var foodname = document.getElementById("fname5").value;
+        localStorage.setItem("foodvalue", foodname);
+        return false
+
+    }
+</script>
+<script>
+  function submitForm3() {
+    var name =document.getElementById("fname4").value;
+    document.getElementById("demo4").innerHTML = name;
+      document.getElementById("snacks").innerHTML = name;
+  }
+
+</script>
+
+</body>
+</html>
