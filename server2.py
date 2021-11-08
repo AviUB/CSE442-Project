@@ -10,7 +10,8 @@ app = Flask(__name__)
 app.secret_key = os.environ["SECRET_KEY"] if "SECRET_KEY" in os.environ else "123456"
 
 def create_account(username, password):
-    conn = psycopg2.connect(db_config, sslmode='require')
+    #conn = psycopg2.connect(db_config, sslmode='require')
+    conn = psycopg2.connect(db_config)
     cur = conn.cursor()
     hashkey = hashlib.pbkdf2_hmac('sha256', bytes(password, 'utf-8'), bytes(username, 'utf-8'), 100000)
     cur.execute("INSERT INTO users (username, password) VALUES (%s, %s)", (username, hashkey.hex()))
@@ -25,7 +26,7 @@ def valid_login(username, password):
     #if username in db already, return false, else true
     if len(password) < 8 or len(password) > 1024:
         return False
-    conn = psycopg2.connect(db_config, sslmode='require')
+    conn = psycopg2.connect(db_config)
     cur = conn.cursor()
     cur.execute("SELECT * FROM users WHERE username = %s;", (username, ))
     account = cur.fetchone()
@@ -193,6 +194,8 @@ def mealspage():
             conn.commit()
             conn.close()
             print("updated MealsMade\n")
+
+
             return jsonify({})
     else:
         abort(404)
