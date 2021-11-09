@@ -1,6 +1,5 @@
 <html>
-<head><script src = "mealspage.js"></script>
-</head>
+<head></head>
 <body>
 <h1>Meals Page</h1>
 
@@ -23,20 +22,7 @@
     <input type="button" value="Submit to Calendar" onclick="passvalue1()">
 </form>
 <script>
-    function mealMade() {
-        var x = new XMLHttpRequest();
-        // x.open('POST', 'achievements', true);
-        var url = "http://localhost:8080/mealspage";
 
-        x.onreadystatechange = function() {
-            if (this.readyState == 4 && this.status == 200) {
-                var jsonStuff = JSON.parse(this.responseText);
-                // generateAchs(jsonStuff);
-            }
-        };
-        x.open("POST", url, true);
-        x.send();
-    }
 
     function passvalue1() {
         var foodname = document.getElementById("fname8").value;
@@ -110,8 +96,44 @@
 <script>
 
   function submitForm1() {
-    mealMade()
+    mealsMade()
   }
+  function mealsMade(){
+      var name =document.getElementById("fname1").value;
+      const https = require('https')
+      const url = 'https://api.nal.usda.gov/fdc/v1/foods/search?api_key=dhIFeY8WhF9o0tUGenudfxO0tAQEvByUb3N9bGIj&dataType=Survey (FNDDS)&query=';
+      const url2 = url + name
+
+      https.get(url2, res => {
+          let data = '';
+          res.on('data', chunk => {
+              data += chunk;
+          });
+          res.on('end', () => {
+              data = JSON.parse(data);
+              console.log(data);
+              name1 = data.foods[0].description
+              console.log(name1)
+              nutrients =(data.foods[0].foodNutrients)
+
+              protein = nutrients[0]
+              console.log(protein.value)
+              fat = nutrients[1]
+              console.log(fat.value)
+              carbs = nutrients[2]
+              console.log(carbs.value)
+              calories = nutrients[3]
+              console.log(calories.value)
+              var astr = "   "+calories + "   " +carbs+"   " + fat+"    "+protein+"   "+"12"
+              document.getElementById("demo").innerHTML = name1+astr;
+          })
+      }).on('error', err => {
+          console.log(err.message);
+      })
+
+  }
+
+
 
 
 </script>
