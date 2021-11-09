@@ -1,9 +1,12 @@
 <html>
-<head></head>
+<head>
+</head>
 <body>
 <h1>Meals Page</h1>
 
-
+<a href="calendarpage.html" target="_blank">Visit Calendarpage!</a>
+<a href="achievements.html" target="_blank">Visit Achievements Page!</a>
+<a href="profile.html" target="_blank">Visit Profiles Page!</a>
 <h1>Breakfast</h1>
 <p><pre class="tab">Food   |   Calories   |   Carbs   |    Fat   |   protein   |</pre> </p>
 <p id="demo"></p>
@@ -15,11 +18,60 @@
   <input type="text" id="fname" name="fname"><br><br>
   <input type="button" value="Submit" onclick="submitForm();">
 </form>
+<form  action="calendarpage.html">
+    <label for="fname">Food name:</label>
+    <input type="text" id="fname8" name="fname"><br><br>
+    <input type="button" value="Submit to Calendar" onclick="passvalue1()">
+</form>
+<script>
+
+
+    function passvalue1() {
+        var foodname = document.getElementById("fname8").value;
+        localStorage.setItem("foodvalue1", foodname);
+        return false
+
+    }
+</script>
 <script>
   function submitForm() {
     var name =document.getElementById("fname").value;
-    var astr = "200" + "   " +"5"+"   " + "3"+"    "+"31"+"   "+"12"
-    document.getElementById("demo").innerHTML = name+astr;
+      const url = 'https://api.nal.usda.gov/fdc/v1/foods/search?api_key=dhIFeY8WhF9o0tUGenudfxO0tAQEvByUb3N9bGIj&dataType=Survey (FNDDS)&query=';
+      const url2 = url + name
+
+
+// Create a request variable and assign a new XMLHttpRequest object to it.
+      var request = new XMLHttpRequest()
+
+// Open a new connection, using the GET request on the URL endpoint
+      request.open('GET', url2, true)
+
+      request.onload = function () {
+          var data = JSON.parse(this.response)
+          if (data.totalHits!=0){
+              console.log(data);
+              name1 = data.foods[0].description
+              console.log(name1)
+              nutrients =(data.foods[0].foodNutrients)
+
+              protein = nutrients[0].value
+              console.log(protein)
+              fat = nutrients[1].value
+              console.log(fat)
+              carbs = nutrients[2].value
+              console.log(carbs)
+              calories = nutrients[3].value
+              console.log(calories)
+              var astr = "   "+calories + "   " +carbs+"   " + fat+"    "+protein+"   "+"12"
+              var my_div= document.getElementById("demo").innerHTML += "<br />" +name1+astr
+              // Begin accessing JSON data here
+          }
+
+      }
+
+// Send request
+      request.send()
+
   }
 
 </script>
@@ -34,12 +86,60 @@
   <input type="text" id="fname1" name="fname"><br><br>
   <input type="button" value="Submit" onclick="submitForm1();">
 </form>
+<form  action="calendarpage.html">
+    <label for="fname">Food name:</label>
+    <input type="text" id="fname7" name="fname"><br><br>
+    <input type="button" value="Submit to Calendar" onclick="passvalue2()">
+</form>
 <script>
-  function submitForm1() {
-    var name =document.getElementById("fname1").value;
-    document.getElementById("demo1").innerHTML = name;
-  }
+    function passvalue2() {
+        var foodname = document.getElementById("fname7").value;
+        localStorage.setItem("foodvalue2", foodname);
+        return false
 
+    }
+</script>
+
+<script>
+    function submitForm1() {
+        var name =document.getElementById("fname1").value;
+        const url = 'https://api.nal.usda.gov/fdc/v1/foods/search?api_key=dhIFeY8WhF9o0tUGenudfxO0tAQEvByUb3N9bGIj&dataType=Survey (FNDDS)&query=';
+        const url2 = url + name
+
+
+// Create a request variable and assign a new XMLHttpRequest object to it.
+        var request = new XMLHttpRequest()
+
+// Open a new connection, using the GET request on the URL endpoint
+        request.open('GET', url2, true)
+
+        request.onload = function () {
+            var data = JSON.parse(this.response)
+            if (data.totalHits!=0){
+                console.log(data);
+                name1 = data.foods[0].description
+                console.log(name1)
+                nutrients =(data.foods[0].foodNutrients)
+
+                protein = nutrients[0].value
+                console.log(protein)
+                fat = nutrients[1].value
+                console.log(fat)
+                carbs = nutrients[2].value
+                console.log(carbs)
+                calories = nutrients[3].value
+                console.log(calories)
+                var astr = "   "+calories + "   " +carbs+"   " + fat+"    "+protein+"   "+"12"
+                document.getElementById("demo1").innerHTML +=  "<br />" +name1+astr
+                // Begin accessing JSON data here
+            }
+
+        }
+
+// Send request
+        request.send()
+
+    }
 </script>
 
 <h1>Dinner</h1>
@@ -53,11 +153,59 @@
   <input type="text" id="fname3" name="fname"><br><br>
   <input type="button" value="Submit" onclick="submitForm2();">
 </form>
+<form  action="calendarpage.html">
+    <label for="fname">Food name:</label>
+    <input type="text" id="fname6" name="fname"><br><br>
+    <input type="button" value="Submit to Calendar" onclick="passvalue3()">
+</form>
 <script>
-  function submitForm2() {
-    var name =document.getElementById("fname3").value;
-    document.getElementById("demo3").innerHTML = name;
-  }
+    function passvalue3() {
+        var foodname = document.getElementById("fname6").value;
+        localStorage.setItem("foodvalue3", foodname);
+        return false
+
+    }
+</script>
+<script>
+    function submitForm2() {
+        var name =document.getElementById("fname3").value;
+        const url = 'https://api.nal.usda.gov/fdc/v1/foods/search?api_key=dhIFeY8WhF9o0tUGenudfxO0tAQEvByUb3N9bGIj&dataType=Survey (FNDDS)&query=';
+        const url2 = url + name
+
+
+// Create a request variable and assign a new XMLHttpRequest object to it.
+        var request = new XMLHttpRequest()
+
+// Open a new connection, using the GET request on the URL endpoint
+        request.open('GET', url2, true)
+
+        request.onload = function () {
+            var data = JSON.parse(this.response)
+            if (data.totalHits!=0){
+                console.log(data);
+                name1 = data.foods[0].description
+                console.log(name1)
+                nutrients =(data.foods[0].foodNutrients)
+
+                protein = nutrients[0].value
+                console.log(protein)
+                fat = nutrients[1].value
+                console.log(fat)
+                carbs = nutrients[2].value
+                console.log(carbs)
+                calories = nutrients[3].value
+                console.log(calories)
+                var astr = "   "+calories + "   " +carbs+"   " + fat+"    "+protein+"   "+"12"
+                document.getElementById("demo3").innerHTML +=  "<br />" +name1+astr
+                // Begin accessing JSON data here
+            }
+
+        }
+
+// Send request
+        request.send()
+
+    }
 
 </script>
 
@@ -72,12 +220,61 @@
   <input type="text" id="fname4" name="fname"><br><br>
   <input type="button" value="Submit" onclick="submitForm3();">
 </form>
+<form  action="calendarpage.html">
+    <label for="fname">Food name:</label>
+    <input type="text" id="fname5" name="fname"><br><br>
+    <input type="button" value="Submit to Calendar" onclick="passvalue()">
+</form>
 <script>
-  function submitForm3() {
-    var name =document.getElementById("fname4").value;
-    document.getElementById("demo4").innerHTML = name;
-  }
+    function passvalue() {
+        var foodname = document.getElementById("fname5").value;
+        localStorage.setItem("foodvalue", foodname);
+        return false
+
+    }
+</script>
+<script>
+    function submitForm3() {
+        var name =document.getElementById("fname4").value;
+        const url = 'https://api.nal.usda.gov/fdc/v1/foods/search?api_key=dhIFeY8WhF9o0tUGenudfxO0tAQEvByUb3N9bGIj&dataType=Survey (FNDDS)&query=';
+        const url2 = url + name
+
+
+// Create a request variable and assign a new XMLHttpRequest object to it.
+        var request = new XMLHttpRequest()
+
+// Open a new connection, using the GET request on the URL endpoint
+        request.open('GET', url2, true)
+
+        request.onload = function () {
+            var data = JSON.parse(this.response)
+            if (data.totalHits!=0){
+                console.log(data);
+                name1 = data.foods[0].description
+                console.log(name1)
+                nutrients =(data.foods[0].foodNutrients)
+
+                protein = nutrients[0].value
+                console.log(protein)
+                fat = nutrients[1].value
+                console.log(fat)
+                carbs = nutrients[2].value
+                console.log(carbs)
+                calories = nutrients[3].value
+                console.log(calories)
+                var astr = "   "+calories + "   " +carbs+"   " + fat+"    "+protein+"   "+"12"
+                document.getElementById("demo4").innerHTML +=  "<br />" +name1+astr
+                // Begin accessing JSON data here
+            }
+
+        }
+
+// Send request
+        request.send()
+
+    }
 
 </script>
+
 </body>
 </html>

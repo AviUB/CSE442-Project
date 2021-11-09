@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        {% block title %}
+        {% endblock %}
+        <meta charset="utf-8">
+        <link rel="stylesheet" href="style.css">
+    </head>
+</html>
+
+<body>
+    <div>
+        <header id="banner">
+            <img src="logo.png" alt="Meal O' Clock">
+            <h1>Meal O' Clock</h1>
+        </header>
+    </div>
+    {% block content %} {% endblock %}
+
+    <footer>
+        <a href="/aboutus">About us</a>
+s
+        {% block footer %}
+        {% endblock %}
+    </footer>
+</body>

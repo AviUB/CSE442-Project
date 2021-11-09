@@ -1,0 +1,41 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div>
+    <h1>Account Settings</h1>
+
+    <form action="/profile" method="post">
+        <input value="height" name="type" type="hidden">
+        <label for="height-feet">Height (ft.): </label>
+        <input value={{ user['feet'] }} id="height-feet" type="number" name="height_ft"> <br/>
+        <label for="height-inches">Height (in.)</label>
+        <input value={{ user['inches'] }} id="height-inches" type="number" name="height_in"> <br/>
+        <input type="submit" value="Update Height">
+    </form>
+
+
+    <form action="/profile" method="post">
+        <input value="weight" name="type" type="hidden">
+        <label for="weight-pounds">Weight (lb.): </label>
+        <input value={{ user['pounds'] }} id="weight-pounds" type="number", name="weight">
+        <input type="submit" value="Update Weight">
+    </form>
+
+    <form action="/profile" method="post">
+        <input value="password" name="type" type="hidden">
+        <label for="current_pw">Current Password:</label>
+        <input id="current_pw" type="text" minlength=8, name="current_pw">
+        <label for="new_pw">New Password:</label>
+        <input id="new_pw" type="text" minlength=8, name="new_pw">
+        <input type="submit" value="Update Password">
+    </form>
+
+    <form action="/profile" method="post">
+        <input value="delete" name="type" type="hidden">
+        <label for="current_pw">Current Password:</label>
+        <input id="current_pw" type="text" minlength=8, name="current_pw">
+        <input type="submit" value="Delete Account">
+    </form>
+
+</div>
+{% endblock %}

@@ -580,6 +580,72 @@ def mealspage():
         abort(404)
         return 'Never returned'
 
+
+@app.route('/profile', methods=["GET", "POST"])
+def profile():
+    username = session['username']
+    if request.method == "POST":
+        type_ = request.form["type"]
+        if type_ == "height":
+            update_height(username, request.form["height_ft"], request.form["height_in"])
+        elif type_ == "weight":
+            update_weight(username, request.form["weight"])
+        elif type_ == "password":
+            update_password(username, request.form["current_pw"], request.form["new_pw"])
+        elif type_ == "delete":
+            if not delete_user(username, request.form['current_pw']):
+                return render_template("profile.html")
+            return render_template("index.html")
+        else:
+            pass
+    elif request.method == "DELETE":
+        if not delete_user(username, request.form['current_pw']):
+            return render_template("profile.html")
+        return render_template("index.html")
+
+    user = get_user(username)
+    if user != None:
+        return render_template("profile.html", user={"username": username,"feet": user[0], "inches": user[1], "pounds": user[2]})
+    else:
+        print(f"Could NOT Find User: {username}")
+        return render_template("profile.html")
+
+
+def delete_user(username, password):
+    if not verify_login(username, password):
+        return False
+    conn = psycopg2.connect(db_config, sslmode="require")
+    cur = conn.cursor()
+    hashkey = hashlib.pbkdf2_hmac('sha256', bytes(password, 'utf-8'), bytes(username, 'utf-8'), 100000).hex()
+    cur.execute("DELETE FROM users where username=%s AND password=%s", (username, hashkey))
+    conn.commit()
+    conn.close()
+    return True
+
+def update_height(username, feet, inches):
+    conn = psycopg2.connect(db_config, sslmode='require')
+    cur = conn.cursor()
+    cur.execute("UPDATE users SET feet=%s, inches=%s WHERE username=%s", (feet, inches, username))
+    conn.commit()
+    conn.close()
+
+def update_weight(username, weight):
+    conn = psycopg2.connect(db_config, sslmode='require')
+    cur = conn.cursor()
+    cur.execute("UPDATE users SET weight=%s WHERE username=%s", (weight, username))
+    conn.commit()
+    conn.close()
+
+def update_password(username, current, new):
+    if not verify_login(username, current):
+        return
+    hashkey = hashlib.pbkdf2_hmac('sha256', bytes(new, 'utf-8'), bytes(username, 'utf-8'), 100000).hex()
+    conn = psycopg2.connect(db_config, sslmode='require')
+    cur = conn.cursor()
+    cur.execute("UPDATE users SET password=%s WHERE username=%s", (hashkey, username))
+    conn.commit()
+    conn.close()
+
 @app.route('/aboutus')
 def aboutus():
     return render_template("aboutus.html")

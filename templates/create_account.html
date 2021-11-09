@@ -1,16 +1,24 @@
-<!DOCTYPE html>
-<head>
+{% extends 'base.html' %}
+
+{% block title %}
   <title>Sign up</title>
-</head>
-<body>
+{% endblock %}
+
+{% block content %}
   <h1>Create a New Account</h1>
   <form action={{url_for('create_account_page')}} method='post'>
     <label for="username">Username:</label><br>
     <input type="text" id="username" name="username"><br>
     <label for="password">Password:</label><br>
     <input type="password" id="password" name="password">
+    <label for="height-feet">Height (ft.): </label>
+    <input id="height-feet" type="number" name="height_ft"> <br/>
+    <label for="height-inches">Height (in.)</label>
+    <input id="height-inches" type="number" name="height_in"> <br/>
+    <label for="weight-pounds">Weight (lb.): </label>
+    <input id="weight-pounds" type="number", name="weight">
     <br><br>
     <input type="submit" value="Create Account">
   </form>
   <li><a href={{url_for('sample_page')}}>Back</a></li>
-</body>
+{% endblock %}
