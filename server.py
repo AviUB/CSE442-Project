@@ -69,7 +69,7 @@ def initialize_db():
     conn = psycopg2.connect(db_config)
     cur = conn.cursor()
     #cur.execute("DROP TABLE IF EXISTS users")
-    cur.execute("CREATE TABLE IF NOT EXISTS users (username varchar, password varchar)")
+    cur.execute("CREATE TABLE IF NOT EXISTS users (username varchar, password varchar, feet int, inches int, weight int)")
 
     #cur.execute("INSERT INTO users (username, password) VALUES (%s, %s)", ("Jake", "password"))
 
