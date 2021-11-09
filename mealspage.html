@@ -64,7 +64,7 @@
           calories = nutrients[3].value
           console.log(calories)
           var astr = "   "+calories + "   " +carbs+"   " + fat+"    "+protein+"   "+"12"
-          document.getElementById("demo").innerHTML = name1+astr;
+          var my_div= document.getElementById("demo").innerHTML += "<br />" +name1+astr
           // Begin accessing JSON data here
       }
 
@@ -130,7 +130,7 @@
             calories = nutrients[3].value
             console.log(calories)
             var astr = "   "+calories + "   " +carbs+"   " + fat+"    "+protein+"   "+"12"
-            document.getElementById("demo1").innerHTML = name1+astr;
+            document.getElementById("demo1").innerHTML +=  "<br />" +name1+astr
             // Begin accessing JSON data here
         }
 
@@ -195,7 +195,7 @@
             calories = nutrients[3].value
             console.log(calories)
             var astr = "   "+calories + "   " +carbs+"   " + fat+"    "+protein+"   "+"12"
-            document.getElementById("demo3").innerHTML = name1+astr;
+            document.getElementById("demo3").innerHTML +=  "<br />" +name1+astr
             // Begin accessing JSON data here
         }
 
@@ -261,7 +261,7 @@
             calories = nutrients[3].value
             console.log(calories)
             var astr = "   "+calories + "   " +carbs+"   " + fat+"    "+protein+"   "+"12"
-            document.getElementById("demo4").innerHTML = name1+astr;
+            document.getElementById("demo4").innerHTML +=  "<br />" +name1+astr
             // Begin accessing JSON data here
         }
 
