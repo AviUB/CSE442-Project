@@ -150,7 +150,7 @@ def profile():
 def delete_user(username, password):
     if not verify_login(username, password):
         return False
-    conn = psycopg2(db_config, sslmode="require")
+    conn = psycopg2.connect(db_config, sslmode="require")
     cur = conn.cursor()
     hashkey = hashlib.pbkdf2_hmac('sha256', bytes(password, 'utf-8'), bytes(username, 'utf-8'), 100000).hex()
     cur.execute("DELETE FROM users where username=%s AND password=%s", (username, hashkey))
