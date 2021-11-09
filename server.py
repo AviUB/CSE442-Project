@@ -91,33 +91,7 @@ def initialize_db():
     conn.commit()
 
 
-    sql = "SELECT * FROM users WHERE username = 'Jake' and not exists ( SELECT * FROM users WHERE username = 'Jake') union all SELECT * FROM users WHERE username = 'Jake';"
-    cur.execute(sql)
-    conn.commit()
-    t_or_f = cur.fetchone()[0]
-    print(t_or_f)
-    if t_or_f == "t":
 
-        # then don't add myself to database
-        print("IT WAS TRUE")
-    elif t_or_f == "f":
-        #cur.execute("INSERT INTO users (username, password) VALUES (%s, %s)", ("Jake", "password"))
-        hashkey = hashlib.pbkdf2_hmac('sha256', bytes("password", 'utf-8'), bytes("Jake", 'utf-8'), 100000)
-        cur.execute("INSERT INTO users (username, password) VALUES (%s, %s)", ("Jake", hashkey.hex()))
-
-        cur.execute("INSERT INTO ACHS(USERNAME, LOGINS, MEALSMADE, ACH1, ACH2, ACH3) VALUES ('Jake', 0, 0, 'no', 'no', 'no')")
-        strng = "initialized food item space                                                             "
-        cur.execute("INSERT INTO bmeals(USERNAME, NOMEALS, M1, M2, M3, M4, M5, M6, M7, M8) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s)", ("Jake", 0, strng, strng, strng, strng, strng, strng, strng, strng))
-        cur.execute("INSERT INTO lmeals(USERNAME, NOMEALS, M1, M2, M3, M4, M5, M6, M7, M8) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s)", ("Jake", 0, strng, strng, strng, strng, strng, strng, strng, strng))
-        cur.execute("INSERT INTO dmeals(USERNAME, NOMEALS, M1, M2, M3, M4, M5, M6, M7, M8) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s)", ("Jake", 0, strng, strng, strng, strng, strng, strng, strng, strng))
-        cur.execute("INSERT INTO smeals(USERNAME, NOMEALS, M1, M2, M3, M4, M5, M6, M7, M8) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s)", ("Jake", 0, strng, strng, strng, strng, strng, strng, strng, strng))
-
-        conn.commit()
-        #conn.close()
-        # then add myself to database
-        print("IT WAS FALSE")
-    else:
-        print("SOMETHING WENT WRONG")
 
     #cur.execute("INSERT INTO users (username, password) VALUES (%s, %s)", ("Jake", "password"))
     #hashkey = hashlib.pbkdf2_hmac('sha256', bytes("password", 'utf-8'), bytes("Jake", 'utf-8'), 100000)
