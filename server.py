@@ -128,12 +128,16 @@ def profile():
             update_weight(username, request.form["weight"])
         elif type_ == "password":
             update_password(username, request.form["current_pw"], request.form["new_pw"])
+        elif type_ == "delete":
+            if not delete_user(username, request.form['current_pw']):
+                return render_template("profile.html")
+            return render_template("index.html")
         else:
             pass
     elif request.method == "DELETE":
         if not delete_user(username, request.form['current_pw']):
             return render_template("profile.html")
-        render_template("index.html")
+        return render_template("index.html")
 
     user = get_user(username)
     if user != None:
