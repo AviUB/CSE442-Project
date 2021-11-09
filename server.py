@@ -149,6 +149,7 @@ def delete_user(username, password):
     conn = psycopg2(db_config, sslmode="require")
     cur = conn.cursor()
     cur.execute("DELETE FROM users where username=%s AND password=%s", (username, password))
+    return True
 
 def update_height(username, feet, inches):
     conn = psycopg2.connect(db_config, sslmode='require')
