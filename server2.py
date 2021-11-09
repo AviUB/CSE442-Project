@@ -3,8 +3,6 @@ import sys
 import os
 import psycopg2
 import hashlib
-import urllib.request
-import json
 
 db_config = os.environ["DATABASE_URL"] if "DATABASE_URL" in os.environ else "user=postgres password=cse442project"
 
@@ -68,20 +66,20 @@ def initialize_db():
     #Create db tables
     conn = psycopg2.connect(db_config)
     cur = conn.cursor()
-    #cur.execute("DROP TABLE IF EXISTS users")
+    cur.execute("DROP TABLE IF EXISTS users")
     cur.execute("CREATE TABLE IF NOT EXISTS users (username varchar, password varchar)")
 
     #cur.execute("INSERT INTO users (username, password) VALUES (%s, %s)", ("Jake", "password"))
 
-    #cur.execute("DROP TABLE IF EXISTS ACHS")
+    cur.execute("DROP TABLE IF EXISTS ACHS")
     sql ="CREATE TABLE IF NOT EXISTS ACHS(USERNAME VARCHAR PRIMARY KEY, LOGINS INT, MEALSMADE INT, ACH1 BOOLEAN NOT NULL, ACH2 BOOLEAN NOT NULL, ACH3 BOOLEAN NOT NULL)"
     cur.execute(sql)
     #cur.execute("INSERT INTO ACHS(USERNAME, LOGINS, MEALSMADE, ACH1, ACH2, ACH3) VALUES ('Jake', 0, 0, 'no', 'no', 'no')")
 
-    #cur.execute("DROP TABLE IF EXISTS bmeals")
-    #cur.execute("DROP TABLE IF EXISTS lmeals")
-    #cur.execute("DROP TABLE IF EXISTS dmeals")
-    #cur.execute("DROP TABLE IF EXISTS smeals")
+    cur.execute("DROP TABLE IF EXISTS bmeals")
+    cur.execute("DROP TABLE IF EXISTS lmeals")
+    cur.execute("DROP TABLE IF EXISTS dmeals")
+    cur.execute("DROP TABLE IF EXISTS smeals")
     cur.execute("CREATE TABLE IF NOT EXISTS bmeals(USERNAME VARCHAR PRIMARY KEY, NOMEALS INT, M1 VARCHAR, M2 VARCHAR, M3 VARCHAR, M4 VARCHAR, M5 VARCHAR, M6 VARCHAR, M7 VARCHAR, M8 VARCHAR)")
     cur.execute("CREATE TABLE IF NOT EXISTS lmeals(USERNAME VARCHAR PRIMARY KEY, NOMEALS INT, M1 VARCHAR, M2 VARCHAR, M3 VARCHAR, M4 VARCHAR, M5 VARCHAR, M6 VARCHAR, M7 VARCHAR, M8 VARCHAR)")
     cur.execute("CREATE TABLE IF NOT EXISTS dmeals(USERNAME VARCHAR PRIMARY KEY, NOMEALS INT, M1 VARCHAR, M2 VARCHAR, M3 VARCHAR, M4 VARCHAR, M5 VARCHAR, M6 VARCHAR, M7 VARCHAR, M8 VARCHAR)")
@@ -89,48 +87,18 @@ def initialize_db():
 
 
     conn.commit()
-
-
-    sql = "SELECT * FROM users WHERE username = 'Jake' and not exists ( SELECT * FROM users WHERE username = 'Jake') union all SELECT * FROM users WHERE username = 'Jake';"
-    cur.execute(sql)
-    conn.commit()
-    t_or_f = cur.fetchone()[0]
-    print(t_or_f)
-    if t_or_f == "t":
-
-        # then don't add myself to database
-        print("IT WAS TRUE")
-    elif t_or_f == "f":
-        #cur.execute("INSERT INTO users (username, password) VALUES (%s, %s)", ("Jake", "password"))
-        hashkey = hashlib.pbkdf2_hmac('sha256', bytes("password", 'utf-8'), bytes("Jake", 'utf-8'), 100000)
-        cur.execute("INSERT INTO users (username, password) VALUES (%s, %s)", ("Jake", hashkey.hex()))
-
-        cur.execute("INSERT INTO ACHS(USERNAME, LOGINS, MEALSMADE, ACH1, ACH2, ACH3) VALUES ('Jake', 0, 0, 'no', 'no', 'no')")
-        strng = "initialized food item space                                                             "
-        cur.execute("INSERT INTO bmeals(USERNAME, NOMEALS, M1, M2, M3, M4, M5, M6, M7, M8) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s)", ("Jake", 0, strng, strng, strng, strng, strng, strng, strng, strng))
-        cur.execute("INSERT INTO lmeals(USERNAME, NOMEALS, M1, M2, M3, M4, M5, M6, M7, M8) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s)", ("Jake", 0, strng, strng, strng, strng, strng, strng, strng, strng))
-        cur.execute("INSERT INTO dmeals(USERNAME, NOMEALS, M1, M2, M3, M4, M5, M6, M7, M8) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s)", ("Jake", 0, strng, strng, strng, strng, strng, strng, strng, strng))
-        cur.execute("INSERT INTO smeals(USERNAME, NOMEALS, M1, M2, M3, M4, M5, M6, M7, M8) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s)", ("Jake", 0, strng, strng, strng, strng, strng, strng, strng, strng))
-
-        conn.commit()
-        #conn.close()
-        # then add myself to database
-        print("IT WAS FALSE")
-    else:
-        print("SOMETHING WENT WRONG")
-
     #cur.execute("INSERT INTO users (username, password) VALUES (%s, %s)", ("Jake", "password"))
-    #hashkey = hashlib.pbkdf2_hmac('sha256', bytes("password", 'utf-8'), bytes("Jake", 'utf-8'), 100000)
-    #cur.execute("INSERT INTO users (username, password) VALUES (%s, %s)", ("Jake", hashkey.hex()))
+    hashkey = hashlib.pbkdf2_hmac('sha256', bytes("password", 'utf-8'), bytes("Jake", 'utf-8'), 100000)
+    cur.execute("INSERT INTO users (username, password) VALUES (%s, %s)", ("Jake", hashkey.hex()))
 
-    #cur.execute("INSERT INTO ACHS(USERNAME, LOGINS, MEALSMADE, ACH1, ACH2, ACH3) VALUES ('Jake', 0, 0, 'no', 'no', 'no')")
-    #strng = "initialized food item space                                                             "
-    #cur.execute("INSERT INTO bmeals(USERNAME, NOMEALS, M1, M2, M3, M4, M5, M6, M7, M8) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s)", ("Jake", 0, strng, strng, strng, strng, strng, strng, strng, strng))
-    #cur.execute("INSERT INTO lmeals(USERNAME, NOMEALS, M1, M2, M3, M4, M5, M6, M7, M8) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s)", ("Jake", 0, strng, strng, strng, strng, strng, strng, strng, strng))
-    #cur.execute("INSERT INTO dmeals(USERNAME, NOMEALS, M1, M2, M3, M4, M5, M6, M7, M8) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s)", ("Jake", 0, strng, strng, strng, strng, strng, strng, strng, strng))
-    #cur.execute("INSERT INTO smeals(USERNAME, NOMEALS, M1, M2, M3, M4, M5, M6, M7, M8) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s)", ("Jake", 0, strng, strng, strng, strng, strng, strng, strng, strng))
+    cur.execute("INSERT INTO ACHS(USERNAME, LOGINS, MEALSMADE, ACH1, ACH2, ACH3) VALUES ('Jake', 0, 0, 'no', 'no', 'no')")
+    strng = "initialized food item space                                                             "
+    cur.execute("INSERT INTO bmeals(USERNAME, NOMEALS, M1, M2, M3, M4, M5, M6, M7, M8) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s)", ("Jake", 0, strng, strng, strng, strng, strng, strng, strng, strng))
+    cur.execute("INSERT INTO lmeals(USERNAME, NOMEALS, M1, M2, M3, M4, M5, M6, M7, M8) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s)", ("Jake", 0, strng, strng, strng, strng, strng, strng, strng, strng))
+    cur.execute("INSERT INTO dmeals(USERNAME, NOMEALS, M1, M2, M3, M4, M5, M6, M7, M8) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s)", ("Jake", 0, strng, strng, strng, strng, strng, strng, strng, strng))
+    cur.execute("INSERT INTO smeals(USERNAME, NOMEALS, M1, M2, M3, M4, M5, M6, M7, M8) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s)", ("Jake", 0, strng, strng, strng, strng, strng, strng, strng, strng))
 
-    #conn.commit()
+    conn.commit()
     conn.close()
     return True
 
@@ -466,29 +434,9 @@ def pullSdata():
         i+=1
     return returnJSON
 
-def connectAPI(nameOne):
-    url = "https://api.nal.usda.gov/fdc/v1/foods/search?api_key=dhIFeY8WhF9o0tUGenudfxO0tAQEvByUb3N9bGIj&dataType=Survey (FNDDS)&query=" + nameOne
-    x = urllib.request.urlopen(url)
-    print(x)
-    stuff = json.load(x)
-    print(stuff)
-    if stuff.get("totalHits") != 0:
-        foodsarray = stuff.get("foods")
-        food = foodsarray[0]
-        name = food.get("description")
-        nutrient = food.get("foodNutrients")
-        protein = nutrient[0]
-        fat= nutrient[1]
-        carbs = nutrient[2]
-        calories= nutrient[3]
-        astr = name+"   |   "+str(calories.get("value")) + " calories  |   " +str(carbs.get("value"))+" grams   |   " + str(fat.get("value"))+" grams   |   "+str(protein.get("value")) + " grams"
-        print(astr)
-        return astr
-    else:
-        return name
-
+def connectAPI(name):
     # this will call the API and return a json
-    #return {"food": "got from server"}
+    return {"food": "got from server"}
 
 
 @app.route('/mealspage.js')
@@ -510,9 +458,9 @@ def mealspage():
             if food.startswith("b") :
                 food = food.split("b", maxsplit=1)[1]
                 #create a response by connecting to the api with the food name
-                theFood = connectAPI(food)
+                #responseJSON = connectAPI(food)
                 #update the database to include our food
-                bData(theFood)
+                bData(food)
                 #create a responseJSON containing everything for breakfast
                 responseJSON = pullBdata()
                 print(responseJSON)
@@ -524,10 +472,8 @@ def mealspage():
                 #create a response by connecting to the api with the food name
                 #responseJSON = connectAPI(food)
                 #update the database to include our food
-                theFood = connectAPI(food)
-                #update the database to include our food
-                lData(theFood)
-
+                print("calling lData with " + food)
+                lData(food)
                 #create a responseJSON containing everything for breakfast
                 print("calling pullLData")
                 responseJSON = pullLdata()
@@ -537,10 +483,8 @@ def mealspage():
                 food = food.split("d", maxsplit=1)[1]
                 #create a response by connecting to the api with the food name
                 #responseJSON = connectAPI(food)
-                theFood = connectAPI(food)
                 #update the database to include our food
-                dData(theFood)
-
+                dData(food)
                 #create a responseJSON containing everything for breakfast
                 responseJSON = pullDdata()
                 print(responseJSON)
@@ -549,10 +493,8 @@ def mealspage():
                 food = food.split("s", maxsplit=1)[1]
                 #create a response by connecting to the api with the food name
                 #responseJSON = connectAPI(food)
-                theFood = connectAPI(food)
                 #update the database to include our food
-                sData(theFood)
-
+                sData(food)
                 #create a responseJSON containing everything for breakfast
                 responseJSON = pullSdata()
                 print(responseJSON)
@@ -579,72 +521,6 @@ def mealspage():
     else:
         abort(404)
         return 'Never returned'
-
-
-@app.route('/profile', methods=["GET", "POST"])
-def profile():
-    username = session['username']
-    if request.method == "POST":
-        type_ = request.form["type"]
-        if type_ == "height":
-            update_height(username, request.form["height_ft"], request.form["height_in"])
-        elif type_ == "weight":
-            update_weight(username, request.form["weight"])
-        elif type_ == "password":
-            update_password(username, request.form["current_pw"], request.form["new_pw"])
-        elif type_ == "delete":
-            if not delete_user(username, request.form['current_pw']):
-                return render_template("profile.html")
-            return render_template("index.html")
-        else:
-            pass
-    elif request.method == "DELETE":
-        if not delete_user(username, request.form['current_pw']):
-            return render_template("profile.html")
-        return render_template("index.html")
-
-    user = get_user(username)
-    if user != None:
-        return render_template("profile.html", user={"username": username,"feet": user[0], "inches": user[1], "pounds": user[2]})
-    else:
-        print(f"Could NOT Find User: {username}")
-        return render_template("profile.html")
-
-
-def delete_user(username, password):
-    if not verify_login(username, password):
-        return False
-    conn = psycopg2.connect(db_config, sslmode="require")
-    cur = conn.cursor()
-    hashkey = hashlib.pbkdf2_hmac('sha256', bytes(password, 'utf-8'), bytes(username, 'utf-8'), 100000).hex()
-    cur.execute("DELETE FROM users where username=%s AND password=%s", (username, hashkey))
-    conn.commit()
-    conn.close()
-    return True
-
-def update_height(username, feet, inches):
-    conn = psycopg2.connect(db_config, sslmode='require')
-    cur = conn.cursor()
-    cur.execute("UPDATE users SET feet=%s, inches=%s WHERE username=%s", (feet, inches, username))
-    conn.commit()
-    conn.close()
-
-def update_weight(username, weight):
-    conn = psycopg2.connect(db_config, sslmode='require')
-    cur = conn.cursor()
-    cur.execute("UPDATE users SET weight=%s WHERE username=%s", (weight, username))
-    conn.commit()
-    conn.close()
-
-def update_password(username, current, new):
-    if not verify_login(username, current):
-        return
-    hashkey = hashlib.pbkdf2_hmac('sha256', bytes(new, 'utf-8'), bytes(username, 'utf-8'), 100000).hex()
-    conn = psycopg2.connect(db_config, sslmode='require')
-    cur = conn.cursor()
-    cur.execute("UPDATE users SET password=%s WHERE username=%s", (hashkey, username))
-    conn.commit()
-    conn.close()
 
 @app.route('/aboutus')
 def aboutus():
