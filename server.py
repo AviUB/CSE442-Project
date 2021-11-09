@@ -11,12 +11,12 @@ db_config = os.environ["DATABASE_URL"] if "DATABASE_URL" in os.environ else "use
 app = Flask(__name__)
 app.secret_key = os.environ["SECRET_KEY"] if "SECRET_KEY" in os.environ else "123456"
 
-def create_account(username, password):
+def create_account(username, password, feet, inches, weight):
     #conn = psycopg2.connect(db_config, sslmode='require')
     conn = psycopg2.connect(db_config)
     cur = conn.cursor()
     hashkey = hashlib.pbkdf2_hmac('sha256', bytes(password, 'utf-8'), bytes(username, 'utf-8'), 100000)
-    cur.execute("INSERT INTO users (username, password) VALUES (%s, %s)", (username, hashkey.hex()))
+    cur.execute("INSERT INTO users (username, password, feet, inches, weight) VALUES (%s, %s)", (username, hashkey.hex(), feet, inches, weight))
 
 
     cur.execute("INSERT INTO ACHS(USERNAME, LOGINS, MEALSMADE, ACH1, ACH2, ACH3) VALUES (%s, 0, 0, 'no', 'no', 'no')", (username,))
