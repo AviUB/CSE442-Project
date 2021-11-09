@@ -130,12 +130,25 @@ def profile():
             update_password(username, request.form["current_pw"], request.form["new_pw"])
         else:
             pass
+    elif request.method == "DELETE":
+        if not delete_user(username, request.form['current_pw']):
+            return render_template("profile.html")
+        render_template("index.html")
+
     user = get_user(username)
     if user != None:
         return render_template("profile.html", user={"username": username,"feet": user[0], "inches": user[1], "pounds": user[2]})
     else:
         print(f"Could NOT Find User: {username}")
         return render_template("profile.html")
+
+
+def delete_user(username, password):
+    if not verify_login(username, password):
+        return False
+    conn = psycopg2(db_config, sslmode="require")
+    cur = conn.cursor()
+    cur.execute("DELETE FROM users where username=%s AND password=%s", (username, password))
 
 def update_height(username, feet, inches):
     conn = psycopg2.connect(db_config, sslmode='require')
