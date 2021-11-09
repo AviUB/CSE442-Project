@@ -1,7 +1,5 @@
 <html>
 <head>
-    <script  src="require.js"></script>
-    
 </head>
 <body>
 <h1>Meals Page</h1>
@@ -9,7 +7,6 @@
 <a href="calendarpage.html" target="_blank">Visit Calendarpage!</a>
 <a href="achievements.html" target="_blank">Visit Achievements Page!</a>
 <a href="profile.html" target="_blank">Visit Profile Page!</a>
-
 <h1>Breakfast</h1>
 <p><pre class="tab">Food   |   Calories   |   Carbs   |    Fat   |   protein   |</pre> </p>
 <p id="demo"></p>
@@ -39,7 +36,6 @@
 <script>
   function submitForm() {
     var name =document.getElementById("fname").value;
-      const https = require(['https'])
       const url = 'https://api.nal.usda.gov/fdc/v1/foods/search?api_key=dhIFeY8WhF9o0tUGenudfxO0tAQEvByUb3N9bGIj&dataType=Survey (FNDDS)&query=';
       const url2 = url + name
 
@@ -52,23 +48,25 @@
 
       request.onload = function () {
           var data = JSON.parse(this.response)
+          if (data.totalHits!=0){
+              console.log(data);
+              name1 = data.foods[0].description
+              console.log(name1)
+              nutrients =(data.foods[0].foodNutrients)
 
-          console.log(data);
-          name1 = data.foods[0].description
-          console.log(name1)
-          nutrients =(data.foods[0].foodNutrients)
+              protein = nutrients[0].value
+              console.log(protein)
+              fat = nutrients[1].value
+              console.log(fat)
+              carbs = nutrients[2].value
+              console.log(carbs)
+              calories = nutrients[3].value
+              console.log(calories)
+              var astr = "   "+calories + "   " +carbs+"   " + fat+"    "+protein+"   "+"12"
+              var my_div= document.getElementById("demo").innerHTML += "<br />" +name1+astr
+              // Begin accessing JSON data here
+          }
 
-          protein = nutrients[0].value
-          console.log(protein)
-          fat = nutrients[1].value
-          console.log(fat)
-          carbs = nutrients[2].value
-          console.log(carbs)
-          calories = nutrients[3].value
-          console.log(calories)
-          var astr = "   "+calories + "   " +carbs+"   " + fat+"    "+protein+"   "+"12"
-          var my_div= document.getElementById("demo").innerHTML += "<br />" +name1+astr
-          // Begin accessing JSON data here
       }
 
 // Send request
@@ -105,7 +103,6 @@
 <script>
     function submitForm1() {
         var name =document.getElementById("fname1").value;
-        const https = require(['https'])
         const url = 'https://api.nal.usda.gov/fdc/v1/foods/search?api_key=dhIFeY8WhF9o0tUGenudfxO0tAQEvByUb3N9bGIj&dataType=Survey (FNDDS)&query=';
         const url2 = url + name
 
@@ -118,23 +115,25 @@
 
         request.onload = function () {
             var data = JSON.parse(this.response)
+            if (data.totalHits!=0){
+                console.log(data);
+                name1 = data.foods[0].description
+                console.log(name1)
+                nutrients =(data.foods[0].foodNutrients)
 
-            console.log(data);
-            name1 = data.foods[0].description
-            console.log(name1)
-            nutrients =(data.foods[0].foodNutrients)
+                protein = nutrients[0].value
+                console.log(protein)
+                fat = nutrients[1].value
+                console.log(fat)
+                carbs = nutrients[2].value
+                console.log(carbs)
+                calories = nutrients[3].value
+                console.log(calories)
+                var astr = "   "+calories + "   " +carbs+"   " + fat+"    "+protein+"   "+"12"
+                document.getElementById("demo1").innerHTML +=  "<br />" +name1+astr
+                // Begin accessing JSON data here
+            }
 
-            protein = nutrients[0].value
-            console.log(protein)
-            fat = nutrients[1].value
-            console.log(fat)
-            carbs = nutrients[2].value
-            console.log(carbs)
-            calories = nutrients[3].value
-            console.log(calories)
-            var astr = "   "+calories + "   " +carbs+"   " + fat+"    "+protein+"   "+"12"
-            document.getElementById("demo1").innerHTML +=  "<br />" +name1+astr
-            // Begin accessing JSON data here
         }
 
 // Send request
@@ -170,7 +169,6 @@
 <script>
     function submitForm2() {
         var name =document.getElementById("fname3").value;
-        const https = require(['https'])
         const url = 'https://api.nal.usda.gov/fdc/v1/foods/search?api_key=dhIFeY8WhF9o0tUGenudfxO0tAQEvByUb3N9bGIj&dataType=Survey (FNDDS)&query=';
         const url2 = url + name
 
@@ -183,23 +181,25 @@
 
         request.onload = function () {
             var data = JSON.parse(this.response)
+            if (data.totalHits!=0){
+                console.log(data);
+                name1 = data.foods[0].description
+                console.log(name1)
+                nutrients =(data.foods[0].foodNutrients)
 
-            console.log(data);
-            name1 = data.foods[0].description
-            console.log(name1)
-            nutrients =(data.foods[0].foodNutrients)
+                protein = nutrients[0].value
+                console.log(protein)
+                fat = nutrients[1].value
+                console.log(fat)
+                carbs = nutrients[2].value
+                console.log(carbs)
+                calories = nutrients[3].value
+                console.log(calories)
+                var astr = "   "+calories + "   " +carbs+"   " + fat+"    "+protein+"   "+"12"
+                document.getElementById("demo3").innerHTML +=  "<br />" +name1+astr
+                // Begin accessing JSON data here
+            }
 
-            protein = nutrients[0].value
-            console.log(protein)
-            fat = nutrients[1].value
-            console.log(fat)
-            carbs = nutrients[2].value
-            console.log(carbs)
-            calories = nutrients[3].value
-            console.log(calories)
-            var astr = "   "+calories + "   " +carbs+"   " + fat+"    "+protein+"   "+"12"
-            document.getElementById("demo3").innerHTML +=  "<br />" +name1+astr
-            // Begin accessing JSON data here
         }
 
 // Send request
@@ -236,7 +236,6 @@
 <script>
     function submitForm3() {
         var name =document.getElementById("fname4").value;
-        const https = require(['https'])
         const url = 'https://api.nal.usda.gov/fdc/v1/foods/search?api_key=dhIFeY8WhF9o0tUGenudfxO0tAQEvByUb3N9bGIj&dataType=Survey (FNDDS)&query=';
         const url2 = url + name
 
@@ -249,23 +248,25 @@
 
         request.onload = function () {
             var data = JSON.parse(this.response)
+            if (data.totalHits!=0){
+                console.log(data);
+                name1 = data.foods[0].description
+                console.log(name1)
+                nutrients =(data.foods[0].foodNutrients)
 
-            console.log(data);
-            name1 = data.foods[0].description
-            console.log(name1)
-            nutrients =(data.foods[0].foodNutrients)
+                protein = nutrients[0].value
+                console.log(protein)
+                fat = nutrients[1].value
+                console.log(fat)
+                carbs = nutrients[2].value
+                console.log(carbs)
+                calories = nutrients[3].value
+                console.log(calories)
+                var astr = "   "+calories + "   " +carbs+"   " + fat+"    "+protein+"   "+"12"
+                document.getElementById("demo4").innerHTML +=  "<br />" +name1+astr
+                // Begin accessing JSON data here
+            }
 
-            protein = nutrients[0].value
-            console.log(protein)
-            fat = nutrients[1].value
-            console.log(fat)
-            carbs = nutrients[2].value
-            console.log(carbs)
-            calories = nutrients[3].value
-            console.log(calories)
-            var astr = "   "+calories + "   " +carbs+"   " + fat+"    "+protein+"   "+"12"
-            document.getElementById("demo4").innerHTML +=  "<br />" +name1+astr
-            // Begin accessing JSON data here
         }
 
 // Send request
