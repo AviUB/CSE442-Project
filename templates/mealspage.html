@@ -1,12 +1,9 @@
-{% extends 'base.html' %}
+<html>
+<head></head>
+<body>
+<h1>Meals Page</h1>
 
-
-{% block title %}
-<title>Meal's Page</title>
-{% endblock %}
-
-{% block content %}
-<a href="/calendarpage" target="_blank">Visit Calendarpage!</a>
+<a href="calendarpage.html" target="_blank">Visit Calendarpage!</a>
 
 <h1>Breakfast</h1>
 <p><pre class="tab">Food   |   Calories   |   Carbs   |    Fat   |   protein   |</pre> </p>
@@ -25,6 +22,8 @@
     <input type="button" value="Submit to Calendar" onclick="passvalue1()">
 </form>
 <script>
+
+
     function passvalue1() {
         var foodname = document.getElementById("fname8").value;
         localStorage.setItem("foodvalue1", foodname);
@@ -35,8 +34,37 @@
 <script>
   function submitForm() {
     var name =document.getElementById("fname").value;
-    var astr = "200" + "   " +"5"+"   " + "3"+"    "+"31"+"   "+"12"
-    document.getElementById("demo").innerHTML = name+astr;
+      const https = require('https')
+      const url = 'https://api.nal.usda.gov/fdc/v1/foods/search?api_key=dhIFeY8WhF9o0tUGenudfxO0tAQEvByUb3N9bGIj&dataType=Survey (FNDDS)&query=';
+      const url2 = url + name
+
+      https.get(url2, res => {
+          let data = '';
+          res.on('data', chunk => {
+              data += chunk;
+          });
+          res.on('end', () => {
+              data = JSON.parse(data);
+              console.log(data);
+              name1 = data.foods[0].description
+              console.log(name1)
+              nutrients =(data.foods[0].foodNutrients)
+
+              protein = nutrients[0]
+              console.log(protein.value)
+              fat = nutrients[1]
+              console.log(fat.value)
+              carbs = nutrients[2]
+              console.log(carbs.value)
+              calories = nutrients[3]
+              console.log(calories.value)
+              var astr = "   "+calories + "   " +carbs+"   " + fat+"    "+protein+"   "+"12"
+              document.getElementById("demo").innerHTML = name1+astr;
+          })
+      }).on('error', err => {
+          console.log(err.message);
+      })
+
   }
 
 </script>
@@ -64,11 +92,49 @@
 
     }
 </script>
+
 <script>
+
   function submitForm1() {
-    var name =document.getElementById("fname1").value;
-    document.getElementById("demo1").innerHTML = name;
+    mealsMade()
   }
+  function mealsMade(){
+      var name =document.getElementById("fname1").value;
+      const https = require('https')
+      const url = 'https://api.nal.usda.gov/fdc/v1/foods/search?api_key=dhIFeY8WhF9o0tUGenudfxO0tAQEvByUb3N9bGIj&dataType=Survey (FNDDS)&query=';
+      const url2 = url + name
+
+      https.get(url2, res => {
+          let data = '';
+          res.on('data', chunk => {
+              data += chunk;
+          });
+          res.on('end', () => {
+              data = JSON.parse(data);
+              console.log(data);
+              name1 = data.foods[0].description
+              console.log(name1)
+              nutrients =(data.foods[0].foodNutrients)
+
+              protein = nutrients[0]
+              console.log(protein.value)
+              fat = nutrients[1]
+              console.log(fat.value)
+              carbs = nutrients[2]
+              console.log(carbs.value)
+              calories = nutrients[3]
+              console.log(calories.value)
+              var astr = "   "+calories + "   " +carbs+"   " + fat+"    "+protein+"   "+"12"
+              document.getElementById("demo").innerHTML = name1+astr;
+          })
+      }).on('error', err => {
+          console.log(err.message);
+      })
+
+  }
+
+
+
 
 </script>
 
@@ -136,8 +202,6 @@
   }
 
 </script>
-{% endblock %}
 
-{% block footer %}
-<a href="/profile">Profile Settings</a>
-{% endblock %}
+</body>
+</html>
