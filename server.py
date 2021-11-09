@@ -147,7 +147,10 @@ def create_account_page():
         if valid_login(request.form['username'],
                        request.form['password']):
             return create_account(request.form['username'],
-                                   request.form['password'])
+                                   request.form['password'],
+                                   request.form['height_ft'],
+                                   request.form['height_in'],
+                                   request.form['weight'])
         else:
             return invalid_account()
     else:
