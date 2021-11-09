@@ -29,5 +29,13 @@
         <input id="new_pw" type="text" minlength=8, name="new_pw">
         <input type="submit" value="Update Password">
     </form>
+
+    <form action="/profile" method="post">
+        <input value="delete" name="type" type="hidden">
+        <label for="current_pw">Current Password:</label>
+        <input id="current_pw" type="text" minlength=8, name="current_pw">
+        <input type="submit" value="Delete Account">
+    </form>
+
 </div>
 {% endblock %}
