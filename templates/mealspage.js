@@ -18,10 +18,10 @@ function xmlGetUserFood(mealType) {
   // can make one for each breakfast lunch and dinner instead
 }
 */
-
-async function doAPI(name) {
+/*
+function doAPI(name) {
   var x = new XMLHttpRequest();
-  var url = "https://api.nal.usda.gov/fdc/v1/foods/search?api_key=dhIFeY8WhF9o0tUGenudfxO0tAQEvByUb3N9bGIj&dataType=Survey (FNDDS)&query=";
+  var url =
   const url2 = url + name
 
   x.onreadystatechange = function() {
@@ -33,8 +33,10 @@ async function doAPI(name) {
   }}
   x.open("GET", url, true);
   x.send();
-}
 
+
+}*/
+/*
 function parseAPI(jsonStuff) {
   console.log(jsonStuff);
   name1 = jsonStuff.foods[0].description;
@@ -49,16 +51,16 @@ function parseAPI(jsonStuff) {
   console.log(carbs);
   calories = nutrients[3].value;
   console.log(calories);
-  var astr = "   "+calories + "   " +carbs+"   " + fat+"    "+protein+"   "+"12";
+  var astr = name1+"   "+calories + "   " +carbs+"   " + fat+"    "+protein+"   "+"12";
   console.log(astr);
   return astr;
   //var my_div= document.getElementById("demo").innerHTML += "<br />" +name1+astr;
   // Begin accessing JSON data here
-}
+}*/
 
 
 
-async function xmlB() {
+function xmlB() {
   var x = new XMLHttpRequest();
   var url = "/mealspage";
 
@@ -147,7 +149,7 @@ var xhr = new XMLHttpRequest()
 
 
 
-async function xmlBreakfast() {
+function xmlBreakfast() {
   var x = new XMLHttpRequest();
   var url = "/mealspage";
   var foodSent = document.getElementById("inputOne").value;
@@ -219,7 +221,7 @@ function xmlSnacks() {
 
 }
 
-async function B_response(jsonStuff) {
+function B_response(jsonStuff) {
   // json stuff will be the food info from the api that we get from our server
   //var foodElement = jsonStuff["1"]; //do something with jsonStuff
   b = document.getElementById("B")
@@ -231,11 +233,11 @@ async function B_response(jsonStuff) {
   for (let i = 1; i < 9; i++) {
     if (jsonStuff[i.toString()] != ""){
       var p = document.createElement("p");
-      await doAPI(jsonStuff[i.toString()]);
-      var thing = str;
-      console.log(str);
-      console.log(thing);
-      p.appendChild( document.createTextNode(thing) );
+       //doAPI(jsonStuff[i.toString()]);
+      //var thing = str;
+      //console.log(str);
+      //console.log(thing);
+      p.appendChild( document.createTextNode(jsonStuff[i.toString()]) );
       document.getElementById("B").appendChild(p);
     }
 
