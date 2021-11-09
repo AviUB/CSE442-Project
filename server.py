@@ -441,7 +441,7 @@ def pullSdata():
     return returnJSON
 
 def connectAPI(nameOne):
-    url = "https://api.nal.usda.gov/fdc/v1/foods/search?api_key=dhIFeY8WhF9o0tUGenudfxO0tAQEvByUb3N9bGIj&dataType=Survey(FNDDS)&query=" + nameOne
+    url = "https://api.nal.usda.gov/fdc/v1/foods/search?api_key=dhIFeY8WhF9o0tUGenudfxO0tAQEvByUb3N9bGIj&dataType=Survey%20(FNDDS)&query=" + nameOne
     x = urllib.request.urlopen(url)
     print(x)
     stuff = json.load(x)
