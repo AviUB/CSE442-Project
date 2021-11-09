@@ -152,7 +152,8 @@ def delete_user(username, password):
         return False
     conn = psycopg2(db_config, sslmode="require")
     cur = conn.cursor()
-    cur.execute("DELETE FROM users where username=%s AND password=%s", (username, password))
+    hashkey = hashlib.pbkdf2_hmac('sha256', bytes(password, 'utf-8'), bytes(username, 'utf-8'), 100000).hex()
+    cur.execute("DELETE FROM users where username=%s AND password=%s", (username, hashkey))
     return True
 
 def update_height(username, feet, inches):
