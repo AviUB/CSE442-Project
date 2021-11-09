@@ -154,6 +154,8 @@ def delete_user(username, password):
     cur = conn.cursor()
     hashkey = hashlib.pbkdf2_hmac('sha256', bytes(password, 'utf-8'), bytes(username, 'utf-8'), 100000).hex()
     cur.execute("DELETE FROM users where username=%s AND password=%s", (username, hashkey))
+    conn.commit()
+    conn.close()
     return True
 
 def update_height(username, feet, inches):
