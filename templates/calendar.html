@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Calendar Page</title>
+
+<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='calendar.css') }}">
+<script src="calendar.js"></script>
+</head>
+
+<body>
+
+<div height="55px" id="topEmail"> November</div>
+
+<div id="container">
+  <div class="innerbox" id="right" width="200px">
+    <!-- <img width="190px" height="auto" src="cover2.png"></img> -->
+    <h2>Meals for 11/5:</h2>
+    <h3>Breakfast:</h3>
+    <div id="b"></div>
+    <h3>Lunch:</h3>
+    <div id="l"></div>
+    <h3>Dinner:</h3>
+    <div id="d"></div>
+    <h3>Snacks:</h3>
+    <div id="s"></div>
+    <br><br><br><br><br>
+  </div>
+
+
+
+
+<div id="space"></div>
+<div align="center" class="links">
+  <div id="lArrow" class="arrow" onmouseleave="aExit('lArrow')" onmouseover="aEnter('lArrow')" onclick="subMonth()"> &lt </div>
+  <div id=Month> <h3>November</h3> </div>
+  <div id="rArrow" class="arrow" onmouseleave="aExit('rArrow')" onmouseover="aEnter('rArrow')" onclick="addMonth()"> &gt </div>
+</div>
+
+
+<div align="center" class="links">
+  <div class="link" onmouseleave="exit('a1')" onmouseover="enter('a1')" onclick="hello()" id="a1">     1       </div>
+  <div class="link" onmouseleave="exit('a2')" onmouseover="enter('a2')" onclick="hello()" id="a2">     2       </div>
+  <div class="link" onmouseleave="exit('a3')" onmouseover="enter('a3')" onclick="hello()" id="a3">     3       </div>
+  <div class="link" onmouseleave="exit('a4')" onmouseover="enter('a4')" onclick="hello()" id="a4">     4       </div>
+  <div class="link" onmouseleave="exit('a5')" onmouseover="enter('a5')" onclick="hello()" id="a5">           5     </div>
+  <div class="link" onmouseleave="exit('a6')" onmouseover="enter('a6')" onclick="hello()" id="a6">     6       </div>
+  <div class="link" onmouseleave="exit('a7')" onmouseover="enter('a7')" onclick="hello()" id="a7">     7       </div>
+</div>
+<!-- <div id="space2"></div> -->
+<div align="center" class="links">
+  <div class="link" onmouseleave="exit('b1')" onmouseover="enter('b1')" onclick="hello()" id="b1">     8       </div>
+  <div class="link" onmouseleave="exit('b2')" onmouseover="enter('b2')" onclick="hello()" id="b2">     9       </div>
+  <div class="link" onmouseleave="exit('b3')" onmouseover="enter('b3')" onclick="hello()" id="b3">     10       </div>
+  <div class="link" onmouseleave="exit('b4')" onmouseover="enter('b4')" onclick="hello()" id="b4">     11       </div>
+  <div class="link" onmouseleave="exit('b5')" onmouseover="enter('b5')" onclick="hello()" id="b5">     12       </div>
+  <div class="link" onmouseleave="exit('b6')" onmouseover="enter('b6')" onclick="hello()" id="b6">     13       </div>
+  <div class="link" onmouseleave="exit('b7')" onmouseover="enter('b7')" onclick="hello()" id="b7">     14       </div>
+</div>
+
+<div align="center" class="links">
+  <div class="link" onmouseleave="exit('c1')" onmouseover="enter('c1')" onclick="hello()" id="c1">     15       </div>
+  <div class="link" onmouseleave="exit('c2')" onmouseover="enter('c2')" onclick="hello()" id="c2">     16       </div>
+  <div class="link" onmouseleave="exit('c3')" onmouseover="enter('c3')" onclick="hello()" id="c3">     17       </div>
+  <div class="link" onmouseleave="exit('c4')" onmouseover="enter('c4')" onclick="hello()" id="c4">     18       </div>
+  <div class="link" onmouseleave="exit('c5')" onmouseover="enter('c5')" onclick="hello()" id="c5">     19       </div>
+  <div class="link" onmouseleave="exit('c6')" onmouseover="enter('c6')" onclick="hello()" id="c6">     20       </div>
+  <div class="link" onmouseleave="exit('c7')" onmouseover="enter('c7')" onclick="hello()" id="c7">     21       </div>
+</div>
+
+<div align="center" class="links">
+  <div class="link" onmouseleave="exit('d1')" onmouseover="enter('d1')" onclick="hello()" id="d1">     22       </div>
+  <div class="link" onmouseleave="exit('d2')" onmouseover="enter('d2')" onclick="hello()" id="d2">     23       </div>
+  <div class="link" onmouseleave="exit('d3')" onmouseover="enter('d3')" onclick="hello()" id="d3">     24       </div>
+  <div class="link" onmouseleave="exit('d4')" onmouseover="enter('d4')" onclick="hello()" id="d4">     25       </div>
+  <div class="link" onmouseleave="exit('d5')" onmouseover="enter('d5')" onclick="hello()" id="d5">     26       </div>
+  <div class="link" onmouseleave="exit('d6')" onmouseover="enter('d6')" onclick="hello()" id="d6">     27       </div>
+  <div class="link" onmouseleave="exit('d7')" onmouseover="enter('d7')" onclick="hello()" id="d7">     28       </div>
+</div>
+
+<div align="center" class="links">
+  <div class="link" onmouseleave="exit('e1')" onmouseover="enter('e1')" onclick="hello()" id="e1">     29       </div>
+  <div class="link" onmouseleave="exit('e2')" onmouseover="enter('e2')" onclick="hello()" id="e2">     30       </div>
+  <div class="link" onmouseleave="exit('e3')" onmouseover="enter('e3')" onclick="hello()" id="e3">     31       </div>
+  <div class="link" onmouseleave="exit('e4')" onmouseover="enter('e4')" onclick="hello()" id="e4">     31       </div>
+  <div class="link" onmouseleave="exit('e5')" onmouseover="enter('e5')" onclick="hello()" id="e5">     33       </div>
+  <div class="link" onmouseleave="exit('e6')" onmouseover="enter('e6')" onclick="hello()" id="e6">     34       </div>
+  <div class="link" onmouseleave="exit('e7')" onmouseover="enter('e7')" onclick="hello()" id="e7">     35       </div>
+</div>
+
+<div align="center" class="links">
+  <div class="link" onmouseleave="exit('f1')" onmouseover="enter('f1')" onclick="hello()" id="f1">     29       </div>
+  <div class="link" onmouseleave="exit('f2')" onmouseover="enter('f2')" onclick="hello()" id="f2">     30       </div>
+  <div class="link" onmouseleave="exit('f3')" onmouseover="enter('f3')" onclick="hello()" id="f3">     31       </div>
+  <div class="link" onmouseleave="exit('f4')" onmouseover="enter('f4')" onclick="hello()" id="f4">     31       </div>
+  <div class="link" onmouseleave="exit('f5')" onmouseover="enter('f5')" onclick="hello()" id="f5">     33       </div>
+  <div class="link" onmouseleave="exit('f6')" onmouseover="enter('f6')" onclick="hello()" id="f6">     34       </div>
+  <div class="link" onmouseleave="exit('f7')" onmouseover="enter('f7')" onclick="hello()" id="f7">     35       </div>
+</div>
+
+<script> var d = new Date();
+        var wD = getDayOne(d);
+        var daysInMonth = getMon(d.getMonth());
+        setDict(daysInMonth, wD);
+        setCalendar();
+        document.getElementById("Month").innerHTML = getMonString(Month) + "  " + Year.toString();</script>
+</div>
+<h1>Hello</h1>
+</body>
+</html>
