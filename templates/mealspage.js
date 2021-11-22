@@ -304,6 +304,13 @@ function S_response(jsonStuff) {
 }
 
 }
+function caloriestotal() {
+  b = document.getElementById("S")
+  while (b.hasChildNodes()) {
+    document.getElementById("C").appendChild(b.firstChild);
+  }
+}
+
 
 
 /*
