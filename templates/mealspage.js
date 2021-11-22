@@ -305,12 +305,19 @@ function S_response(jsonStuff) {
 
 }
 function caloriestotal() {
-  b = document.getElementById("S")
-  while (b.hasChildNodes()) {
-    var p = document.createElement("p");
-    p.appendChild(b.firstChild)
-    document.getElementById("C").appendChild(p);
-  }
+   b = document.getElementById("S")
+   var TextInsideS = S.getElementsByTagName('p')[0].innerHTML;
+   var TextInsideS = S.getElementsByTagName('p')[1].innerHTML;
+   var TextInsideS = S.getElementsByTagName('p')[2].innerHTML;
+   var TextInsideS = S.getElementsByTagName('p')[3].innerHTML;
+   var TextInsideS = S.getElementsByTagName('p')[4].innerHTML;
+   var TextInsideS = S.getElementsByTagName('p')[5].innerHTML;
+   var TextInsideS = S.getElementsByTagName('p')[6].innerHTML;
+   var TextInsideS = S.getElementsByTagName('p')[7].innerHTML;
+   var TextInsideS = S.getElementsByTagName('p')[8].innerHTML;
+   var p = document.createElement("p");
+   p.appendChild(TextInsideS)
+   document.getElementById("C").appendChild(p);
 }
 
 
