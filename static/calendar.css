@@ -1,0 +1,167 @@
+body {
+  background-color: #a6e6db;
+
+}
+
+#space {
+  height:30px;
+}
+#space2 {
+  height:7px
+}
+
+#topemail {
+  z-index:2;
+  text-align:center;
+
+}
+
+#fact {
+  text-align:center;
+
+  position: relative;
+  color: white;
+}
+
+#containerCenter {
+  z-index:0;
+  padding-top: 0px;
+}
+
+#centerPiece {
+  z-index:0;
+  display:block;
+  margin: auto;
+
+}
+
+#centerCover {
+  z-index:1;
+  width: 427px;
+  height: 240px;
+  display:block;
+  margin:auto;
+  transform: translate(0px, -240px);
+}
+
+#container {
+  z-index:0;
+  position: relative;
+
+  width: 100%;
+
+  display: block;
+  box-sizing: border-box;
+
+  /*the div boxes wont align properly because they aren't texts*/
+}
+
+.links {
+  background-color: 	#c8d8e4;
+  left: 2%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+  width: 630px;
+  height: 70px;
+  padding-top: 1px;
+
+}
+
+
+.link {
+  /* transform: translate(0px, -240px); */
+  text-align: right;
+  width: 65px;
+  height: 65px;
+  background-color: #f2f2f2;
+  position:relative;
+  margin-left: 3px;
+  margin-right: 3px;
+  border-radius: 9px;
+
+}
+
+.arrow {
+  text-align: center;
+  width: 22px;
+  height: 22px;
+  background-color: #f2f2f2;
+  position:relative;
+  margin-left: 3px;
+  margin-right: 3px;
+  border-radius: 9px;
+}
+
+#month {
+  text-align: center;
+  width: 150px;
+  height: 40px;
+  background-color: #f2f2f2;
+  position:relative;
+  margin-left: 3px;
+  margin-right: 3px;
+  border-radius: 9px;
+}
+
+
+.linkPic {
+  width: 65px;
+  height: 65px;
+  border-radius: 20px;
+  text-align: center;
+}
+.centered {
+  z-index:3;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  /* transform: translate(-50%, -50%); */
+}
+
+
+.topElem {
+  position:relative;
+  z-index:1;
+  float: right;
+  padding-right: 15px;
+}
+
+
+#left {
+  z-index:0;
+  left: 3%;
+  position: absolute;
+  margin-top: 40px;
+}
+
+#right {
+  z-index:0;
+  right: 20%;
+  position: absolute;
+  margin-top: 40px;
+}
+
+.innerbox {
+  position: absolute;
+  z-index:0;
+  font-size: 20px;
+  font-weight: bold;
+  width: 200px;
+  height: 400px;
+  padding: 30px;
+  /*box-sizing: border-box;*/
+  line-height: 150%;
+}
+#container {
+  z-index:0;
+  position: relative;
+
+  width: 100%;
+
+  display: block;
+  box-sizing: border-box;
+
+  /*the div boxes wont align properly because they aren't texts*/
+}
