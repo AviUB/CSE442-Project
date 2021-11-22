@@ -11,12 +11,12 @@ db_config = os.environ["DATABASE_URL"] if "DATABASE_URL" in os.environ else "use
 app = Flask(__name__)
 app.secret_key = os.environ["SECRET_KEY"] if "SECRET_KEY" in os.environ else "123456"
 
-def create_account(username, password):
+def create_account(username, password, feet, inches, weight):
     #conn = psycopg2.connect(db_config, sslmode='require')
     conn = psycopg2.connect(db_config)
     cur = conn.cursor()
     hashkey = hashlib.pbkdf2_hmac('sha256', bytes(password, 'utf-8'), bytes(username, 'utf-8'), 100000)
-    cur.execute("INSERT INTO users (username, password) VALUES (%s, %s)", (username, hashkey.hex()))
+    cur.execute("INSERT INTO users (username, password, feet, inches, weight) VALUES (%s, %s, %s, %s, %s)", (username, hashkey.hex(), feet, inches, weight))
 
 
     cur.execute("INSERT INTO ACHS(USERNAME, LOGINS, MEALSMADE, ACH1, ACH2, ACH3) VALUES (%s, 0, 0, 'no', 'no', 'no')", (username,))
@@ -68,20 +68,20 @@ def initialize_db():
     #Create db tables
     conn = psycopg2.connect(db_config)
     cur = conn.cursor()
-    #cur.execute("DROP TABLE IF EXISTS users")
-    cur.execute("CREATE TABLE IF NOT EXISTS users (username varchar, password varchar)")
+    cur.execute("DROP TABLE IF EXISTS users")
+    cur.execute("CREATE TABLE IF NOT EXISTS users (username varchar, password varchar, feet int, inches int, weight int)")
 
     #cur.execute("INSERT INTO users (username, password) VALUES (%s, %s)", ("Jake", "password"))
 
-    #cur.execute("DROP TABLE IF EXISTS ACHS")
+    cur.execute("DROP TABLE IF EXISTS ACHS")
     sql ="CREATE TABLE IF NOT EXISTS ACHS(USERNAME VARCHAR PRIMARY KEY, LOGINS INT, MEALSMADE INT, ACH1 BOOLEAN NOT NULL, ACH2 BOOLEAN NOT NULL, ACH3 BOOLEAN NOT NULL)"
     cur.execute(sql)
     #cur.execute("INSERT INTO ACHS(USERNAME, LOGINS, MEALSMADE, ACH1, ACH2, ACH3) VALUES ('Jake', 0, 0, 'no', 'no', 'no')")
 
-    #cur.execute("DROP TABLE IF EXISTS bmeals")
-    #cur.execute("DROP TABLE IF EXISTS lmeals")
-    #cur.execute("DROP TABLE IF EXISTS dmeals")
-    #cur.execute("DROP TABLE IF EXISTS smeals")
+    cur.execute("DROP TABLE IF EXISTS bmeals")
+    cur.execute("DROP TABLE IF EXISTS lmeals")
+    cur.execute("DROP TABLE IF EXISTS dmeals")
+    cur.execute("DROP TABLE IF EXISTS smeals")
     cur.execute("CREATE TABLE IF NOT EXISTS bmeals(USERNAME VARCHAR PRIMARY KEY, NOMEALS INT, M1 VARCHAR, M2 VARCHAR, M3 VARCHAR, M4 VARCHAR, M5 VARCHAR, M6 VARCHAR, M7 VARCHAR, M8 VARCHAR)")
     cur.execute("CREATE TABLE IF NOT EXISTS lmeals(USERNAME VARCHAR PRIMARY KEY, NOMEALS INT, M1 VARCHAR, M2 VARCHAR, M3 VARCHAR, M4 VARCHAR, M5 VARCHAR, M6 VARCHAR, M7 VARCHAR, M8 VARCHAR)")
     cur.execute("CREATE TABLE IF NOT EXISTS dmeals(USERNAME VARCHAR PRIMARY KEY, NOMEALS INT, M1 VARCHAR, M2 VARCHAR, M3 VARCHAR, M4 VARCHAR, M5 VARCHAR, M6 VARCHAR, M7 VARCHAR, M8 VARCHAR)")
@@ -90,7 +90,7 @@ def initialize_db():
 
     conn.commit()
 
-
+    """
     sql = "SELECT * FROM users WHERE username = 'Jake' and not exists ( SELECT * FROM users WHERE username = 'Jake') union all SELECT * FROM users WHERE username = 'Jake';"
     cur.execute(sql)
     conn.commit()
@@ -102,8 +102,8 @@ def initialize_db():
         print("IT WAS TRUE")
     elif t_or_f == "f":
         #cur.execute("INSERT INTO users (username, password) VALUES (%s, %s)", ("Jake", "password"))
-        hashkey = hashlib.pbkdf2_hmac('sha256', bytes("password", 'utf-8'), bytes("Jake", 'utf-8'), 100000)
-        cur.execute("INSERT INTO users (username, password) VALUES (%s, %s)", ("Jake", hashkey.hex()))
+        #hashkey = hashlib.pbkdf2_hmac('sha256', bytes("password", 'utf-8'), bytes("Jake", 'utf-8'), 100000)
+        #cur.execute("INSERT INTO users (username, password) VALUES (%s, %s)", ("Jake", hashkey.hex()))
 
         cur.execute("INSERT INTO ACHS(USERNAME, LOGINS, MEALSMADE, ACH1, ACH2, ACH3) VALUES ('Jake', 0, 0, 'no', 'no', 'no')")
         strng = "initialized food item space                                                             "
@@ -117,7 +117,7 @@ def initialize_db():
         # then add myself to database
         print("IT WAS FALSE")
     else:
-        print("SOMETHING WENT WRONG")
+        print("SOMETHING WENT WRONG") """
 
     #cur.execute("INSERT INTO users (username, password) VALUES (%s, %s)", ("Jake", "password"))
     #hashkey = hashlib.pbkdf2_hmac('sha256', bytes("password", 'utf-8'), bytes("Jake", 'utf-8'), 100000)
@@ -156,9 +156,9 @@ def login():
         session['username'] = request.form["username"]
         print("yay no errors\n")
         '''       !!!!!!   something happens here...     !!!!!!!!!!     '''
-        return redirect(url_for("mealspage"))
+        #return redirect(url_for("mealspage"))
         '''       !!!!!!   something happens here...     !!!!!!!!!!     '''
-
+        return redirect(url_for("calendar"))
     else:
 
         return redirect("/")
@@ -173,12 +173,15 @@ def create_account_page():
         if valid_login(request.form['username'],
                        request.form['password']):
             return create_account(request.form['username'],
-                                   request.form['password'])
+                                   request.form['password'],
+                                   request.form['height_ft'],
+                                   request.form['height_in'],
+                                   request.form['weight'])
         else:
             return invalid_account()
     else:
         return render_template("create_account.html")
-
+"""
 @app.route('/calendar/<username>')
 def dummycalendarpage(username):
     if 'username' in session and session['username'] == username:
@@ -186,6 +189,23 @@ def dummycalendarpage(username):
     else:
         abort(404)
         return 'Never returned'
+"""
+
+@app.route('/calendar', methods=['GET', 'POST'])
+def calendar():
+    if 'username' in session:
+        return render_template("calendar.html")
+    else:
+        abort(404)
+        return 'Never returned'
+
+@app.route('/calendar.js')
+def calenOne():
+    return render_template("calendar.js")
+
+@app.route('/calendar.css')
+def calenTwo():
+    return render_template("calendar.css")
 
 ''' start of Jake's stuff '''
 
@@ -579,6 +599,13 @@ def mealspage():
     else:
         abort(404)
         return 'Never returned'
+
+def get_user(username):
+    conn = psycopg2.connect(db_config)
+    cur = conn.cursor()
+    cur.execute("SELECT feet, inches, weight FROM users WHERE username=%s", (username, ))
+    user = cur.fetchone()
+    return user
 
 
 @app.route('/profile', methods=["GET", "POST"])
