@@ -305,7 +305,12 @@ function S_response(jsonStuff) {
 
 }
 function caloriestotal() {
-  document.getElementById("C").innerHTML = "calories is 1"
+  b = document.getElementById("S")
+  while (b.hasChildNodes()) {
+    var p = document.createElement("p");
+    p.appendChild(b.firstChild)
+    document.getElementById("C").appendChild(p);
+  }
 }
 
 
