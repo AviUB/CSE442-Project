@@ -306,14 +306,17 @@ function S_response(jsonStuff) {
 }
 
 function caloriestotal() {
-  for(let i=1; i< 9; i++){
-    b = document.getElementById("S")
-    var TextInsideS = S.getElementsByTagName('p')[i].innerHTML;
-    console.log(TextInsideS)
-    console.log(i)
+  b = document.getElementById("S")
+  while (b.hasChildNodes()) {
+    for(let i=1; i< 9; i++){
 
-    
+      b = document.getElementById("S")
+      var TextInsideS = S.getElementsByTagName('p')[i].innerHTML;
+      console.log(TextInsideS)
+      console.log(i)
+    }
   }
+
 
 }
 
