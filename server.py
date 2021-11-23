@@ -21,11 +21,12 @@ def create_account(username, password, feet, inches, weight):
 
     cur.execute("INSERT INTO ACHS(USERNAME, LOGINS, MEALSMADE, ACH1, ACH2, ACH3) VALUES (%s, 0, 0, 'no', 'no', 'no')", (username,))
 
-    strng = "initialized food item space                                                             "
-    cur.execute("INSERT INTO bmeals(USERNAME, NOMEALS, M1, M2, M3, M4, M5, M6, M7, M8) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s)", (username, 0, strng, strng, strng, strng, strng, strng, strng, strng))
-    cur.execute("INSERT INTO lmeals(USERNAME, NOMEALS, M1, M2, M3, M4, M5, M6, M7, M8) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s)", (username, 0, strng, strng, strng, strng, strng, strng, strng, strng))
-    cur.execute("INSERT INTO dmeals(USERNAME, NOMEALS, M1, M2, M3, M4, M5, M6, M7, M8) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s)", (username, 0, strng, strng, strng, strng, strng, strng, strng, strng))
-    cur.execute("INSERT INTO smeals(USERNAME, NOMEALS, M1, M2, M3, M4, M5, M6, M7, M8) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s)", (username, 0, strng, strng, strng, strng, strng, strng, strng, strng))
+
+    #strng = "initialized food item space                                                             "
+    #cur.execute("INSERT INTO bmeals(USERNAME, DATE, NOMEALS, M1, M2, M3, M4, M5, M6, M7, M8) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)", (username, "10-10-1960", 0, strng, strng, strng, strng, strng, strng, strng, strng, strng))
+    #cur.execute("INSERT INTO lmeals(USERNAME, DATE, NOMEALS, M1, M2, M3, M4, M5, M6, M7, M8) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)", (username, 0, strng, strng, strng, strng, strng, strng, strng, strng, strng))
+    #cur.execute("INSERT INTO dmeals(USERNAME, DATE, NOMEALS, M1, M2, M3, M4, M5, M6, M7, M8) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)", (username, 0, strng, strng, strng, strng, strng, strng, strng, strng, strng))
+    #cur.execute("INSERT INTO smeals(USERNAME, DATE, NOMEALS, M1, M2, M3, M4, M5, M6, M7, M8) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)", (username, 0, strng, strng, strng, strng, strng, strng, strng, strng, strng))
 
 
     conn.commit()
@@ -82,10 +83,12 @@ def initialize_db():
     cur.execute("DROP TABLE IF EXISTS lmeals")
     cur.execute("DROP TABLE IF EXISTS dmeals")
     cur.execute("DROP TABLE IF EXISTS smeals")
-    cur.execute("CREATE TABLE IF NOT EXISTS bmeals(USERNAME VARCHAR PRIMARY KEY, NOMEALS INT, M1 VARCHAR, M2 VARCHAR, M3 VARCHAR, M4 VARCHAR, M5 VARCHAR, M6 VARCHAR, M7 VARCHAR, M8 VARCHAR)")
-    cur.execute("CREATE TABLE IF NOT EXISTS lmeals(USERNAME VARCHAR PRIMARY KEY, NOMEALS INT, M1 VARCHAR, M2 VARCHAR, M3 VARCHAR, M4 VARCHAR, M5 VARCHAR, M6 VARCHAR, M7 VARCHAR, M8 VARCHAR)")
-    cur.execute("CREATE TABLE IF NOT EXISTS dmeals(USERNAME VARCHAR PRIMARY KEY, NOMEALS INT, M1 VARCHAR, M2 VARCHAR, M3 VARCHAR, M4 VARCHAR, M5 VARCHAR, M6 VARCHAR, M7 VARCHAR, M8 VARCHAR)")
-    cur.execute("CREATE TABLE IF NOT EXISTS smeals(USERNAME VARCHAR PRIMARY KEY, NOMEALS INT, M1 VARCHAR, M2 VARCHAR, M3 VARCHAR, M4 VARCHAR, M5 VARCHAR, M6 VARCHAR, M7 VARCHAR, M8 VARCHAR)")
+    #there is now a date associated with each set of foods that make up a meal
+    #go into the code to make sure we add this date column to all appropriate places
+    cur.execute("CREATE TABLE IF NOT EXISTS bmeals(USERNAME VARCHAR, DATE VARCHAR, NOMEALS INT, M1 VARCHAR, M2 VARCHAR, M3 VARCHAR, M4 VARCHAR, M5 VARCHAR, M6 VARCHAR, M7 VARCHAR, M8 VARCHAR)")
+    cur.execute("CREATE TABLE IF NOT EXISTS lmeals(USERNAME VARCHAR, DATE VARCHAR, NOMEALS INT, M1 VARCHAR, M2 VARCHAR, M3 VARCHAR, M4 VARCHAR, M5 VARCHAR, M6 VARCHAR, M7 VARCHAR, M8 VARCHAR)")
+    cur.execute("CREATE TABLE IF NOT EXISTS dmeals(USERNAME VARCHAR, DATE VARCHAR, NOMEALS INT, M1 VARCHAR, M2 VARCHAR, M3 VARCHAR, M4 VARCHAR, M5 VARCHAR, M6 VARCHAR, M7 VARCHAR, M8 VARCHAR)")
+    cur.execute("CREATE TABLE IF NOT EXISTS smeals(USERNAME VARCHAR, DATE VARCHAR, NOMEALS INT, M1 VARCHAR, M2 VARCHAR, M3 VARCHAR, M4 VARCHAR, M5 VARCHAR, M6 VARCHAR, M7 VARCHAR, M8 VARCHAR)")
 
 
     conn.commit()
@@ -100,22 +103,25 @@ def initialize_db():
 
         # then don't add myself to database
         print("IT WAS TRUE")
-    elif t_or_f == "f":
-        #cur.execute("INSERT INTO users (username, password) VALUES (%s, %s)", ("Jake", "password"))
-        #hashkey = hashlib.pbkdf2_hmac('sha256', bytes("password", 'utf-8'), bytes("Jake", 'utf-8'), 100000)
-        #cur.execute("INSERT INTO users (username, password) VALUES (%s, %s)", ("Jake", hashkey.hex()))
+    elif t_or_f == "f": """
 
-        cur.execute("INSERT INTO ACHS(USERNAME, LOGINS, MEALSMADE, ACH1, ACH2, ACH3) VALUES ('Jake', 0, 0, 'no', 'no', 'no')")
-        strng = "initialized food item space                                                             "
-        cur.execute("INSERT INTO bmeals(USERNAME, NOMEALS, M1, M2, M3, M4, M5, M6, M7, M8) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s)", ("Jake", 0, strng, strng, strng, strng, strng, strng, strng, strng))
-        cur.execute("INSERT INTO lmeals(USERNAME, NOMEALS, M1, M2, M3, M4, M5, M6, M7, M8) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s)", ("Jake", 0, strng, strng, strng, strng, strng, strng, strng, strng))
-        cur.execute("INSERT INTO dmeals(USERNAME, NOMEALS, M1, M2, M3, M4, M5, M6, M7, M8) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s)", ("Jake", 0, strng, strng, strng, strng, strng, strng, strng, strng))
-        cur.execute("INSERT INTO smeals(USERNAME, NOMEALS, M1, M2, M3, M4, M5, M6, M7, M8) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s)", ("Jake", 0, strng, strng, strng, strng, strng, strng, strng, strng))
 
-        conn.commit()
-        #conn.close()
+
+
+    hashkey = hashlib.pbkdf2_hmac('sha256', bytes("blahblah", 'utf-8'), bytes("Jake", 'utf-8'), 100000)
+    cur.execute("INSERT INTO users (username, password, feet, inches, weight) VALUES (%s, %s, %s, %s, %s)", ("Jake", hashkey.hex(), 6, 2, 200))
+
+
+    cur.execute("INSERT INTO ACHS(USERNAME, LOGINS, MEALSMADE, ACH1, ACH2, ACH3) VALUES (%s, 0, 0, 'no', 'no', 'no')", ("Jake",))
+
+    strng = "initialized food item space                                                             "
+    cur.execute("INSERT INTO bmeals(USERNAME, DATE, NOMEALS, M1, M2, M3, M4, M5, M6, M7, M8) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)", ("Jake", "10-10-1960", 0, strng, strng, strng, strng, strng, strng, strng, strng))
+    cur.execute("INSERT INTO lmeals(USERNAME, DATE, NOMEALS, M1, M2, M3, M4, M5, M6, M7, M8) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)", ("Jake", "10-10-1960", 0, strng, strng, strng, strng, strng, strng, strng, strng))
+    cur.execute("INSERT INTO dmeals(USERNAME, DATE, NOMEALS, M1, M2, M3, M4, M5, M6, M7, M8) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)", ("Jake", "10-10-1960", 0, strng, strng, strng, strng, strng, strng, strng, strng))
+    cur.execute("INSERT INTO smeals(USERNAME, DATE, NOMEALS, M1, M2, M3, M4, M5, M6, M7, M8) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)", ("Jake", "10-10-1960", 0, strng, strng, strng, strng, strng, strng, strng, strng))
+    conn.commit()
         # then add myself to database
-        print("IT WAS FALSE")
+    """    print("IT WAS FALSE")
     else:
         print("SOMETHING WENT WRONG") """
 
@@ -257,241 +263,446 @@ def achTwo():
 ''' End of Jakes stuff '''
 
 #updates bfast database
-def bData(name):
+def bData(name, date):
     username = session['username']
 
     conn = psycopg2.connect(db_config)
     cur = conn.cursor()
 
-    #!!!!!!!!!!!!!!!!! make sure you set bmeals to zero in initialize db
-    cur.execute("SELECT NOMEALS FROM bmeals WHERE USERNAME = %s ", (username,))
-    conn.commit()
-    bmeals = cur.fetchone()[0]
-    #print("GOT THE LOGINS" + str(logins) + "\n")
 
-    #this tells us what slot we should put the food in
-    foodSlot = ""
-    if ( (bmeals+1) < 9):
-        foodSlot = "M" + str(bmeals + 1)
+    cur.execute("SELECT (EXISTS (SELECT * FROM bmeals WHERE USERNAME = %s AND DATE = %s))", (username, date))
+    conn.commit()
+    exists = cur.fetchone()[0]
+    print("exists is equal to : " + str(exists))
+
+    if bool(exists) :
+        #continue
+        #!!!!!!!!!!!!!!!!! make sure you set bmeals to zero in initialize db
+        cur.execute("SELECT NOMEALS FROM bmeals WHERE USERNAME = %s AND DATE = %s", (username, date))
+        conn.commit()
+        bmeals = cur.fetchone()[0]
+        #print("GOT THE LOGINS" + str(logins) + "\n")
+
+        #this tells us what slot we should put the food in
+        foodSlot = ""
+        if ( (bmeals+1) < 9):
+            foodSlot = "M" + str(bmeals + 1)
+        else:
+            foodSlot = "M1"
+            cur.execute("UPDATE bmeals SET NOMEALS = 0 WHERE USERNAME = %s AND DATE = %s", (username, date))
+        #foodSlot, name, username
+        sql = "UPDATE bmeals SET "+foodSlot+" = %s WHERE USERNAME = %s AND DATE = %s"
+        cur.execute(sql, (name, username, date))
+        conn.commit()
+        cur.execute("UPDATE bmeals SET NOMEALS = NOMEALS + 1 WHERE USERNAME = %s AND DATE = %s", (username, date))
+        print("updating mealsMade\n")
+        cur.execute("UPDATE ACHS SET MEALSMADE = MEALSMADE + 1 WHERE USERNAME = %s", (session['username'],))
+
+        conn.commit()
+
+
+        cur.execute("SELECT * FROM bmeals WHERE USERNAME = %s  AND DATE = %s", (username, date))
+        conn.commit()
+        bmeals = cur.fetchone()
+        for elem in bmeals:
+            print(elem)
+
+        conn.close()
+        return True
+    elif bool(exists) == False :
+
+        print("EXISTS was false")
+        strng = "initialized food item space                                                             "
+        cur.execute("INSERT INTO bmeals(USERNAME, DATE, NOMEALS, M1, M2, M3, M4, M5, M6, M7, M8) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)", (username, date, 0, strng, strng, strng, strng, strng, strng, strng, strng))
+        conn.commit()
+        cur.execute("SELECT NOMEALS FROM bmeals WHERE USERNAME = %s AND DATE = %s", (username, date))
+        conn.commit()
+        bmeals = cur.fetchone()[0]
+        #print("GOT THE LOGINS" + str(logins) + "\n")
+
+        #this tells us what slot we should put the food in
+        foodSlot = ""
+        if ( (bmeals+1) < 9):
+            foodSlot = "M" + str(bmeals + 1)
+        else:
+            foodSlot = "M1"
+            cur.execute("UPDATE bmeals SET NOMEALS = 0 WHERE USERNAME = %s AND DATE = %s", (username, date))
+        #foodSlot, name, username
+        sql = "UPDATE bmeals SET "+foodSlot+" = %s WHERE USERNAME = %s AND DATE = %s"
+        cur.execute(sql, (name, username, date))
+        conn.commit()
+        cur.execute("UPDATE bmeals SET NOMEALS = NOMEALS + 1 WHERE USERNAME = %s AND DATE = %s", (username, date))
+        print("updating mealsMade\n")
+        cur.execute("UPDATE ACHS SET MEALSMADE = MEALSMADE + 1 WHERE USERNAME = %s", (session['username'],))
+
+        conn.commit()
+
+
+        cur.execute("SELECT * FROM bmeals WHERE USERNAME = %s  AND DATE = %s", (username, date))
+        conn.commit()
+        bmeals = cur.fetchone()
+        for elem in bmeals:
+            print(elem)
+
+        conn.close()
+        return True
     else:
-        foodSlot = "M1"
-        cur.execute("UPDATE bmeals SET NOMEALS = 0 WHERE USERNAME = %s", (username,))
-    #foodSlot, name, username
-    sql = "UPDATE bmeals SET "+foodSlot+" = %s WHERE USERNAME = %s"
-    cur.execute(sql, (name, username))
-    conn.commit()
-    cur.execute("UPDATE bmeals SET NOMEALS = NOMEALS + 1 WHERE USERNAME = %s", (username,))
-    print("updating mealsMade\n")
-    cur.execute("UPDATE ACHS SET MEALSMADE = MEALSMADE + 1 WHERE USERNAME = %s", (session['username'],))
+        conn.close()
+        print("SOMETHING WENT TERRIBLY WRONG")
+        return False
 
-    conn.commit()
-
-
-    cur.execute("SELECT * FROM bmeals WHERE USERNAME = %s ", (username,))
-    conn.commit()
-    bmeals = cur.fetchone()
-    for elem in bmeals:
-        print(elem)
-
-
-
-    conn.close()
-    return True
 
 #pulls data for breakfast under the specified username and returns the meals in a list
 #def pullBdata()
 
-def lData(name):
+def lData(name, date):
     username = session['username']
 
     conn = psycopg2.connect(db_config)
     cur = conn.cursor()
 
-    #!!!!!!!!!!!!!!!!! make sure you set bmeals to zero in initialize db
-    cur.execute("SELECT NOMEALS FROM lmeals WHERE USERNAME = %s ", (username,))
-    conn.commit()
-    lmeals = cur.fetchone()[0]
-    #print("GOT THE LOGINS" + str(logins) + "\n")
 
-    #this tells us what slot we should put the food in
-    foodSlot = ""
-    if ( (lmeals+1) < 9):
-        foodSlot = "M" + str(lmeals + 1)
+    cur.execute("SELECT (EXISTS (SELECT * FROM lmeals WHERE USERNAME = %s AND DATE = %s))", (username, date))
+    conn.commit()
+    exists = cur.fetchone()[0]
+    print("exists is equal to : " + str(exists))
+    if bool(exists):
+        #!!!!!!!!!!!!!!!!! make sure you set bmeals to zero in initialize db
+        cur.execute("SELECT NOMEALS FROM lmeals WHERE USERNAME = %s  AND DATE = %s", (username, date))
+        conn.commit()
+        lmeals = cur.fetchone()[0]
+        #print("GOT THE LOGINS" + str(logins) + "\n")
+
+        #this tells us what slot we should put the food in
+        foodSlot = ""
+        if ( (lmeals+1) < 9):
+            foodSlot = "M" + str(lmeals + 1)
+        else:
+            foodSlot = "M1"
+            cur.execute("UPDATE lmeals SET NOMEALS = 0 WHERE USERNAME = %s AND DATE = %s", (username, date))
+        #foodSlot, name, username
+        sql = "UPDATE lmeals SET "+foodSlot+" = %s WHERE USERNAME = %s AND DATE = %s"
+        cur.execute(sql, (name, username, date))
+        conn.commit()
+        cur.execute("UPDATE lmeals SET NOMEALS = NOMEALS + 1 WHERE USERNAME = %s AND DATE = %s", (username, date))
+        print("updating mealsMade\n")
+        cur.execute("UPDATE ACHS SET MEALSMADE = MEALSMADE + 1 WHERE USERNAME = %s", (session['username'],))
+
+        conn.commit()
+
+        cur.execute("SELECT * FROM lmeals WHERE USERNAME = %s  AND DATE = %s", (username, date))
+        conn.commit()
+        lmeals = cur.fetchone()
+        for elem in lmeals:
+            print(elem)
+
+        conn.close()
+        return True
+    elif bool(exists) == False:
+
+        print("EXISTS was false")
+        strng = "initialized food item space                                                             "
+        cur.execute("INSERT INTO lmeals(USERNAME, DATE, NOMEALS, M1, M2, M3, M4, M5, M6, M7, M8) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)", (username, date, 0, strng, strng, strng, strng, strng, strng, strng, strng))
+        conn.commit()
+        cur.execute("SELECT NOMEALS FROM lmeals WHERE USERNAME = %s  AND DATE = %s", (username, date))
+        conn.commit()
+        lmeals = cur.fetchone()[0]
+        #print("GOT THE LOGINS" + str(logins) + "\n")
+
+        #this tells us what slot we should put the food in
+        foodSlot = ""
+        if ( (lmeals+1) < 9):
+            foodSlot = "M" + str(lmeals + 1)
+        else:
+            foodSlot = "M1"
+            cur.execute("UPDATE lmeals SET NOMEALS = 0 WHERE USERNAME = %s AND DATE = %s", (username, date))
+        #foodSlot, name, username
+        sql = "UPDATE lmeals SET "+foodSlot+" = %s WHERE USERNAME = %s AND DATE = %s"
+        cur.execute(sql, (name, username, date))
+        conn.commit()
+        cur.execute("UPDATE lmeals SET NOMEALS = NOMEALS + 1 WHERE USERNAME = %s AND DATE = %s", (username, date))
+        print("updating mealsMade\n")
+        cur.execute("UPDATE ACHS SET MEALSMADE = MEALSMADE + 1 WHERE USERNAME = %s", (session['username'],))
+
+        conn.commit()
+
+        cur.execute("SELECT * FROM lmeals WHERE USERNAME = %s  AND DATE = %s", (username, date))
+        conn.commit()
+        lmeals = cur.fetchone()
+        for elem in lmeals:
+            print(elem)
+
+        conn.close()
+        return True
     else:
-        foodSlot = "M1"
-        cur.execute("UPDATE lmeals SET NOMEALS = 0 WHERE USERNAME = %s", (username,))
-    #foodSlot, name, username
-    sql = "UPDATE lmeals SET "+foodSlot+" = %s WHERE USERNAME = %s"
-    cur.execute(sql, (name, username))
-    conn.commit()
-    cur.execute("UPDATE lmeals SET NOMEALS = NOMEALS + 1 WHERE USERNAME = %s", (username,))
-    print("updating mealsMade\n")
-    cur.execute("UPDATE ACHS SET MEALSMADE = MEALSMADE + 1 WHERE USERNAME = %s", (session['username'],))
+        conn.close()
+        print("SOMETHING WENT TERRIBLY WRONG")
+        return False
 
-    conn.commit()
 
-    cur.execute("SELECT * FROM lmeals WHERE USERNAME = %s ", (username,))
-    conn.commit()
-    lmeals = cur.fetchone()
-    for elem in lmeals:
-        print(elem)
-
-    conn.close()
-    return True
-
-def dData(name):
+def dData(name, date):
     username = session['username']
 
     conn = psycopg2.connect(db_config)
     cur = conn.cursor()
 
-    #!!!!!!!!!!!!!!!!! make sure you set bmeals to zero in initialize db
-    cur.execute("SELECT NOMEALS FROM dmeals WHERE USERNAME = %s ", (username,))
-    conn.commit()
-    dmeals = cur.fetchone()[0]
-    #print("GOT THE LOGINS" + str(logins) + "\n")
 
-    #this tells us what slot we should put the food in
-    foodSlot = ""
-    if ( (dmeals+1) < 9):
-        foodSlot = "M" + str(dmeals + 1)
+
+    cur.execute("SELECT (EXISTS (SELECT * FROM dmeals WHERE USERNAME = %s AND DATE = %s))", (username, date))
+    conn.commit()
+    exists = cur.fetchone()[0]
+    print("exists is equal to : " + str(exists))
+    if bool(exists):
+
+        #!!!!!!!!!!!!!!!!! make sure you set bmeals to zero in initialize db
+        cur.execute("SELECT NOMEALS FROM dmeals WHERE USERNAME = %s  AND DATE = %s", (username, date))
+        conn.commit()
+        dmeals = cur.fetchone()[0]
+        #print("GOT THE LOGINS" + str(logins) + "\n")
+
+        #this tells us what slot we should put the food in
+        foodSlot = ""
+        if ( (dmeals+1) < 9):
+            foodSlot = "M" + str(dmeals + 1)
+        else:
+            foodSlot = "M1"
+            cur.execute("UPDATE dmeals SET NOMEALS = 0 WHERE USERNAME = %s AND DATE = %s", (username, date))
+        #foodSlot, name, username
+        sql = "UPDATE dmeals SET "+foodSlot+" = %s WHERE USERNAME = %s AND DATE = %s"
+        cur.execute(sql, (name, username, date))
+        conn.commit()
+        cur.execute("UPDATE dmeals SET NOMEALS = NOMEALS + 1 WHERE USERNAME = %s AND DATE = %s", (username, date))
+        print("updating mealsMade\n")
+        cur.execute("UPDATE ACHS SET MEALSMADE = MEALSMADE + 1 WHERE USERNAME = %s", (session['username'],))
+
+        conn.commit()
+
+        cur.execute("SELECT * FROM dmeals WHERE USERNAME = %s AND DATE = %s", (username, date))
+        conn.commit()
+        dmeals = cur.fetchone()
+        for elem in dmeals:
+            print(elem)
+
+        conn.close()
+        return True
+    elif bool(exists) == False:
+
+        print("EXISTS was false")
+        strng = "initialized food item space                                                             "
+        cur.execute("INSERT INTO dmeals(USERNAME, DATE, NOMEALS, M1, M2, M3, M4, M5, M6, M7, M8) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)", (username, date, 0, strng, strng, strng, strng, strng, strng, strng, strng))
+        conn.commit()
+        cur.execute("SELECT NOMEALS FROM dmeals WHERE USERNAME = %s  AND DATE = %s", (username, date))
+        conn.commit()
+        dmeals = cur.fetchone()[0]
+        #print("GOT THE LOGINS" + str(logins) + "\n")
+
+        #this tells us what slot we should put the food in
+        foodSlot = ""
+        if ( (dmeals+1) < 9):
+            foodSlot = "M" + str(dmeals + 1)
+        else:
+            foodSlot = "M1"
+            cur.execute("UPDATE dmeals SET NOMEALS = 0 WHERE USERNAME = %s AND DATE = %s", (username, date))
+        #foodSlot, name, username
+        sql = "UPDATE dmeals SET "+foodSlot+" = %s WHERE USERNAME = %s AND DATE = %s"
+        cur.execute(sql, (name, username, date))
+        conn.commit()
+        cur.execute("UPDATE dmeals SET NOMEALS = NOMEALS + 1 WHERE USERNAME = %s AND DATE = %s", (username, date))
+        print("updating mealsMade\n")
+        cur.execute("UPDATE ACHS SET MEALSMADE = MEALSMADE + 1 WHERE USERNAME = %s", (session['username'],))
+
+        conn.commit()
+
+        cur.execute("SELECT * FROM dmeals WHERE USERNAME = %s AND DATE = %s", (username, date))
+        conn.commit()
+        dmeals = cur.fetchone()
+        for elem in dmeals:
+            print(elem)
+
+        conn.close()
+        return True
+
     else:
-        foodSlot = "M1"
-        cur.execute("UPDATE dmeals SET NOMEALS = 0 WHERE USERNAME = %s", (username,))
-    #foodSlot, name, username
-    sql = "UPDATE dmeals SET "+foodSlot+" = %s WHERE USERNAME = %s"
-    cur.execute(sql, (name, username))
-    conn.commit()
-    cur.execute("UPDATE dmeals SET NOMEALS = NOMEALS + 1 WHERE USERNAME = %s", (username,))
-    print("updating mealsMade\n")
-    cur.execute("UPDATE ACHS SET MEALSMADE = MEALSMADE + 1 WHERE USERNAME = %s", (session['username'],))
+        conn.close()
+        print("SOMETHING WENT TERRIBLY WRONG")
+        return False
 
-    conn.commit()
 
-    cur.execute("SELECT * FROM dmeals WHERE USERNAME = %s ", (username,))
-    conn.commit()
-    dmeals = cur.fetchone()
-    for elem in dmeals:
-        print(elem)
 
-    conn.close()
-    return True
 
-def sData(name):
+
+
+
+
+def sData(name, date):
     username = session['username']
 
     conn = psycopg2.connect(db_config)
     cur = conn.cursor()
 
-    #!!!!!!!!!!!!!!!!! make sure you set bmeals to zero in initialize db
-    cur.execute("SELECT NOMEALS FROM smeals WHERE USERNAME = %s ", (username,))
-    conn.commit()
-    smeals = cur.fetchone()[0]
-    #print("GOT THE LOGINS" + str(logins) + "\n")
 
-    #this tells us what slot we should put the food in
-    foodSlot = ""
-    if ( (smeals+1) < 9):
-        foodSlot = "M" + str(smeals + 1)
+    cur.execute("SELECT (EXISTS (SELECT * FROM smeals WHERE USERNAME = %s AND DATE = %s))", (username, date))
+    conn.commit()
+    exists = cur.fetchone()[0]
+    print("exists is equal to : " + str(exists))
+    if bool(exists):
+        #!!!!!!!!!!!!!!!!! make sure you set bmeals to zero in initialize db
+        cur.execute("SELECT NOMEALS FROM smeals WHERE USERNAME = %s AND DATE = %s", (username, date))
+        conn.commit()
+        smeals = cur.fetchone()[0]
+        #print("GOT THE LOGINS" + str(logins) + "\n")
+
+        #this tells us what slot we should put the food in
+        foodSlot = ""
+        if ( (smeals+1) < 9):
+            foodSlot = "M" + str(smeals + 1)
+        else:
+            foodSlot = "M1"
+            cur.execute("UPDATE smeals SET NOMEALS = 0 WHERE USERNAME = %s AND DATE = %s", (username, date))
+        #foodSlot, name, username
+        sql = "UPDATE smeals SET "+foodSlot+" = %s WHERE USERNAME = %s AND DATE = %s"
+        cur.execute(sql, (name, username, date))
+        conn.commit()
+        cur.execute("UPDATE smeals SET NOMEALS = NOMEALS + 1 WHERE USERNAME = %s AND DATE = %s", (username, date))
+        print("updating mealsMade\n")
+        cur.execute("UPDATE ACHS SET MEALSMADE = MEALSMADE + 1 WHERE USERNAME = %s", (session['username'],))
+
+        conn.commit()
+
+        cur.execute("SELECT * FROM smeals WHERE USERNAME = %s  AND DATE = %s", (username, date))
+        conn.commit()
+        smeals = cur.fetchone()
+        for elem in smeals:
+            print(elem)
+
+        conn.close()
+        return True
+    elif bool(exists) == False:
+
+        print("EXISTS was false")
+        strng = "initialized food item space                                                             "
+        cur.execute("INSERT INTO smeals(USERNAME, DATE, NOMEALS, M1, M2, M3, M4, M5, M6, M7, M8) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)", (username, date, 0, strng, strng, strng, strng, strng, strng, strng, strng))
+        conn.commit()
+        cur.execute("SELECT NOMEALS FROM smeals WHERE USERNAME = %s AND DATE = %s", (username, date))
+        conn.commit()
+        smeals = cur.fetchone()[0]
+        #print("GOT THE LOGINS" + str(logins) + "\n")
+
+        #this tells us what slot we should put the food in
+        foodSlot = ""
+        if ( (smeals+1) < 9):
+            foodSlot = "M" + str(smeals + 1)
+        else:
+            foodSlot = "M1"
+            cur.execute("UPDATE smeals SET NOMEALS = 0 WHERE USERNAME = %s AND DATE = %s", (username, date))
+        #foodSlot, name, username
+        sql = "UPDATE smeals SET "+foodSlot+" = %s WHERE USERNAME = %s AND DATE = %s"
+        cur.execute(sql, (name, username, date))
+        conn.commit()
+        cur.execute("UPDATE smeals SET NOMEALS = NOMEALS + 1 WHERE USERNAME = %s AND DATE = %s", (username, date))
+        print("updating mealsMade\n")
+        cur.execute("UPDATE ACHS SET MEALSMADE = MEALSMADE + 1 WHERE USERNAME = %s", (session['username'],))
+
+        conn.commit()
+
+        cur.execute("SELECT * FROM smeals WHERE USERNAME = %s  AND DATE = %s", (username, date))
+        conn.commit()
+        smeals = cur.fetchone()
+        for elem in smeals:
+            print(elem)
+
+        conn.close()
+        return True
     else:
-        foodSlot = "M1"
-        cur.execute("UPDATE smeals SET NOMEALS = 0 WHERE USERNAME = %s", (username,))
-    #foodSlot, name, username
-    sql = "UPDATE smeals SET "+foodSlot+" = %s WHERE USERNAME = %s"
-    cur.execute(sql, (name, username))
-    conn.commit()
-    cur.execute("UPDATE smeals SET NOMEALS = NOMEALS + 1 WHERE USERNAME = %s", (username,))
-    print("updating mealsMade\n")
-    cur.execute("UPDATE ACHS SET MEALSMADE = MEALSMADE + 1 WHERE USERNAME = %s", (session['username'],))
+        conn.close()
+        print("SOMETHING WENT TERRIBLY WRONG")
+        return False
 
-    conn.commit()
 
-    cur.execute("SELECT * FROM smeals WHERE USERNAME = %s ", (username,))
-    conn.commit()
-    smeals = cur.fetchone()
-    for elem in smeals:
-        print(elem)
 
-    conn.close()
-    return True
-
-def pullBdata():
+def pullBdata(date):
     print("we made it inside pullBData")
+
+
     conn = psycopg2.connect(db_config)
     cur = conn.cursor()
     username = session['username']
-    cur.execute("SELECT * FROM bmeals WHERE USERNAME = %s ", (username,))
+    cur.execute("SELECT * FROM bmeals WHERE USERNAME = %s AND DATE = %s", (username, date))
     conn.commit()
     bmeals = cur.fetchone()
     conn.close()
     returnJSON = {"1": [""],"2": [""],"3": [""],"4": [""],"5": [""],"6": [""],"7": [""],"8": [""]}
     i = 0
-    for elem in bmeals:
-        if i > 1:
-            if not str(elem).startswith("initialized food item") :
-                returnJSON[str(i-1)] = [str(elem)]
-        i+=1
+    if bmeals != None:
+        for elem in bmeals:
+            if i > 2:
+                if not str(elem).startswith("initialized food item") :
+                    returnJSON[str(i-1)] = [str(elem)]
+            i+=1
     print(returnJSON)
     return returnJSON
 
 
-def pullLdata():
+def pullLdata(date):
     conn = psycopg2.connect(db_config)
     cur = conn.cursor()
     username = session['username']
-    cur.execute("SELECT * FROM lmeals WHERE USERNAME = %s ", (username,))
+    cur.execute("SELECT * FROM lmeals WHERE USERNAME = %s  AND DATE = %s", (username, date))
     conn.commit()
     lmeals = cur.fetchone()
     conn.close()
     returnJSON = {"1": [""],"2": [""],"3": [""],"4": [""],"5": [""],"6": [""],"7": [""],"8": [""]}
     i = 0
-    for elem in lmeals:
-        if i > 1:
-            if not str(elem).startswith("initialized food item") :
-                returnJSON[str(i-1)] = [str(elem)]
-        i+=1
+    if lmeals != None:
+        for elem in lmeals:
+            if i > 2:
+                if not str(elem).startswith("initialized food item") :
+                    returnJSON[str(i-1)] = [str(elem)]
+            i+=1
     return returnJSON
 
-def pullDdata():
+def pullDdata(date):
     conn = psycopg2.connect(db_config)
     cur = conn.cursor()
     username = session['username']
-    cur.execute("SELECT * FROM dmeals WHERE USERNAME = %s ", (username,))
+    cur.execute("SELECT * FROM dmeals WHERE USERNAME = %s  AND DATE = %s", (username, date))
     conn.commit()
     dmeals = cur.fetchone()
     conn.close()
     returnJSON = {"1": [""],"2": [""],"3": [""],"4": [""],"5": [""],"6": [""],"7": [""],"8": [""]}
     i = 0
-    for elem in dmeals:
-        if i > 1:
-            if not str(elem).startswith("initialized food item") :
-                returnJSON[str(i-1)] = [str(elem)]
-        i+=1
+    if dmeals != None:
+        for elem in dmeals:
+            if i > 2:
+                if not str(elem).startswith("initialized food item") :
+                    returnJSON[str(i-1)] = [str(elem)]
+            i+=1
     return returnJSON
 
-def pullSdata():
+def pullSdata(date):
     conn = psycopg2.connect(db_config)
     cur = conn.cursor()
     username = session['username']
-    cur.execute("SELECT * FROM smeals WHERE USERNAME = %s ", (username,))
+    cur.execute("SELECT * FROM smeals WHERE USERNAME = %s AND DATE = %s", (username, date))
     conn.commit()
     smeals = cur.fetchone()
     conn.close()
     returnJSON = {"1": [""],"2": [""],"3": [""],"4": [""],"5": [""],"6": [""],"7": [""],"8": [""]}
     i = 0
-    for elem in smeals:
-        if i > 1:
-            if not str(elem).startswith("initialized food item") :
-                returnJSON[str(i-1)] = [str(elem)]
-        i+=1
+    if smeals != None:
+        for elem in smeals:
+            if i > 2:
+                if not str(elem).startswith("initialized food item") :
+                    returnJSON[str(i-1)] = [str(elem)]
+            i+=1
     return returnJSON
 
 def connectAPI(nameOne):
     url = "https://api.nal.usda.gov/fdc/v1/foods/search?api_key=dhIFeY8WhF9o0tUGenudfxO0tAQEvByUb3N9bGIj&dataType=Survey (FNDDS)&query=" + nameOne
     x = urllib.request.urlopen(url)
-    print(x)
+    #print(x)
     stuff = json.load(x)
-    print(stuff)
+    #print(stuff)
     if stuff.get("totalHits") != 0:
         foodsarray = stuff.get("foods")
         food = foodsarray[0]
@@ -515,13 +726,39 @@ def connectAPI(nameOne):
 def mOne():
     return render_template("mealspage.js")
 
-@app.route('/mealspage', methods = ['GET', 'POST'])
-def mealspage():
+
+@app.route('/mealspage/<date>', methods = ['GET', 'POST'])
+def mealspage(date):
     print("Got a meals request!\n")
+    #date will come in the form "[month]-[day]-[year]"
+    #example: "11-5-2021"
     if 'username' in session:
         if request.method == 'GET':
-            return render_template('mealspage2.html')
+            # MAYBE CHECK IF "-" IS IN THERE FIRST SO WE DON'T GET POTENTIAL ERRORS?
+            dateArray = date.split("-")
+            month = dateArray[0]
+            day = dateArray[1]
+            year = dateArray[2]
+            # now that we have date infomation, we can read from our template mealspage.txt and split at the desired responseText
+            # at the split, we have to add a script that changes a js variable to "mealspage/<date>"
+            theHTML = ""
+            with open("mealspage.txt", "r") as f:
+                theHTML = f.read()
+                f.close()
+            # MAYBE CHECK IF @@ IS IN THERE FIRST SO WE DON'T GET POTENTIAL ERRORS?
+            htmlArray = theHTML.split("@@")
+            injection = "<script>setPath('/mealspage/" + str(month) +"-"+ str(day) +"-"+ str(year) + "');</script>"
+            return htmlArray[0] + injection + htmlArray[1]
+            #return render_template('mealspage2.html')
+
         elif request.method == 'POST':
+
+            dateArray = date.split("-")
+            month = dateArray[0]
+            day = dateArray[1]
+            year = dateArray[2]
+
+
             print("It's a post request!\n")
             food = request.form["name"]
             print("The data is : " + food)
@@ -532,9 +769,9 @@ def mealspage():
                 #create a response by connecting to the api with the food name
                 theFood = connectAPI(food)
                 #update the database to include our food
-                bData(theFood)
+                bData(theFood, date)
                 #create a responseJSON containing everything for breakfast
-                responseJSON = pullBdata()
+                responseJSON = pullBdata(date)
                 print(responseJSON)
                 return jsonify(responseJSON)
 
@@ -546,11 +783,11 @@ def mealspage():
                 #update the database to include our food
                 theFood = connectAPI(food)
                 #update the database to include our food
-                lData(theFood)
+                lData(theFood, date)
 
                 #create a responseJSON containing everything for breakfast
                 print("calling pullLData")
-                responseJSON = pullLdata()
+                responseJSON = pullLdata(date)
                 print(responseJSON)
                 return jsonify(responseJSON)
             elif food.startswith("d") :
@@ -559,10 +796,10 @@ def mealspage():
                 #responseJSON = connectAPI(food)
                 theFood = connectAPI(food)
                 #update the database to include our food
-                dData(theFood)
+                dData(theFood, date)
 
                 #create a responseJSON containing everything for breakfast
-                responseJSON = pullDdata()
+                responseJSON = pullDdata(date)
                 print(responseJSON)
                 return jsonify(responseJSON)
             elif food.startswith("s") :
@@ -571,24 +808,24 @@ def mealspage():
                 #responseJSON = connectAPI(food)
                 theFood = connectAPI(food)
                 #update the database to include our food
-                sData(theFood)
+                sData(theFood, date)
 
                 #create a responseJSON containing everything for breakfast
-                responseJSON = pullSdata()
+                responseJSON = pullSdata(date)
                 print(responseJSON)
                 return jsonify(responseJSON)
             elif food.startswith("zb") :
                 print("we SHOULD BE IN HERE")
-                responseJSON = pullBdata()
+                responseJSON = pullBdata(date)
                 return jsonify(responseJSON)
             elif food.startswith("zl") :
-                responseJSON = pullLdata()
+                responseJSON = pullLdata(date)
                 return jsonify(responseJSON)
             elif food.startswith("zd") :
-                responseJSON = pullDdata()
+                responseJSON = pullDdata(date)
                 return jsonify(responseJSON)
             elif food.startswith("zs") :
-                responseJSON = pullSdata()
+                responseJSON = pullSdata(date)
                 return jsonify(responseJSON)
             else:
                 print("we didn't get any of them")
