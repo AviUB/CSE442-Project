@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Meals Page</title>
+  <script src="../mealspage.js"></script>
+</head>
+
+<body>
+<h1>Meals Page</h1>
+@@
+<a href="calendarpage.html" target="_blank">Visit Calendarpage!</a>
+
+<h1>Breakfast</h1>
+<p><pre class="tab">Food   |   Calories   |   Carbs   |    Fat   |   protein   |</pre> </p>
+<p>Enter food</p>
+<div id="B"></div>
+
+  <label for="fname">Food name:</label>
+  <input type="text" id="inputOne" name="inputOne">
+  <button type="button" onclick="xmlBreakfast();">Submit</button>
+
+<h1>Lunch</h1>
+<p><pre class="tab">Food   |   Calories   |   Carbs   |    Fat   |   protein   |</pre> </p>
+<p>Enter Food</p>
+<div id="L"></div>
+
+<label for="fname">Food name:</label>
+<input type="text" id="inputTwo" name="inputTwo">
+<button type="button" onclick="xmlLunch();">Submit</button>
+
+<h1>Dinner</h1>
+<p><pre class="tab">Food   |   Calories   |   Carbs   |    Fat   |   protein   |</pre> </p>
+<p>Enter Food</p>
+<div id="D"></div>
+
+<label for="fname">Food name:</label>
+<input type="text" id="inputThree" name="inputThree">
+<button type="button" onclick="xmlDinner();">Submit</button>
+
+<h1>Snacks</h1>
+<p><pre class="tab">Food   |   Calories   |   Carbs   |    Fat   |   protein   |</pre> </p>
+<p>Enter Food</p>
+<div id="S"></div>
+
+<label for="fname">Food name:</label>
+<input type="text" id="inputFour" name="inputFour">
+<button type="button" onclick="xmlSnacks();">Submit</button>
+
+<br>
+
+<a href="/achievements">Achievements Page</a>
+<a href="/profile"> Profile Page</a>
+<a href="/aboutus">About us</a>
+<script>
+setTimeout(function() { xmlB(); }, 1000);
+setTimeout(function() { xmlL(); }, 1500);
+setTimeout(function() { xmlD(); }, 2000);
+setTimeout(function() { xmlS(); }, 2500);
+</script>
+</body>
+</html>
