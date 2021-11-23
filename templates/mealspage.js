@@ -310,9 +310,7 @@ function caloriestotal() {
     b = document.getElementById("S")
     var TextInsideS = S.getElementsByTagName('p')[i].innerHTML;
     console.log(TextInsideS)
-    var t = document.getElementById("p");
-    t.appendChild(TextInsideS)
-    document.getElementById("C").appendChild(t);
+    
   }
 
 }
