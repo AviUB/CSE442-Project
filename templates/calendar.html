@@ -8,34 +8,51 @@
 </head>
 
 <body>
+<div id="space"></div>
 
-<div height="55px" id="topEmail"> November</div>
+<div id="topemail" align="center"> <h2>Choose any date in the calendar to get started!</h2> </div>
+
+<div id="space2"></div>
 
 <div id="container">
-  <div class="innerbox" id="right" width="200px">
+  <div class="innerbox" id="right">
     <!-- <img width="190px" height="auto" src="cover2.png"></img> -->
     <h2>Meals for 11/5:</h2>
     <h3>Breakfast:</h3>
     <div id="b"></div>
+    <br>
     <h3>Lunch:</h3>
     <div id="l"></div>
+    <br>
     <h3>Dinner:</h3>
     <div id="d"></div>
+    <br>
     <h3>Snacks:</h3>
     <div id="s"></div>
-    <br><br><br><br><br>
+    <br><br>
   </div>
 
 
 
 
-<div id="space"></div>
-<div align="center" class="links">
+<!-- <div id="space"></div> -->
+<!-- <div id="calTop"></div> -->
+<div align="center" id="calTop" class="topp">
   <div id="lArrow" class="arrow" onmouseleave="aExit('lArrow')" onmouseover="aEnter('lArrow')" onclick="subMonth()"> &lt </div>
   <div id=Month> <h3>November</h3> </div>
   <div id="rArrow" class="arrow" onmouseleave="aExit('rArrow')" onmouseover="aEnter('rArrow')" onclick="addMonth()"> &gt </div>
 </div>
 
+<div align="center" id="weeks">
+  <div class="week">     S       </div>
+  <div class="week">     M       </div>
+  <div class="week">     T       </div>
+  <div class="week">     W       </div>
+  <div class="week">     T       </div>
+  <div class="week">     F       </div>
+  <div class="week">     S       </div>
+
+</div>
 
 <div align="center" class="links">
   <div class="link" onmouseleave="exit('a1')" onmouseover="enter('a1')" onclick="hello()" id="a1">     1       </div>
@@ -96,6 +113,7 @@
   <div class="link" onmouseleave="exit('f6')" onmouseover="enter('f6')" onclick="hello()" id="f6">     34       </div>
   <div class="link" onmouseleave="exit('f7')" onmouseover="enter('f7')" onclick="hello()" id="f7">     35       </div>
 </div>
+<div id=calBot></div>
 
 <script> var d = new Date();
         var wD = getDayOne(d);
@@ -103,6 +121,16 @@
         setDict(daysInMonth, wD);
         setCalendar();
         document.getElementById("Month").innerHTML = getMonString(Month) + "  " + Year.toString();</script>
+
+<div id="bottomLinks">
+<a href="/mealspage/11-27-2021" class="bottomLink"><h3>meals page for 11-27-2021</h3></a>
+<a href="/mealspage/12-01-2021" class="bottomLink"><h3>meals page for 12-01-2021</h3></a>
+<a href="" class="bottomLink"><h3>hi</h3></a>
+<a href="" class="bottomLink"><h3>hi</h3></a>
+
+</div>
+
+
 </div>
 <h1>Hello</h1>
 </body>
