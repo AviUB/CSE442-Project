@@ -1,19 +1,27 @@
 body {
-  background-color: #a6e6db;
+  background-color: #90ccfe;
+  font-family: Verdana, sans-serif;
 
 }
+
 
 #space {
-  height:30px;
+  height:0px;
 }
 #space2 {
-  height:7px
+  height:20px
 }
 
 #topemail {
-  z-index:2;
+
   text-align:center;
 
+  padding: 8px;
+
+  color: white;
+  background-color: #0e274c;
+  margin-bottom: 20px;
+  border-radius: 12px;
 }
 
 #fact {
@@ -66,9 +74,41 @@ body {
   width: 630px;
   height: 70px;
   padding-top: 1px;
-
+  border-style: solid;
+  border-color: transparent black transparent black;
+  border-width: 3px;
 }
 
+
+.topp {
+  background-color: 	#c8d8e4;
+  left: 2%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+  width: 630px;
+  height: 40px;
+  padding-top: 5px;
+  border-style: solid;
+  border-color: transparent black transparent black;
+  border-width: 3px;
+}
+
+#weeks {
+  background-color: 	#c8d8e4;
+  left: 2%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+  width: 630px;
+  height: 25px;
+  padding-bottom: 5px;
+  border-style: solid;
+  border-color: transparent black transparent black;
+  border-width: 3px;
+}
 
 .link {
   /* transform: translate(0px, -240px); */
@@ -80,6 +120,67 @@ body {
   margin-left: 3px;
   margin-right: 3px;
   border-radius: 9px;
+
+}
+.week {
+  /* transform: translate(0px, -240px); */
+  text-align: center;
+  width: 65px;
+  height: 25px;
+  background-color: #a8b6ba;
+  position:relative;
+  margin-left: 3px;
+  margin-right: 3px;
+  border-radius: 9px;
+
+}
+
+#calTop {
+
+  border-style: solid;
+  border-color: black black transparent black;
+  border-width: 3px;
+  font-weight: bold;
+  border-radius: 12px 12px 0px 0px;
+}
+
+#calBot {
+  background-color: 	#c8d8e4;
+  border-style: solid;
+  border-color: transparent black black black;
+  border-width: 3px;
+  left: 2%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+  width: 630px;
+  height: 30px;
+  border-radius: 0px 0px 12px 12px;
+}
+
+#bottomLinks {
+  /*background-color: 	#c8d8e4; */
+  margin: auto;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+  width: 630px;
+  height: 70px;
+  padding-top: 40px;
+
+}
+
+.bottomLink {
+  text-align: center;
+  width: 20%;
+  height: 65px;
+  font-weight: bold;
+  position:relative;
+  margin-left: 3px;
+  margin-right: 3px;
 
 }
 
@@ -94,15 +195,17 @@ body {
   border-radius: 9px;
 }
 
-#month {
+#Month {
   text-align: center;
-  width: 150px;
-  height: 40px;
-  background-color: #f2f2f2;
+  font-family: "Times New Roman", serif;
+  font-size: 23px;
+  width: 40%;
+
+
   position:relative;
   margin-left: 3px;
   margin-right: 3px;
-  border-radius: 9px;
+
 }
 
 
@@ -138,21 +241,27 @@ body {
 
 #right {
   z-index:0;
-  right: 20%;
+  right: 5%;
   position: absolute;
-  margin-top: 40px;
+
 }
 
 .innerbox {
+  background-color: #c8d8e4;
+  border-radius: 12px;
+  border-style: solid;
+  border-color: black;
+  border-width: 3px;
   position: absolute;
   z-index:0;
   font-size: 20px;
   font-weight: bold;
-  width: 200px;
-  height: 400px;
-  padding: 30px;
+  width: 300px;
+
+  padding-left: 30px;
+  padding-right: 30px;
   /*box-sizing: border-box;*/
-  line-height: 150%;
+  /*line-height: 150%;*/
 }
 #container {
   z-index:0;
