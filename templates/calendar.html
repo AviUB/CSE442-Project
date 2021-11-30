@@ -17,7 +17,8 @@
 <div id="container">
   <div class="innerbox" id="right">
     <!-- <img width="190px" height="auto" src="cover2.png"></img> -->
-    <h2>Meals for 11/5:</h2>
+    <h2 id="menu">Meals for 11/5:</h2>
+    <a id="mealsLink" href=""><h3>Edit meals for this day</h3></a>
     <h3>Breakfast:</h3>
     <div id="b"></div>
     <br>
@@ -55,63 +56,63 @@
 </div>
 
 <div align="center" class="links">
-  <div class="link" onmouseleave="exit('a1')" onmouseover="enter('a1')" onclick="hello()" id="a1">     1       </div>
-  <div class="link" onmouseleave="exit('a2')" onmouseover="enter('a2')" onclick="hello()" id="a2">     2       </div>
-  <div class="link" onmouseleave="exit('a3')" onmouseover="enter('a3')" onclick="hello()" id="a3">     3       </div>
-  <div class="link" onmouseleave="exit('a4')" onmouseover="enter('a4')" onclick="hello()" id="a4">     4       </div>
-  <div class="link" onmouseleave="exit('a5')" onmouseover="enter('a5')" onclick="hello()" id="a5">           5     </div>
-  <div class="link" onmouseleave="exit('a6')" onmouseover="enter('a6')" onclick="hello()" id="a6">     6       </div>
-  <div class="link" onmouseleave="exit('a7')" onmouseover="enter('a7')" onclick="hello()" id="a7">     7       </div>
+  <div class="link" onmouseleave="exit('a1')" onmouseover="enter('a1')" onclick="updateMenu(document.getElementById('a1').innerHTML)" id="a1">     1       </div>
+  <div class="link" onmouseleave="exit('a2')" onmouseover="enter('a2')" onclick="updateMenu(document.getElementById('a2').innerHTML)" id="a2">     2       </div>
+  <div class="link" onmouseleave="exit('a3')" onmouseover="enter('a3')" onclick="updateMenu(document.getElementById('a3').innerHTML)" id="a3">     3       </div>
+  <div class="link" onmouseleave="exit('a4')" onmouseover="enter('a4')" onclick="updateMenu(document.getElementById('a4').innerHTML)" id="a4">     4       </div>
+  <div class="link" onmouseleave="exit('a5')" onmouseover="enter('a5')" onclick="updateMenu(document.getElementById('a5').innerHTML)" id="a5">           5     </div>
+  <div class="link" onmouseleave="exit('a6')" onmouseover="enter('a6')" onclick="updateMenu(document.getElementById('a6').innerHTML)" id="a6">     6       </div>
+  <div class="link" onmouseleave="exit('a7')" onmouseover="enter('a7')" onclick="updateMenu(document.getElementById('a7').innerHTML)" id="a7">     7       </div>
 </div>
 <!-- <div id="space2"></div> -->
 <div align="center" class="links">
-  <div class="link" onmouseleave="exit('b1')" onmouseover="enter('b1')" onclick="hello()" id="b1">     8       </div>
-  <div class="link" onmouseleave="exit('b2')" onmouseover="enter('b2')" onclick="hello()" id="b2">     9       </div>
-  <div class="link" onmouseleave="exit('b3')" onmouseover="enter('b3')" onclick="hello()" id="b3">     10       </div>
-  <div class="link" onmouseleave="exit('b4')" onmouseover="enter('b4')" onclick="hello()" id="b4">     11       </div>
-  <div class="link" onmouseleave="exit('b5')" onmouseover="enter('b5')" onclick="hello()" id="b5">     12       </div>
-  <div class="link" onmouseleave="exit('b6')" onmouseover="enter('b6')" onclick="hello()" id="b6">     13       </div>
-  <div class="link" onmouseleave="exit('b7')" onmouseover="enter('b7')" onclick="hello()" id="b7">     14       </div>
+  <div class="link" onmouseleave="exit('b1')" onmouseover="enter('b1')" onclick="updateMenu(document.getElementById('b1').innerHTML)" id="b1">     8       </div>
+  <div class="link" onmouseleave="exit('b2')" onmouseover="enter('b2')" onclick="updateMenu(document.getElementById('b2').innerHTML)" id="b2">     9       </div>
+  <div class="link" onmouseleave="exit('b3')" onmouseover="enter('b3')" onclick="updateMenu(document.getElementById('b3').innerHTML)" id="b3">     10       </div>
+  <div class="link" onmouseleave="exit('b4')" onmouseover="enter('b4')" onclick="updateMenu(document.getElementById('b4').innerHTML)" id="b4">     11       </div>
+  <div class="link" onmouseleave="exit('b5')" onmouseover="enter('b5')" onclick="updateMenu(document.getElementById('b5').innerHTML)" id="b5">     12       </div>
+  <div class="link" onmouseleave="exit('b6')" onmouseover="enter('b6')" onclick="updateMenu(document.getElementById('b6').innerHTML)" id="b6">     13       </div>
+  <div class="link" onmouseleave="exit('b7')" onmouseover="enter('b7')" onclick="updateMenu(document.getElementById('b7').innerHTML)" id="b7">     14       </div>
 </div>
 
 <div align="center" class="links">
-  <div class="link" onmouseleave="exit('c1')" onmouseover="enter('c1')" onclick="hello()" id="c1">     15       </div>
-  <div class="link" onmouseleave="exit('c2')" onmouseover="enter('c2')" onclick="hello()" id="c2">     16       </div>
-  <div class="link" onmouseleave="exit('c3')" onmouseover="enter('c3')" onclick="hello()" id="c3">     17       </div>
-  <div class="link" onmouseleave="exit('c4')" onmouseover="enter('c4')" onclick="hello()" id="c4">     18       </div>
-  <div class="link" onmouseleave="exit('c5')" onmouseover="enter('c5')" onclick="hello()" id="c5">     19       </div>
-  <div class="link" onmouseleave="exit('c6')" onmouseover="enter('c6')" onclick="hello()" id="c6">     20       </div>
-  <div class="link" onmouseleave="exit('c7')" onmouseover="enter('c7')" onclick="hello()" id="c7">     21       </div>
+  <div class="link" onmouseleave="exit('c1')" onmouseover="enter('c1')" onclick="updateMenu(document.getElementById('c1').innerHTML)" id="c1">     15       </div>
+  <div class="link" onmouseleave="exit('c2')" onmouseover="enter('c2')" onclick="updateMenu(document.getElementById('c2').innerHTML)" id="c2">     16       </div>
+  <div class="link" onmouseleave="exit('c3')" onmouseover="enter('c3')" onclick="updateMenu(document.getElementById('c3').innerHTML)" id="c3">     17       </div>
+  <div class="link" onmouseleave="exit('c4')" onmouseover="enter('c4')" onclick="updateMenu(document.getElementById('c4').innerHTML)" id="c4">     18       </div>
+  <div class="link" onmouseleave="exit('c5')" onmouseover="enter('c5')" onclick="updateMenu(document.getElementById('c5').innerHTML)" id="c5">     19       </div>
+  <div class="link" onmouseleave="exit('c6')" onmouseover="enter('c6')" onclick="updateMenu(document.getElementById('c6').innerHTML)" id="c6">     20       </div>
+  <div class="link" onmouseleave="exit('c7')" onmouseover="enter('c7')" onclick="updateMenu(document.getElementById('c7').innerHTML)" id="c7">     21       </div>
 </div>
 
 <div align="center" class="links">
-  <div class="link" onmouseleave="exit('d1')" onmouseover="enter('d1')" onclick="hello()" id="d1">     22       </div>
-  <div class="link" onmouseleave="exit('d2')" onmouseover="enter('d2')" onclick="hello()" id="d2">     23       </div>
-  <div class="link" onmouseleave="exit('d3')" onmouseover="enter('d3')" onclick="hello()" id="d3">     24       </div>
-  <div class="link" onmouseleave="exit('d4')" onmouseover="enter('d4')" onclick="hello()" id="d4">     25       </div>
-  <div class="link" onmouseleave="exit('d5')" onmouseover="enter('d5')" onclick="hello()" id="d5">     26       </div>
-  <div class="link" onmouseleave="exit('d6')" onmouseover="enter('d6')" onclick="hello()" id="d6">     27       </div>
-  <div class="link" onmouseleave="exit('d7')" onmouseover="enter('d7')" onclick="hello()" id="d7">     28       </div>
+  <div class="link" onmouseleave="exit('d1')" onmouseover="enter('d1')" onclick="updateMenu(document.getElementById('d1').innerHTML)" id="d1">     22       </div>
+  <div class="link" onmouseleave="exit('d2')" onmouseover="enter('d2')" onclick="updateMenu(document.getElementById('d2').innerHTML)" id="d2">     23       </div>
+  <div class="link" onmouseleave="exit('d3')" onmouseover="enter('d3')" onclick="updateMenu(document.getElementById('d3').innerHTML)" id="d3">     24       </div>
+  <div class="link" onmouseleave="exit('d4')" onmouseover="enter('d4')" onclick="updateMenu(document.getElementById('d4').innerHTML)" id="d4">     25       </div>
+  <div class="link" onmouseleave="exit('d5')" onmouseover="enter('d5')" onclick="updateMenu(document.getElementById('d5').innerHTML)" id="d5">     26       </div>
+  <div class="link" onmouseleave="exit('d6')" onmouseover="enter('d6')" onclick="updateMenu(document.getElementById('d6').innerHTML)" id="d6">     27       </div>
+  <div class="link" onmouseleave="exit('d7')" onmouseover="enter('d7')" onclick="updateMenu(document.getElementById('d7').innerHTML)" id="d7">     28       </div>
 </div>
 
 <div align="center" class="links">
-  <div class="link" onmouseleave="exit('e1')" onmouseover="enter('e1')" onclick="hello()" id="e1">     29       </div>
-  <div class="link" onmouseleave="exit('e2')" onmouseover="enter('e2')" onclick="hello()" id="e2">     30       </div>
-  <div class="link" onmouseleave="exit('e3')" onmouseover="enter('e3')" onclick="hello()" id="e3">     31       </div>
-  <div class="link" onmouseleave="exit('e4')" onmouseover="enter('e4')" onclick="hello()" id="e4">     31       </div>
-  <div class="link" onmouseleave="exit('e5')" onmouseover="enter('e5')" onclick="hello()" id="e5">     33       </div>
-  <div class="link" onmouseleave="exit('e6')" onmouseover="enter('e6')" onclick="hello()" id="e6">     34       </div>
-  <div class="link" onmouseleave="exit('e7')" onmouseover="enter('e7')" onclick="hello()" id="e7">     35       </div>
+  <div class="link" onmouseleave="exit('e1')" onmouseover="enter('e1')" onclick="updateMenu(document.getElementById('e1').innerHTML)" id="e1">     29       </div>
+  <div class="link" onmouseleave="exit('e2')" onmouseover="enter('e2')" onclick="updateMenu(document.getElementById('e2').innerHTML)" id="e2">     30       </div>
+  <div class="link" onmouseleave="exit('e3')" onmouseover="enter('e3')" onclick="updateMenu(document.getElementById('e3').innerHTML)" id="e3">     31       </div>
+  <div class="link" onmouseleave="exit('e4')" onmouseover="enter('e4')" onclick="updateMenu(document.getElementById('e4').innerHTML)" id="e4">     31       </div>
+  <div class="link" onmouseleave="exit('e5')" onmouseover="enter('e5')" onclick="updateMenu(document.getElementById('e5').innerHTML)" id="e5">     33       </div>
+  <div class="link" onmouseleave="exit('e6')" onmouseover="enter('e6')" onclick="updateMenu(document.getElementById('e6').innerHTML)" id="e6">     34       </div>
+  <div class="link" onmouseleave="exit('e7')" onmouseover="enter('e7')" onclick="updateMenu(document.getElementById('e7').innerHTML)" id="e7">     35       </div>
 </div>
 
 <div align="center" class="links">
-  <div class="link" onmouseleave="exit('f1')" onmouseover="enter('f1')" onclick="hello()" id="f1">     29       </div>
-  <div class="link" onmouseleave="exit('f2')" onmouseover="enter('f2')" onclick="hello()" id="f2">     30       </div>
-  <div class="link" onmouseleave="exit('f3')" onmouseover="enter('f3')" onclick="hello()" id="f3">     31       </div>
-  <div class="link" onmouseleave="exit('f4')" onmouseover="enter('f4')" onclick="hello()" id="f4">     31       </div>
-  <div class="link" onmouseleave="exit('f5')" onmouseover="enter('f5')" onclick="hello()" id="f5">     33       </div>
-  <div class="link" onmouseleave="exit('f6')" onmouseover="enter('f6')" onclick="hello()" id="f6">     34       </div>
-  <div class="link" onmouseleave="exit('f7')" onmouseover="enter('f7')" onclick="hello()" id="f7">     35       </div>
+  <div class="link" onmouseleave="exit('f1')" onmouseover="enter('f1')" onclick="updateMenu(document.getElementById('f1').innerHTML)" id="f1">     29       </div>
+  <div class="link" onmouseleave="exit('f2')" onmouseover="enter('f2')" onclick="updateMenu(document.getElementById('f2').innerHTML)" id="f2">     30       </div>
+  <div class="link" onmouseleave="exit('f3')" onmouseover="enter('f3')" onclick="updateMenu(document.getElementById('f3').innerHTML)" id="f3">     31       </div>
+  <div class="link" onmouseleave="exit('f4')" onmouseover="enter('f4')" onclick="updateMenu(document.getElementById('f4').innerHTML)" id="f4">     31       </div>
+  <div class="link" onmouseleave="exit('f5')" onmouseover="enter('f5')" onclick="updateMenu(document.getElementById('f5').innerHTML)" id="f5">     33       </div>
+  <div class="link" onmouseleave="exit('f6')" onmouseover="enter('f6')" onclick="updateMenu(document.getElementById('f6').innerHTML)" id="f6">     34       </div>
+  <div class="link" onmouseleave="exit('f7')" onmouseover="enter('f7')" onclick="updateMenu(document.getElementById('f7').innerHTML)" id="f7">     35       </div>
 </div>
 <div id=calBot></div>
 
@@ -121,17 +122,18 @@
         setDict(daysInMonth, wD);
         setCalendar();
         document.getElementById("Month").innerHTML = getMonString(Month) + "  " + Year.toString();</script>
+<script>getMeals();</script>
 
 <div id="bottomLinks">
-<a href="/mealspage/11-27-2021" class="bottomLink"><h3>meals page for 11-27-2021</h3></a>
-<a href="/mealspage/12-01-2021" class="bottomLink"><h3>meals page for 12-01-2021</h3></a>
-<a href="" class="bottomLink"><h3>hi</h3></a>
-<a href="" class="bottomLink"><h3>hi</h3></a>
+<a href="/aboutus" class="bottomLink"><h3>About Us</h3></a>
+<a href="/achievements" class="bottomLink"><h3>Achievements</h3></a>
+<a href="/profile" class="bottomLink"><h3>Profile</h3></a>
+<h3> </h3>
 
 </div>
 
 
 </div>
-<h1>Hello</h1>
+<!-- <h1>Hello</h1> -->
 </body>
 </html>

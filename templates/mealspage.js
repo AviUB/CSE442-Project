@@ -1,12 +1,17 @@
 
 
 //var foodname = document.getElementById("fname8").value;
+var path = "";
 
 var Breakfast = [""];
 var Lunch = [""];
 var Dinner = [""];
 var Snacks = [""];
 var str = "";
+
+function setPath(aString) {
+  path = aString;
+}
 /*
 function xmlGetUserFood(mealType) {
   if (mealType = "B") {} //xml req for breakfast, should update Breakfast array and make it display everything stored for breakfast from the server
@@ -62,7 +67,7 @@ function parseAPI(jsonStuff) {
 
 function xmlB() {
   var x = new XMLHttpRequest();
-  var url = "/mealspage";
+  var url = path;
 
 
   x.onreadystatechange = function() {
@@ -82,7 +87,7 @@ function xmlB() {
 
 function xmlL() {
   var x = new XMLHttpRequest();
-  var url = "/mealspage";
+  var url = path;
 
 
   x.onreadystatechange = function() {
@@ -101,7 +106,7 @@ function xmlL() {
 
 function xmlD() {
   var x = new XMLHttpRequest();
-  var url = "/mealspage";
+  var url = path;
 
 
   x.onreadystatechange = function() {
@@ -120,7 +125,7 @@ function xmlD() {
 
 function xmlS() {
   var x = new XMLHttpRequest();
-  var url = "/mealspage";
+  var url = path;
 
 
   x.onreadystatechange = function() {
@@ -147,11 +152,39 @@ var xhr = new XMLHttpRequest()
    xhr.send(formData);
 */
 
+function removeFood(num, meal) {
+  var x = new XMLHttpRequest();
+  var url = path;
+  //var foodSent = document.getElementById("inputOne").value;
+  //console.log("sending " + foodSent + " to the server");
 
+  x.onreadystatechange = function() {
+    if (this.readyState == 4 && this.status == 200) {
+        var jsonStuff = JSON.parse(this.responseText);
+        console.log("we got : " + this.responseText + " from the server");
+        if (meal == "b") {
+          B_response(jsonStuff);
+        }
+        if (meal == "l") {
+          L_response(jsonStuff);
+        }
+        if (meal == "d") {
+          D_response(jsonStuff);
+        }
+        if (meal == "s") {
+          S_response(jsonStuff);
+        }
+
+  }}
+  x.open("POST", url, true);
+  x.setRequestHeader('content-type', 'application/x-www-form-urlencoded;charset=UTF-8');
+  x.send("name=" + num.toString() + meal);
+
+}
 
 function xmlBreakfast() {
   var x = new XMLHttpRequest();
-  var url = "/mealspage";
+  var url = path;
   var foodSent = document.getElementById("inputOne").value;
   console.log("sending " + foodSent + " to the server");
 
@@ -169,7 +202,7 @@ function xmlBreakfast() {
 
 function xmlLunch() {
   var x = new XMLHttpRequest();
-  var url = "/mealspage";
+  var url = path;
   var foodSent = document.getElementById("inputTwo").value;
   console.log("sending " + foodSent + " to the server");
 
@@ -187,7 +220,7 @@ function xmlLunch() {
 
 function xmlDinner() {
   var x = new XMLHttpRequest();
-  var url = "/mealspage";
+  var url = path;
   var foodSent = document.getElementById("inputThree").value;
   console.log("sending " + foodSent + " to the server");
 
@@ -205,7 +238,7 @@ function xmlDinner() {
 
 function xmlSnacks() {
   var x = new XMLHttpRequest();
-  var url = "/mealspage";
+  var url = path;
   var foodSent = document.getElementById("inputFour").value;
   console.log("sending " + foodSent + " to the server");
 
@@ -239,6 +272,14 @@ function B_response(jsonStuff) {
       //console.log(thing);
       p.appendChild( document.createTextNode(jsonStuff[i.toString()]) );
       document.getElementById("B").appendChild(p);
+
+      //<button type="button" onclick="xmlSnacks();">Submit</button>
+      var but = document.createElement("button");
+      but.setAttribute("type", "button");
+      var functn = "removeFood(" + i.toString() +",'b');";
+      but.setAttribute("onclick", functn);
+      but.appendChild( document.createTextNode("Remove") );
+      document.getElementById("B").appendChild(but);
     }
 
 }
@@ -259,6 +300,13 @@ function L_response(jsonStuff) {
       var p = document.createElement("p");
       p.appendChild( document.createTextNode(jsonStuff[i.toString()]) );
       document.getElementById("L").appendChild(p);
+
+      var but = document.createElement("button");
+      but.setAttribute("type", "button");
+      var functn = "removeFood(" + i.toString() +",'l');";
+      but.setAttribute("onclick", functn);
+      but.appendChild( document.createTextNode("Remove") );
+      document.getElementById("L").appendChild(but);
     }
 
 }
@@ -279,6 +327,13 @@ function D_response(jsonStuff) {
       var p = document.createElement("p");
       p.appendChild( document.createTextNode(jsonStuff[i.toString()]) );
       document.getElementById("D").appendChild(p);
+
+      var but = document.createElement("button");
+      but.setAttribute("type", "button");
+      var functn = "removeFood(" + i.toString() +",'d');";
+      but.setAttribute("onclick", functn);
+      but.appendChild( document.createTextNode("Remove") );
+      document.getElementById("D").appendChild(but);
     }
 
 }
@@ -299,6 +354,13 @@ function S_response(jsonStuff) {
       var p = document.createElement("p");
       p.appendChild( document.createTextNode(jsonStuff[i.toString()]) );
       document.getElementById("S").appendChild(p);
+
+      var but = document.createElement("button");
+      but.setAttribute("type", "button");
+      var functn = "removeFood(" + i.toString() +",'s');";
+      but.setAttribute("onclick", functn);
+      but.appendChild( document.createTextNode("Remove") );
+      document.getElementById("S").appendChild(but);
     }
 
 }
@@ -432,7 +494,9 @@ thisiswhereyoudostuffwithjsonfromapi(jsonstuff) {
   dsfljkl
 }
 */
+/*
 setTimeout(function() { xmlB(); }, 1000);
 setTimeout(function() { xmlL(); }, 1500);
 setTimeout(function() { xmlD(); }, 2000);
 setTimeout(function() { xmlS(); }, 2500);
+*/
