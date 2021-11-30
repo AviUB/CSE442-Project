@@ -197,13 +197,115 @@ def dummycalendarpage(username):
         return 'Never returned'
 """
 
+
+
+def getAllMeals():
+    #this method will get the username and then send all of the meals in a nice json back to the client
+    username = session['username']
+    returnJSON = {"1": [""],"2": [""],"3": [""],"4": [""],"5": [""],"6": [""],"7": [""],"8": [""]}
+    returnJSON = {"s": [""]}
+    conn = psycopg2.connect(db_config)
+    cur = conn.cursor()
+    cur.execute("SELECT * FROM smeals WHERE USERNAME = %s", (username,))
+    conn.commit()
+    smeals = cur.fetchall()
+    #smeals is a list of tuples for rows
+
+    snackDict = {"11-11-1911": ["", "", "", "", "", "", "", ""]}
+    dinnerDict = {"11-11-1911": ["", "", "", "", "", "", "", ""]}
+    lunchDict = {"11-11-1911": ["", "", "", "", "", "", "", ""]}
+    breakDict = {"11-11-1911": ["", "", "", "", "", "", "", ""]}
+    if smeals != None:
+        for row in smeals:
+            i = 0
+            y = 0
+
+            key = ""
+            for entry in row:
+
+                if i == 1:
+                    key = str(entry)
+                    snackDict[key] = ["", "", "", "", "", "", "", ""]
+                elif i>2:
+                    if not str(entry).startswith("initialized food item") :
+                        snackDict[key][y] = str(entry)
+                    y+=1
+                i+=1
+    cur.execute("SELECT * FROM dmeals WHERE USERNAME = %s", (username,))
+    conn.commit()
+    dmeals = cur.fetchall()
+    if dmeals != None:
+        for row in dmeals:
+            i = 0
+            y = 0
+
+            key = ""
+            for entry in row:
+
+                if i == 1:
+                    key = str(entry)
+                    dinnerDict[key] = ["", "", "", "", "", "", "", ""]
+                elif i>2:
+                    if not str(entry).startswith("initialized food item") :
+                        dinnerDict[key][y] = str(entry)
+                    y+=1
+                i+=1
+    cur.execute("SELECT * FROM lmeals WHERE USERNAME = %s", (username,))
+    conn.commit()
+    lmeals = cur.fetchall()
+    if lmeals != None:
+        for row in lmeals:
+            i = 0
+            y = 0
+
+            key = ""
+            for entry in row:
+
+                if i == 1:
+                    key = str(entry)
+                    lunchDict[key] = ["", "", "", "", "", "", "", ""]
+                elif i>2:
+                    if not str(entry).startswith("initialized food item") :
+                        lunchDict[key][y] = str(entry)
+                    y+=1
+                i+=1
+    cur.execute("SELECT * FROM bmeals WHERE USERNAME = %s", (username,))
+    conn.commit()
+    bmeals = cur.fetchall()
+    if bmeals != None:
+        for row in bmeals:
+            i = 0
+            y = 0
+
+            key = ""
+            for entry in row:
+
+                if i == 1:
+                    key = str(entry)
+                    breakDict[key] = ["", "", "", "", "", "", "", ""]
+                elif i>2:
+                    if not str(entry).startswith("initialized food item") :
+                        breakDict[key][y] = str(entry)
+                    y+=1
+                i+=1
+    return {"meals": [breakDict, lunchDict, dinnerDict, snackDict]}
+
+
+
 @app.route('/calendar', methods=['GET', 'POST'])
 def calendar():
     if 'username' in session:
-        return render_template("calendar.html")
+        if request.method == 'GET':
+            return render_template("calendar.html")
+        elif request.method == 'POST':
+            return jsonify(getAllMeals())
+        else:
+            abort(404)
+            return 'Never returned'
     else:
         abort(404)
         return 'Never returned'
+
 
 @app.route('/calendar.js')
 def calenOne():
@@ -635,9 +737,13 @@ def pullBdata(date):
     i = 0
     if bmeals != None:
         for elem in bmeals:
+            #print("Element number "+str(i)+" of bmeals is : "+str(elem))
             if i > 2:
                 if not str(elem).startswith("initialized food item") :
-                    returnJSON[str(i-1)] = [str(elem)]
+                    returnJSON[str(i-2)] = [str(elem)]
+                    #print("put "+str(elem)+" as value for key :"+str(i-2))
+            #else:
+                #print("did not append "+str(elem) +" to key "+str(i-2))
             i+=1
     print(returnJSON)
     return returnJSON
@@ -657,7 +763,7 @@ def pullLdata(date):
         for elem in lmeals:
             if i > 2:
                 if not str(elem).startswith("initialized food item") :
-                    returnJSON[str(i-1)] = [str(elem)]
+                    returnJSON[str(i-2)] = [str(elem)]
             i+=1
     return returnJSON
 
@@ -675,7 +781,7 @@ def pullDdata(date):
         for elem in dmeals:
             if i > 2:
                 if not str(elem).startswith("initialized food item") :
-                    returnJSON[str(i-1)] = [str(elem)]
+                    returnJSON[str(i-2)] = [str(elem)]
             i+=1
     return returnJSON
 
@@ -693,9 +799,12 @@ def pullSdata(date):
         for elem in smeals:
             if i > 2:
                 if not str(elem).startswith("initialized food item") :
-                    returnJSON[str(i-1)] = [str(elem)]
+                    returnJSON[str(i-2)] = [str(elem)]
             i+=1
     return returnJSON
+
+
+
 
 def connectAPI(nameOne):
     url = "https://api.nal.usda.gov/fdc/v1/foods/search?api_key=dhIFeY8WhF9o0tUGenudfxO0tAQEvByUb3N9bGIj&dataType=Survey (FNDDS)&query=" + nameOne
@@ -720,6 +829,51 @@ def connectAPI(nameOne):
 
     # this will call the API and return a json
     #return {"food": "got from server"}
+
+def removeEntry(Entry, theMeal, date):
+    responseJSON = ""
+    if theMeal == "b":
+        conn = psycopg2.connect(db_config)
+        cur = conn.cursor()
+        username = session['username']
+        st = "initialized food item space                                                             "
+        cur.execute("UPDATE bmeals SET "+Entry+ " = %s WHERE USERNAME = %s AND DATE = %s", (st, username, date))
+        conn.commit()
+        conn.close()
+        responseJSON = pullBdata(date)
+
+    if theMeal == "l":
+        conn = psycopg2.connect(db_config)
+        cur = conn.cursor()
+        username = session['username']
+        st = "initialized food item space                                                             "
+        cur.execute("UPDATE lmeals SET "+Entry+ " = %s WHERE USERNAME = %s AND DATE = %s", (st, username, date))
+        conn.commit()
+        conn.close()
+        responseJSON = pullLdata(date)
+
+    if theMeal == "d":
+        conn = psycopg2.connect(db_config)
+        cur = conn.cursor()
+        username = session['username']
+        st = "initialized food item space                                                             "
+        cur.execute("UPDATE dmeals SET "+Entry+ " = %s WHERE USERNAME = %s AND DATE = %s", (st, username, date))
+        conn.commit()
+        conn.close()
+        responseJSON = pullDdata(date)
+
+    if theMeal == "s":
+        conn = psycopg2.connect(db_config)
+        cur = conn.cursor()
+        username = session['username']
+        st = "initialized food item space                                                             "
+        cur.execute("UPDATE smeals SET "+Entry+ " = %s WHERE USERNAME = %s AND DATE = %s", (st, username, date))
+        conn.commit()
+        conn.close()
+        responseJSON = pullSdata(date)
+    return responseJSON
+
+
 
 
 @app.route('/mealspage.js')
@@ -827,6 +981,45 @@ def mealspage(date):
             elif food.startswith("zs") :
                 responseJSON = pullSdata(date)
                 return jsonify(responseJSON)
+
+
+
+
+            elif food.startswith("1"):
+                theMeal = food.split("1", maxsplit=1)[1]
+                Entry = "M1"
+                return jsonify(removeEntry(Entry, theMeal, date))
+
+            elif food.startswith("2"):
+                theMeal = food.split("2", maxsplit=1)[1]
+                Entry = "M2"
+                return jsonify(removeEntry(Entry, theMeal, date))
+            elif food.startswith("3"):
+                theMeal = food.split("3", maxsplit=1)[1]
+                Entry = "M3"
+                return jsonify(removeEntry(Entry, theMeal, date))
+            elif food.startswith("4"):
+                theMeal = food.split("4", maxsplit=1)[1]
+                Entry = "M4"
+                return jsonify(removeEntry(Entry, theMeal, date))
+            elif food.startswith("5"):
+                theMeal = food.split("5", maxsplit=1)[1]
+                Entry = "M5"
+                return jsonify(removeEntry(Entry, theMeal, date))
+            elif food.startswith("6"):
+                theMeal = food.split("6", maxsplit=1)[1]
+                Entry = "M6"
+                return jsonify(removeEntry(Entry, theMeal, date))
+            elif food.startswith("7"):
+                theMeal = food.split("7", maxsplit=1)[1]
+                Entry = "M7"
+                return jsonify(removeEntry(Entry, theMeal, date))
+            elif food.startswith("8"):
+                theMeal = food.split("8", maxsplit=1)[1]
+                Entry = "M8"
+                return jsonify(removeEntry(Entry, theMeal, date))
+
+
             else:
                 print("we didn't get any of them")
                 abort(404)
