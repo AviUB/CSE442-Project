@@ -22,6 +22,7 @@ var Nov = 30;
 var Dec = 31;
 
 var mealDict = {};
+var recCals = 0;
 
 var dict = {
   "1": 0, "2": 0, "3": 0, "4": 0, "5": 0, "6": 0, "7": 0,
@@ -35,8 +36,33 @@ var dict = {
 
 function hello() { document.getElementById("a5").innerHTML = "99";}
 
+function totalCals(day) {
+  var grandTotal = 0;
+  for (let someDate in mealDict){
+    if (someDate == (  (Month+1).toString() + "-" + day +"-" +Year.toString()  )) {
+      for (let someKey in someDate){
+        for (let i=0; i<8; i++){
+          if ( mealDict[someDate][someKey][i] != "" ){
+            var theString = mealDict[someDate][someKey][i]
+            const theArray = theString.split("|");
+            for (let elem in theArray){
+              if (elem.includes("calories")){
+                var theCals = parseInt(theString.trim().split(" ")[0]);
+                grandTotal += theCals;
+              }
+            }
+          }
+        }
+      }
+    }
+
+
+  }
+  return grandTotal;
+}
 
 function updateMenu(day) {
+
   var elem = document.getElementById("b");
   while (elem.hasChildNodes()) {
     elem.removeChild(elem.firstChild);
@@ -54,8 +80,10 @@ function updateMenu(day) {
     elem.removeChild(elem.firstChild);
   }
 
+  document.getElementById("recCals").innerHTML = recCals.toString();
+  document.getElementById("totCals").innerHTML = totalCals(day).toString();
 
-  day, Year, Month
+  // day, Year, Month
   var thePath = "/mealspage/" + (Month+1).toString() + "-" + day +"-" +Year.toString();
   console.log(thePath);
   document.getElementById("mealsLink").setAttribute("href", thePath);
@@ -97,10 +125,36 @@ function updateMenu(day) {
 }
 
 
-function getMeals() {
+function getRecCals() {
   // this gets all the meals from the server in a JSON
   var x = new XMLHttpRequest();
   var url = "/calendar";
+
+
+  x.onreadystatechange = function() {
+    if (this.readyState == 4 && this.status == 200) {
+        var jsonStuff = JSON.parse(this.responseText);
+        console.log("we got : " + this.responseText + " from the server");
+        parseRecCal(jsonStuff);
+
+  }}
+  x.open("POST", url, true);
+  x.send();
+}
+
+function parseRecCal(someJSON) {
+  // {"Rec": int (calorie number)}
+  console.log("Here is your recommended daily calorie intake"+someJSON["Rec"]);
+  recCals = someJSON["Rec"];
+
+}
+
+
+
+function getMeals() {
+  // this gets all the meals from the server in a JSON
+  var x = new XMLHttpRequest();
+  var url = "/doWork/getMeals";
 
 
   x.onreadystatechange = function() {
@@ -183,10 +237,10 @@ function parseMeals(jsonStuff) {
 
     dateDict[dateKey]["snack"] = snackList;
   }
-  console.log(dateDict["10-10-1960"]["snack"]);
-  console.log(dateDict["10-10-1960"]["dinner"]);
-  console.log(dateDict["10-10-1960"]["lunch"]);
-  console.log(dateDict["10-10-1960"]["break"]);
+  //console.log(dateDict["10-10-1960"]["snack"]);
+  //console.log(dateDict["10-10-1960"]["dinner"]);
+  //console.log(dateDict["10-10-1960"]["lunch"]);
+  //console.log(dateDict["10-10-1960"]["break"]);
   console.log(dateDict);
   mealDict = dateDict;
 }

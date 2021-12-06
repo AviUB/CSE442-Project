@@ -17,25 +17,51 @@
     <form action="/profile" method="post">
         <input value="weight" name="type" type="hidden">
         <label for="weight-pounds">Weight (lb.): </label>
-        <input value={{ user['pounds'] }} id="weight-pounds" type="number", name="weight">
+        <input value={{ user['pounds'] }} id="weight-pounds" type="number" name="weight">
         <input type="submit" value="Update Weight">
     </form>
 
     <form action="/profile" method="post">
         <input value="password" name="type" type="hidden">
         <label for="current_pw">Current Password:</label>
-        <input id="current_pw" type="text" minlength=8, name="current_pw">
+        <input id="current_pw" type="text" minlength=8 name="current_pw">
         <label for="new_pw">New Password:</label>
-        <input id="new_pw" type="text" minlength=8, name="new_pw">
+        <input id="new_pw" type="text" minlength=8 name="new_pw">
         <input type="submit" value="Update Password">
     </form>
 
     <form action="/profile" method="post">
         <input value="delete" name="type" type="hidden">
         <label for="current_pw">Current Password:</label>
-        <input id="current_pw" type="text" minlength=8, name="current_pw">
+        <input id="current_pw" type="text" minlength=8 name="current_pw">
         <input type="submit" value="Delete Account">
     </form>
+    <br>
+    <form action="/profile" method="post">
+        <input value="age" name="type" type="hidden">
+        <label for="age">Age: </label>
+        <input value={{ user['age'] }} id="age" type="number" name="age"> <br/>
+        <input type="submit" value="Update Age">
+    </form>
+    <br>
+    <h3>Input 0 for male, 1 for female, or 2 for other</h3>
+    <br>
+    <form action="/profile" method="post">
+        <input value="gender" name="type" type="hidden">
+        <label for="gender">Gender: </label>
+        <input value={{ user['gender'] }} id="gender" type="number" name="gender"> <br/>
+        <input type="submit" value="Update Gender">
+    </form>
+    <br>
+    <h3>Input 1 for little/no weekly exercise, 2 for light weekly exercise, 3 for moderate exercise, 4 for hard exercise, and 5 for extra hard exercise</h3>
+    <br>
+    <form action="/profile" method="post">
+        <input value="activity" name="type" type="hidden">
+        <label for="activity">Activity: </label>
+        <input value={{ user['activity'] }} id="activity" type="number" name="activity"> <br/>
+        <input type="submit" value="Update Activity">
+    </form>
+
 
 </div>
 {% endblock %}
