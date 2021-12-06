@@ -40,20 +40,82 @@ function totalCals(day) {
   var grandTotal = 0;
   for (let someDate in mealDict){
     if (someDate == (  (Month+1).toString() + "-" + day +"-" +Year.toString()  )) {
-      for (let someKey in someDate){
-        for (let i=0; i<8; i++){
-          if ( mealDict[someDate][someKey][i] != "" ){
-            var theString = mealDict[someDate][someKey][i]
-            const theArray = theString.split("|");
-            for (let elem in theArray){
-              if (elem.includes("calories")){
-                var theCals = parseInt(theString.trim().split(" ")[0]);
+
+
+      for (let i=0; i<8; i++){
+        //console.log(mealDict[someDate]["break"])
+        console.log(mealDict[someDate]["break"][i])
+        if (mealDict[someDate]["break"][i] != ""){
+            //console.log(elem)
+            console.log("Yay we made it with"+ mealDict[someDate]["break"][i])
+            const theArray = mealDict[someDate]["break"][i].split("|");
+            console.log(theArray)
+            for (let q=0; q<theArray.length; q++){
+              console.log(theArray[q])
+              if (theArray[q].includes("calories")){
+                var theCals = parseInt(theArray[q].trim().split(" ")[0]);
                 grandTotal += theCals;
               }
             }
-          }
+
         }
       }
+      for (let i=0; i<8; i++){
+        //console.log(mealDict[someDate]["break"])
+        console.log(mealDict[someDate]["lunch"][i])
+        if (mealDict[someDate]["lunch"][i] != ""){
+            //console.log(elem)
+            //console.log("Yay we made it with"+ mealDict[someDate]["break"][i])
+            const theArray = mealDict[someDate]["lunch"][i].split("|");
+            console.log(theArray)
+            for (let q=0; q<theArray.length; q++){
+              console.log(theArray[q])
+              if (theArray[q].includes("calories")){
+                var theCals = parseInt(theArray[q].trim().split(" ")[0]);
+                grandTotal += theCals;
+              }
+            }
+
+        }
+      }
+      for (let i=0; i<8; i++){
+        //console.log(mealDict[someDate]["break"])
+        console.log(mealDict[someDate]["dinner"][i])
+        if (mealDict[someDate]["dinner"][i] != ""){
+            //console.log(elem)
+            //console.log("Yay we made it with"+ mealDict[someDate]["break"][i])
+            const theArray = mealDict[someDate]["dinner"][i].split("|");
+            console.log(theArray)
+            for (let q=0; q<theArray.length; q++){
+              console.log(theArray[q])
+              if (theArray[q].includes("calories")){
+                var theCals = parseInt(theArray[q].trim().split(" ")[0]);
+                grandTotal += theCals;
+              }
+            }
+
+        }
+      }
+      for (let i=0; i<8; i++){
+        //console.log(mealDict[someDate]["break"])
+        console.log(mealDict[someDate]["snack"][i])
+        if (mealDict[someDate]["snack"][i] != ""){
+            //console.log(elem)
+            //console.log("Yay we made it with"+ mealDict[someDate]["break"][i])
+            const theArray = mealDict[someDate]["snack"][i].split("|");
+            console.log(theArray)
+            for (let q=0; q<theArray.length; q++){
+              console.log(theArray[q])
+              if (theArray[q].includes("calories")){
+                var theCals = parseInt(theArray[q].trim().split(" ")[0]);
+                grandTotal += theCals;
+              }
+            }
+
+        }
+      }
+
+
     }
 
 
