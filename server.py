@@ -11,12 +11,13 @@ db_config = os.environ["DATABASE_URL"] if "DATABASE_URL" in os.environ else "use
 app = Flask(__name__)
 app.secret_key = os.environ["SECRET_KEY"] if "SECRET_KEY" in os.environ else "123456"
 
-def create_account(username, password, feet, inches, weight):
+def create_account(username, password, feet, inches, weight, age, gend, act):
+
     #conn = psycopg2.connect(db_config, sslmode='require')
     conn = psycopg2.connect(db_config)
     cur = conn.cursor()
     hashkey = hashlib.pbkdf2_hmac('sha256', bytes(password, 'utf-8'), bytes(username, 'utf-8'), 100000)
-    cur.execute("INSERT INTO users (username, password, feet, inches, weight) VALUES (%s, %s, %s, %s, %s)", (username, hashkey.hex(), feet, inches, weight))
+    cur.execute("INSERT INTO users (username, password, feet, inches, weight, age, gender, activity) VALUES (%s, %s, %s, %s, %s, %s, %s, %s)", (username, hashkey.hex(), feet, inches, weight, age, gend, act))
 
 
     cur.execute("INSERT INTO ACHS(USERNAME, LOGINS, MEALSMADE, ACH1, ACH2, ACH3) VALUES (%s, 0, 0, 'no', 'no', 'no')", (username,))
@@ -70,7 +71,8 @@ def initialize_db():
     conn = psycopg2.connect(db_config)
     cur = conn.cursor()
     cur.execute("DROP TABLE IF EXISTS users")
-    cur.execute("CREATE TABLE IF NOT EXISTS users (username varchar, password varchar, feet int, inches int, weight int)")
+    #feet, inches, weight, age, gender(0-male, 1-female, 2-other), activity(1-little,2-light,3-moderate,4-very active,5-extra active)
+    cur.execute("CREATE TABLE IF NOT EXISTS users (username varchar, password varchar, feet int, inches int, weight int, age int, gender int, activity int)")
 
     #cur.execute("INSERT INTO users (username, password) VALUES (%s, %s)", ("Jake", "password"))
 
@@ -109,7 +111,7 @@ def initialize_db():
 
 
     hashkey = hashlib.pbkdf2_hmac('sha256', bytes("blahblah", 'utf-8'), bytes("Jake", 'utf-8'), 100000)
-    cur.execute("INSERT INTO users (username, password, feet, inches, weight) VALUES (%s, %s, %s, %s, %s)", ("Jake", hashkey.hex(), 6, 2, 200))
+    cur.execute("INSERT INTO users (username, password, feet, inches, weight, age, gender, activity) VALUES (%s, %s, %s, %s, %s, %s, %s, %s)", ("Jake", hashkey.hex(), 5, 8, 180, 21, 0, 2))
 
 
     cur.execute("INSERT INTO ACHS(USERNAME, LOGINS, MEALSMADE, ACH1, ACH2, ACH3) VALUES (%s, 0, 0, 'no', 'no', 'no')", ("Jake",))
@@ -182,7 +184,7 @@ def create_account_page():
                                    request.form['password'],
                                    request.form['height_ft'],
                                    request.form['height_in'],
-                                   request.form['weight'])
+                                   request.form['weight'], request.form['age'], request.form['gender'], request.form['act'])
         else:
             return invalid_account()
     else:
@@ -291,6 +293,61 @@ def getAllMeals():
     return {"meals": [breakDict, lunchDict, dinnerDict, snackDict]}
 
 
+@app.route('/doWork/<aThing>', methods=['GET', 'POST'])
+def getTheMeals(aThing):
+    if 'username' in session:
+        if request.method == 'POST':
+            if aThing == "getMeals":
+                return jsonify(getAllMeals())
+
+def recommendCals(user):
+    #feet, inches, weight, age, gender(0-male, 1-female, 2-other), activity(1-little,2-light,3-moderate,4-very active,5-extra active)
+    #cur.execute("CREATE TABLE IF NOT EXISTS users (username varchar, password varchar, feet int, inches int, weight int, age int, gender int, activity, int)")
+    age=0
+    gender=2
+    act=0
+    weight=0
+    feet=0
+    inch=0
+    bmr=0
+    conn = psycopg2.connect(db_config)
+    cur = conn.cursor()
+    cur.execute("SELECT * FROM users WHERE USERNAME = %s", (user,))
+    conn.commit()
+    entries = cur.fetchall()[0]
+    print(entries)
+    conn.close()
+    if entries == None or entries == [] or entries == set():
+        return -1
+    else:
+        age=entries[5]
+        gender=entries[6]
+        act=entries[7]
+        weight=entries[4]
+        feet=entries[2]
+        inch=entries[3]
+        totH=((feet*12)+inch)*2.54
+        if gender == 0:
+            #for men...
+            #BMR = 66 + (13.7 x weight in kilos) + (5 x height in cm) – (6.8 x age in years)
+            bmr = 66 + (13.7 * (weight / 2.2)) + (5 * totH) - (6.8 * age)
+        else:
+            #for women, or other...
+            #BMR = 655 + (9.6 X weight in kilos) + (1.8 X height in cm) – (4.7 x age in years).
+            bmr = 655 + (9.6 * (weight / 2.2)) + (1.8 * totH) - (4.7 * age)
+
+        if act == 1:
+            return {"Rec":(1.2 * bmr)}
+        elif act == 2:
+            return {"Rec":(1.375 * bmr)}
+        elif act == 3:
+            return {"Rec":(1.55 * bmr)}
+        elif act == 4:
+            return {"Rec":(1.725 * bmr)}
+        elif act == 5:
+            return {"Rec":(1.9 * bmr)}
+
+
 
 @app.route('/calendar', methods=['GET', 'POST'])
 def calendar():
@@ -298,7 +355,7 @@ def calendar():
         if request.method == 'GET':
             return render_template("calendar.html")
         elif request.method == 'POST':
-            return jsonify(getAllMeals())
+            return jsonify( recommendCals(session['username']) )
         else:
             abort(404)
             return 'Never returned'
@@ -731,270 +788,6 @@ def sData(name, date):
         print("SOMETHING WENT TERRIBLY WRONG")
         return False
 
-"""
-def lData(name, date):
-    username = session['username']
-
-    conn = psycopg2.connect(db_config)
-    cur = conn.cursor()
-
-
-    cur.execute("SELECT (EXISTS (SELECT * FROM lmeals WHERE USERNAME = %s AND DATE = %s))", (username, date))
-    conn.commit()
-    exists = cur.fetchone()[0]
-    print("exists is equal to : " + str(exists))
-    if bool(exists):
-        #!!!!!!!!!!!!!!!!! make sure you set bmeals to zero in initialize db
-        cur.execute("SELECT NOMEALS FROM lmeals WHERE USERNAME = %s  AND DATE = %s", (username, date))
-        conn.commit()
-        lmeals = cur.fetchone()[0]
-        #print("GOT THE LOGINS" + str(logins) + "\n")
-
-        #this tells us what slot we should put the food in
-        foodSlot = ""
-        if ( (lmeals+1) < 9):
-            foodSlot = "M" + str(lmeals + 1)
-        else:
-            foodSlot = "M1"
-            cur.execute("UPDATE lmeals SET NOMEALS = 0 WHERE USERNAME = %s AND DATE = %s", (username, date))
-        #foodSlot, name, username
-        sql = "UPDATE lmeals SET "+foodSlot+" = %s WHERE USERNAME = %s AND DATE = %s"
-        cur.execute(sql, (name, username, date))
-        conn.commit()
-        cur.execute("UPDATE lmeals SET NOMEALS = NOMEALS + 1 WHERE USERNAME = %s AND DATE = %s", (username, date))
-        print("updating mealsMade\n")
-        cur.execute("UPDATE ACHS SET MEALSMADE = MEALSMADE + 1 WHERE USERNAME = %s", (session['username'],))
-
-        conn.commit()
-
-        cur.execute("SELECT * FROM lmeals WHERE USERNAME = %s  AND DATE = %s", (username, date))
-        conn.commit()
-        lmeals = cur.fetchone()
-        for elem in lmeals:
-            print(elem)
-
-        conn.close()
-        return True
-    elif bool(exists) == False:
-
-        print("EXISTS was false")
-        strng = "initialized food item space                                                             "
-        cur.execute("INSERT INTO lmeals(USERNAME, DATE, NOMEALS, M1, M2, M3, M4, M5, M6, M7, M8) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)", (username, date, 0, strng, strng, strng, strng, strng, strng, strng, strng))
-        conn.commit()
-        cur.execute("SELECT NOMEALS FROM lmeals WHERE USERNAME = %s  AND DATE = %s", (username, date))
-        conn.commit()
-        lmeals = cur.fetchone()[0]
-        #print("GOT THE LOGINS" + str(logins) + "\n")
-
-        #this tells us what slot we should put the food in
-        foodSlot = ""
-        if ( (lmeals+1) < 9):
-            foodSlot = "M" + str(lmeals + 1)
-        else:
-            foodSlot = "M1"
-            cur.execute("UPDATE lmeals SET NOMEALS = 0 WHERE USERNAME = %s AND DATE = %s", (username, date))
-        #foodSlot, name, username
-        sql = "UPDATE lmeals SET "+foodSlot+" = %s WHERE USERNAME = %s AND DATE = %s"
-        cur.execute(sql, (name, username, date))
-        conn.commit()
-        cur.execute("UPDATE lmeals SET NOMEALS = NOMEALS + 1 WHERE USERNAME = %s AND DATE = %s", (username, date))
-        print("updating mealsMade\n")
-        cur.execute("UPDATE ACHS SET MEALSMADE = MEALSMADE + 1 WHERE USERNAME = %s", (session['username'],))
-
-        conn.commit()
-
-        cur.execute("SELECT * FROM lmeals WHERE USERNAME = %s  AND DATE = %s", (username, date))
-        conn.commit()
-        lmeals = cur.fetchone()
-        for elem in lmeals:
-            print(elem)
-
-        conn.close()
-        return True
-    else:
-        conn.close()
-        print("SOMETHING WENT TERRIBLY WRONG")
-        return False
-"""
-"""
-def dData(name, date):
-    username = session['username']
-
-    conn = psycopg2.connect(db_config)
-    cur = conn.cursor()
-
-
-
-    cur.execute("SELECT (EXISTS (SELECT * FROM dmeals WHERE USERNAME = %s AND DATE = %s))", (username, date))
-    conn.commit()
-    exists = cur.fetchone()[0]
-    print("exists is equal to : " + str(exists))
-    if bool(exists):
-
-        #!!!!!!!!!!!!!!!!! make sure you set bmeals to zero in initialize db
-        cur.execute("SELECT NOMEALS FROM dmeals WHERE USERNAME = %s  AND DATE = %s", (username, date))
-        conn.commit()
-        dmeals = cur.fetchone()[0]
-        #print("GOT THE LOGINS" + str(logins) + "\n")
-
-        #this tells us what slot we should put the food in
-        foodSlot = ""
-        if ( (dmeals+1) < 9):
-            foodSlot = "M" + str(dmeals + 1)
-        else:
-            foodSlot = "M1"
-            cur.execute("UPDATE dmeals SET NOMEALS = 0 WHERE USERNAME = %s AND DATE = %s", (username, date))
-        #foodSlot, name, username
-        sql = "UPDATE dmeals SET "+foodSlot+" = %s WHERE USERNAME = %s AND DATE = %s"
-        cur.execute(sql, (name, username, date))
-        conn.commit()
-        cur.execute("UPDATE dmeals SET NOMEALS = NOMEALS + 1 WHERE USERNAME = %s AND DATE = %s", (username, date))
-        print("updating mealsMade\n")
-        cur.execute("UPDATE ACHS SET MEALSMADE = MEALSMADE + 1 WHERE USERNAME = %s", (session['username'],))
-
-        conn.commit()
-
-        cur.execute("SELECT * FROM dmeals WHERE USERNAME = %s AND DATE = %s", (username, date))
-        conn.commit()
-        dmeals = cur.fetchone()
-        for elem in dmeals:
-            print(elem)
-
-        conn.close()
-        return True
-    elif bool(exists) == False:
-
-        print("EXISTS was false")
-        strng = "initialized food item space                                                             "
-        cur.execute("INSERT INTO dmeals(USERNAME, DATE, NOMEALS, M1, M2, M3, M4, M5, M6, M7, M8) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)", (username, date, 0, strng, strng, strng, strng, strng, strng, strng, strng))
-        conn.commit()
-        cur.execute("SELECT NOMEALS FROM dmeals WHERE USERNAME = %s  AND DATE = %s", (username, date))
-        conn.commit()
-        dmeals = cur.fetchone()[0]
-        #print("GOT THE LOGINS" + str(logins) + "\n")
-
-        #this tells us what slot we should put the food in
-        foodSlot = ""
-        if ( (dmeals+1) < 9):
-            foodSlot = "M" + str(dmeals + 1)
-        else:
-            foodSlot = "M1"
-            cur.execute("UPDATE dmeals SET NOMEALS = 0 WHERE USERNAME = %s AND DATE = %s", (username, date))
-        #foodSlot, name, username
-        sql = "UPDATE dmeals SET "+foodSlot+" = %s WHERE USERNAME = %s AND DATE = %s"
-        cur.execute(sql, (name, username, date))
-        conn.commit()
-        cur.execute("UPDATE dmeals SET NOMEALS = NOMEALS + 1 WHERE USERNAME = %s AND DATE = %s", (username, date))
-        print("updating mealsMade\n")
-        cur.execute("UPDATE ACHS SET MEALSMADE = MEALSMADE + 1 WHERE USERNAME = %s", (session['username'],))
-
-        conn.commit()
-
-        cur.execute("SELECT * FROM dmeals WHERE USERNAME = %s AND DATE = %s", (username, date))
-        conn.commit()
-        dmeals = cur.fetchone()
-        for elem in dmeals:
-            print(elem)
-
-        conn.close()
-        return True
-
-    else:
-        conn.close()
-        print("SOMETHING WENT TERRIBLY WRONG")
-        return False
-"""
-
-
-
-
-
-
-"""
-def sData(name, date):
-    username = session['username']
-
-    conn = psycopg2.connect(db_config)
-    cur = conn.cursor()
-
-
-    cur.execute("SELECT (EXISTS (SELECT * FROM smeals WHERE USERNAME = %s AND DATE = %s))", (username, date))
-    conn.commit()
-    exists = cur.fetchone()[0]
-    print("exists is equal to : " + str(exists))
-    if bool(exists):
-        #!!!!!!!!!!!!!!!!! make sure you set bmeals to zero in initialize db
-        cur.execute("SELECT NOMEALS FROM smeals WHERE USERNAME = %s AND DATE = %s", (username, date))
-        conn.commit()
-        smeals = cur.fetchone()[0]
-        #print("GOT THE LOGINS" + str(logins) + "\n")
-
-        #this tells us what slot we should put the food in
-        foodSlot = ""
-        if ( (smeals+1) < 9):
-            foodSlot = "M" + str(smeals + 1)
-        else:
-            foodSlot = "M1"
-            cur.execute("UPDATE smeals SET NOMEALS = 0 WHERE USERNAME = %s AND DATE = %s", (username, date))
-        #foodSlot, name, username
-        sql = "UPDATE smeals SET "+foodSlot+" = %s WHERE USERNAME = %s AND DATE = %s"
-        cur.execute(sql, (name, username, date))
-        conn.commit()
-        cur.execute("UPDATE smeals SET NOMEALS = NOMEALS + 1 WHERE USERNAME = %s AND DATE = %s", (username, date))
-        print("updating mealsMade\n")
-        cur.execute("UPDATE ACHS SET MEALSMADE = MEALSMADE + 1 WHERE USERNAME = %s", (session['username'],))
-
-        conn.commit()
-
-        cur.execute("SELECT * FROM smeals WHERE USERNAME = %s  AND DATE = %s", (username, date))
-        conn.commit()
-        smeals = cur.fetchone()
-        for elem in smeals:
-            print(elem)
-
-        conn.close()
-        return True
-    elif bool(exists) == False:
-
-        print("EXISTS was false")
-        strng = "initialized food item space                                                             "
-        cur.execute("INSERT INTO smeals(USERNAME, DATE, NOMEALS, M1, M2, M3, M4, M5, M6, M7, M8) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)", (username, date, 0, strng, strng, strng, strng, strng, strng, strng, strng))
-        conn.commit()
-        cur.execute("SELECT NOMEALS FROM smeals WHERE USERNAME = %s AND DATE = %s", (username, date))
-        conn.commit()
-        smeals = cur.fetchone()[0]
-        #print("GOT THE LOGINS" + str(logins) + "\n")
-
-        #this tells us what slot we should put the food in
-        foodSlot = ""
-        if ( (smeals+1) < 9):
-            foodSlot = "M" + str(smeals + 1)
-        else:
-            foodSlot = "M1"
-            cur.execute("UPDATE smeals SET NOMEALS = 0 WHERE USERNAME = %s AND DATE = %s", (username, date))
-        #foodSlot, name, username
-        sql = "UPDATE smeals SET "+foodSlot+" = %s WHERE USERNAME = %s AND DATE = %s"
-        cur.execute(sql, (name, username, date))
-        conn.commit()
-        cur.execute("UPDATE smeals SET NOMEALS = NOMEALS + 1 WHERE USERNAME = %s AND DATE = %s", (username, date))
-        print("updating mealsMade\n")
-        cur.execute("UPDATE ACHS SET MEALSMADE = MEALSMADE + 1 WHERE USERNAME = %s", (session['username'],))
-
-        conn.commit()
-
-        cur.execute("SELECT * FROM smeals WHERE USERNAME = %s  AND DATE = %s", (username, date))
-        conn.commit()
-        smeals = cur.fetchone()
-        for elem in smeals:
-            print(elem)
-
-        conn.close()
-        return True
-    else:
-        conn.close()
-        print("SOMETHING WENT TERRIBLY WRONG")
-        return False
-"""
 
 def pullBdata(date):
     print("we made it inside pullBData")
@@ -1307,7 +1100,7 @@ def mealspage(date):
 def get_user(username):
     conn = psycopg2.connect(db_config)
     cur = conn.cursor()
-    cur.execute("SELECT feet, inches, weight FROM users WHERE username=%s", (username, ))
+    cur.execute("SELECT feet, inches, weight, age, gender, activity FROM users WHERE username=%s", (username, ))
     user = cur.fetchone()
     return user
 
@@ -1323,6 +1116,12 @@ def profile():
             update_weight(username, request.form["weight"])
         elif type_ == "password":
             update_password(username, request.form["current_pw"], request.form["new_pw"])
+        elif type_ == "age":
+            update_age(username, request.form["age"])
+        elif type_ == "gender":
+            update_gender(username, request.form["gender"])
+        elif type_ == "activity":
+            update_activity(username, request.form["activity"])
         elif type_ == "delete":
             if not delete_user(username, request.form['current_pw']):
                 return render_template("profile.html")
@@ -1336,7 +1135,7 @@ def profile():
 
     user = get_user(username)
     if user != None:
-        return render_template("profile.html", user={"username": username,"feet": user[0], "inches": user[1], "pounds": user[2]})
+        return render_template("profile.html", user={"username": username,"feet": user[0], "inches": user[1], "pounds": user[2], "age": user[3], "gender": user[4], "activity": user[5]})
     else:
         print(f"Could NOT Find User: {username}")
         return render_template("profile.html")
@@ -1345,7 +1144,8 @@ def profile():
 def delete_user(username, password):
     if not verify_login(username, password):
         return False
-    conn = psycopg2.connect(db_config, sslmode="require")
+    #conn = psycopg2.connect(db_config, sslmode="require")
+    conn = psycopg2.connect(db_config)
     cur = conn.cursor()
     hashkey = hashlib.pbkdf2_hmac('sha256', bytes(password, 'utf-8'), bytes(username, 'utf-8'), 100000).hex()
     cur.execute("DELETE FROM users where username=%s AND password=%s", (username, hashkey))
@@ -1354,16 +1154,37 @@ def delete_user(username, password):
     return True
 
 def update_height(username, feet, inches):
-    conn = psycopg2.connect(db_config, sslmode='require')
+    conn = psycopg2.connect(db_config)
     cur = conn.cursor()
     cur.execute("UPDATE users SET feet=%s, inches=%s WHERE username=%s", (feet, inches, username))
     conn.commit()
     conn.close()
 
 def update_weight(username, weight):
-    conn = psycopg2.connect(db_config, sslmode='require')
+    conn = psycopg2.connect(db_config)
     cur = conn.cursor()
     cur.execute("UPDATE users SET weight=%s WHERE username=%s", (weight, username))
+    conn.commit()
+    conn.close()
+
+def update_age(username, age):
+    conn = psycopg2.connect(db_config)
+    cur = conn.cursor()
+    cur.execute("UPDATE users SET age=%s WHERE username=%s", (age, username))
+    conn.commit()
+    conn.close()
+
+def update_gender(username, gender):
+    conn = psycopg2.connect(db_config)
+    cur = conn.cursor()
+    cur.execute("UPDATE users SET gender=%s WHERE username=%s", (gender, username))
+    conn.commit()
+    conn.close()
+
+def update_activity(username, activity):
+    conn = psycopg2.connect(db_config)
+    cur = conn.cursor()
+    cur.execute("UPDATE users SET activity=%s WHERE username=%s", (activity, username))
     conn.commit()
     conn.close()
 
@@ -1371,7 +1192,7 @@ def update_password(username, current, new):
     if not verify_login(username, current):
         return
     hashkey = hashlib.pbkdf2_hmac('sha256', bytes(new, 'utf-8'), bytes(username, 'utf-8'), 100000).hex()
-    conn = psycopg2.connect(db_config, sslmode='require')
+    conn = psycopg2.connect(db_config)
     cur = conn.cursor()
     cur.execute("UPDATE users SET password=%s WHERE username=%s", (hashkey, username))
     conn.commit()

@@ -8,7 +8,7 @@
 <body>
 <h1>Meals Page</h1>
 @@
-<a href="calendarpage.html" target="../calendar">Visit Calendarpage!</a>
+<a href="../calendar">Visit Calendarpage!</a>
 
 <h1>Breakfast</h1>
 <p><pre class="tab">Food   |   Calories   |   Carbs   |    Fat   |   protein   |</pre> </p>
