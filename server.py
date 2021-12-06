@@ -4,6 +4,7 @@ import os
 import psycopg2
 import hashlib
 import urllib.request
+import urllib.parse
 import json
 
 db_config = os.environ["DATABASE_URL"] if "DATABASE_URL" in os.environ else "user=postgres password=cse442project"
@@ -11,12 +12,15 @@ db_config = os.environ["DATABASE_URL"] if "DATABASE_URL" in os.environ else "use
 app = Flask(__name__)
 app.secret_key = os.environ["SECRET_KEY"] if "SECRET_KEY" in os.environ else "123456"
 
+recipe_api = ("https://api.spoonacular.com/recipes/findByIngredients?apiKey=" + os.environ["RECIPE_KEY"]) if "RECIPE_KEY" in os.environ else "Not a valid URL"
+recipe_key_api = ("apiKey=" + os.environ["RECIPE_KEY"]) if "RECIPE_KEY" in os.environ else "Not a valid URL"
+
 def create_account(username, password, feet, inches, weight):
     #conn = psycopg2.connect(db_config, sslmode='require')
     conn = psycopg2.connect(db_config)
     cur = conn.cursor()
     hashkey = hashlib.pbkdf2_hmac('sha256', bytes(password, 'utf-8'), bytes(username, 'utf-8'), 100000)
-    cur.execute("INSERT INTO users (username, password, feet, inches, weight) VALUES (%s, %s)", (username, hashkey.hex(), feet, inches, weight))
+    cur.execute("INSERT INTO users (username, password, feet, inches, weight) VALUES (%s, %s, %s, %s, %s)", (username, hashkey.hex(), feet, inches, weight))
 
 
     cur.execute("INSERT INTO ACHS(USERNAME, LOGINS, MEALSMADE, ACH1, ACH2, ACH3) VALUES (%s, 0, 0, 'no', 'no', 'no')", (username,))
@@ -647,6 +651,117 @@ def getHash(username):
     else:
         abort(404)
         return 'Never returned'
+
+@app.route('/recipes', methods=["GET", "POST"])
+def recipe_page():
+    if request.method == 'POST':
+        request = recipe_api + "&number=2&ingreients="
+        for food in request.form.getlist("food"):
+            request = request + urllib.parse.quote_plus(food)+","
+        request = request[:-1]
+        print("spoon meal search")
+        x = urllib.request.urlopen(request)
+        print(x)
+        stuff = json.load(x)
+        print(stuff)
+        if len(stuff) == 0:
+            return render_template("recipe_results.html", recipes="<p>No results found :(</p>")
+        url = "https://api.spoonacular.com/recipes/informationBulk?ids="
+        for meal in stuff:
+            meal_id = meal["id"]
+            url = url + meal_id + ","
+        url = url[:-1]#chop off extra comma
+        url = url + "&" + recipe_api_key
+        print("spoon recipe lookup")
+        x = urllib.request.urlopen(request)
+        print(x)
+        stuff = json.load(x)
+        print(stuff)
+        output = ""
+        for recipe in stuff:
+            name = recipe['name']
+            url = "none"
+            if "sourceURL" in recipe:
+                url = recipe['sourceURL']
+            elif "spoonacularSourceURL" in recipe:
+                url = recipe['spoonacularSourceURL']
+            output = output + "<p>" + name + "</p>"
+            output = output+"<br>"
+            if url != "none":
+                output = output+'<a href="'+url+'">Link to Recipe</a>'
+                output = output+"<br>"
+            output = output+"<br>"
+        if output == "":
+            output = "<p>No results Found :(</p>"
+        return render_template("recipe_results.html", recipes=output)
+    elif request.method == 'GET':
+        return render_template('recipes.html')
+    return ''
+
+@app.route("/recipes.js")
+def recone():
+    return render_remplate("recipes.js")
+
+#@app.route('/reciperesults', methods=["POST"])
+#def get_recipes(recipes):
+#return ''
+
+#@app.route('/testloadmeals', methods=["GET", "POST"])
+#def meal_selection_test():
+#    if request.method == 'GET':
+#        return render_template('selecttest.html')
+#    elif request.method == 'POST':
+#        return_string = "<p>Got from request: "
+#        for food in request.form.getlist("foods"):
+#            return_string = return_string + food + " "
+#        return_string = return_string + "</p>"
+#        return return_string
+#    return ''
+
+#@app.route('/testtexttoapi', methods=["GET", "POST"])
+#def recipe_search_test():
+#    if request.method == 'GET':
+#        return render_template('texttest.html')
+#    elif request.method == 'POST':
+#        request = recipe_api + "&number=2&ingreients="
+#        for food in request.form.getlist("food"):
+#            request = request + urllib.parse.quote_plus(food)
+#        print("spoon meal search")
+#        x = urllib.request.urlopen(request)
+#        print(x)
+#        stuff = json.load(x)
+#        print(stuff)
+#        if len(stuff) == 0:
+#            return "<p>No results found :(</p>"
+#        url = "https://api.spoonacular.com/recipes/informationBulk?ids="
+#        for meal in stuff:
+#            meal_id = meal["id"]
+#            url = url + meal_id + ","
+#        url = url + "&" + recipe_api_key
+#        print("spoon recipe lookup")
+#        x = urllib.request.urlopen(request)
+#        print(x)
+#        stuff = json.load(x)
+#        print(stuff)
+#        output = ""
+#        for recipe in stuff:
+#            name = recipe['name']
+#           url = "none"
+#           if "sourceURL" in recipe:
+#               url = recipe['sourceURL']
+#            elif "spoonacularSourceURL" in recipe:
+#               url = recipe['spoonacularSourceURL']
+#            output = output + "<p>" + name + "</p>"
+#           if url != "none":
+#               output = output+'<a href="'+url+'">Link to Recipe</a>'
+#            output = output+"<br>"
+#        return output
+#            
+#    return ''
+
+#@app.route('/selecttest.js')
+#def testOne():
+#    return render_template('selecttest.js')
 
 if __name__=="__main__":
     setup = initialize_db()
