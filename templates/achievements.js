@@ -19,7 +19,8 @@
 // getTheJSON();
 jsonThing = {"1": ["Achievement: Would you look at the time!", "Successfully logged in for the first time.", "1"],
             "2": ["Achievement: Here comes the plane!", "Create your first meal.", "0"],
-            "3": ["Achievement: Who's hungry?", "Login on 3 separate occasions.", "0"]};
+            "3": ["Achievement: Who's hungry?", "Login on 3 separate occasions.", "0"],
+            "4": ["Achievement: Staying within calories?", "Stay within recommended cals on a given day.", "0"]};
 //generateAchs(jsonThing);
 
 
