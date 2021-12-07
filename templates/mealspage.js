@@ -371,7 +371,7 @@ function S_response(jsonStuff) {
 
 }
 
-recCals
+
 function getRecCals() {
     // this gets all the meals from the server in a JSON
     var x = new XMLHttpRequest();
@@ -393,7 +393,7 @@ function parseRecCal(someJSON) {
     // {"Rec": int (calorie number)}
     console.log("Here is your recommended daily calorie intake"+someJSON["Rec"]);
     recCals = someJSON["Rec"];
-
+    document.getElementById("C").innerHTML = recCals
 }
 
 function caloriestotal() {
@@ -470,7 +470,7 @@ function caloriestotal() {
     console.log(totalcals)
     const strrr= "Your daily total is " + totalcals.toString() + "calories"
     document.getElementById("H").innerHTML = strrr
-    document.getElementById("C").innerHTML = recCals
+   
 
 }
 
