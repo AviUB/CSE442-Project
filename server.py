@@ -85,12 +85,8 @@ def initialize_db():
     conn = psycopg2.connect(db_config)
     cur = conn.cursor()
     #cur.execute("DROP TABLE IF EXISTS users")
-<<<<<<< HEAD
     #feet, inches, weight, age, gender(0-male, 1-female, 2-other), activity(1-little,2-light,3-moderate,4-very active,5-extra active)
     cur.execute("CREATE TABLE IF NOT EXISTS users (username varchar, password varchar, feet int, inches int, weight int, age int, gender int, activity int)")
-=======
-    cur.execute("CREATE TABLE IF NOT EXISTS users (username varchar, password varchar, feet int, inches int, weight int)")
->>>>>>> sprint-4-recipes-page
 
     #cur.execute("INSERT INTO users (username, password) VALUES (%s, %s)", ("Jake", "password"))
 
