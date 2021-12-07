@@ -371,6 +371,31 @@ function S_response(jsonStuff) {
 
 }
 
+recCals
+function getRecCals() {
+    // this gets all the meals from the server in a JSON
+    var x = new XMLHttpRequest();
+    var url = "/calendar";
+
+
+    x.onreadystatechange = function() {
+        if (this.readyState == 4 && this.status == 200) {
+            var jsonStuff = JSON.parse(this.responseText);
+            console.log("we got : " + this.responseText + " from the server");
+            parseRecCal(jsonStuff);
+
+        }}
+    x.open("POST", url, true);
+    x.send();
+}
+
+function parseRecCal(someJSON) {
+    // {"Rec": int (calorie number)}
+    console.log("Here is your recommended daily calorie intake"+someJSON["Rec"]);
+    recCals = someJSON["Rec"];
+
+}
+
 function caloriestotal() {
     a = document.getElementById("B")
     b = document.getElementById("S")
@@ -445,6 +470,7 @@ function caloriestotal() {
     console.log(totalcals)
     const strrr= "Your daily total is " + totalcals.toString() + "calories"
     document.getElementById("H").innerHTML = strrr
+    document.getElementById("C").innerHTML = recCals
 
 }
 
