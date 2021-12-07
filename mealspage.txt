@@ -46,6 +46,7 @@
 <input type="text" id="inputFour" name="inputFour">
 <button type="button" onclick="xmlSnacks();">Submit</button>
 <div id="H"></div>
+<div id="C"></div>
 
 <br>
 
