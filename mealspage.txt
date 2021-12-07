@@ -45,6 +45,7 @@
 <label for="fname">Food name:</label>
 <input type="text" id="inputFour" name="inputFour">
 <button type="button" onclick="xmlSnacks();">Submit</button>
+<div id="C"></div>
 
 <br>
 
