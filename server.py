@@ -4,6 +4,7 @@ import os
 import psycopg2
 import hashlib
 import urllib.request
+import urllib.parse
 import json
 
 db_config = os.environ["DATABASE_URL"] if "DATABASE_URL" in os.environ else "user=postgres password=cse442project"
@@ -49,6 +50,19 @@ def valid_login(username, password):
     else:
         return False
 
+#ensure given user actually exists
+def verify_user(username):
+    conn = psycopg2.connect(db_config)
+    cur = conn.cursor()
+    cur.execute("SELECT * FROM users WHERE username = %s;", (username, ))
+    account = cur.fetchone()
+    conn.commit()
+    conn.close()
+    if account is None:
+        return False
+    else:
+        return True
+    
 def verify_login(username, password):
     conn = psycopg2.connect(db_config)
     cur = conn.cursor()
@@ -71,8 +85,12 @@ def initialize_db():
     conn = psycopg2.connect(db_config)
     cur = conn.cursor()
     #cur.execute("DROP TABLE IF EXISTS users")
+<<<<<<< HEAD
     #feet, inches, weight, age, gender(0-male, 1-female, 2-other), activity(1-little,2-light,3-moderate,4-very active,5-extra active)
     cur.execute("CREATE TABLE IF NOT EXISTS users (username varchar, password varchar, feet int, inches int, weight int, age int, gender int, activity int)")
+=======
+    cur.execute("CREATE TABLE IF NOT EXISTS users (username varchar, password varchar, feet int, inches int, weight int)")
+>>>>>>> sprint-4-recipes-page
 
     #cur.execute("INSERT INTO users (username, password) VALUES (%s, %s)", ("Jake", "password"))
 
@@ -1216,6 +1234,57 @@ def getHash(username):
     else:
         abort(404)
         return 'Never returned'
+
+@app.route('/recipes', methods=["GET", "POST"])
+def recipe_page():
+    if 'username' in session and verify_user(session['username']):
+        if request.method == 'POST':
+            print(request.form.getlist("foods"))
+            sys.stdout.flush()
+            ingred = ""
+            if len(request.form.getlist("foods")) == 0:
+                output = "<p>No results Found :(</p>"
+                toPrint = "<head><title>Search Results</title></head><body><h1>Recipe Suggestions</h1><br>" + output + "<a href='recipes'>Return to Recipes Page</a></body>"
+                return toPrint
+            for food in request.form.getlist("foods"):
+                ingred = ingred + urllib.parse.quote_plus(food)
+            #ingred = ingred[:-1] #chop off last comma
+            print("opendb meal search")
+            sys.stdout.flush()
+            url = "https://www.themealdb.com/api/json/v1/1/filter.php?i=" + ingred
+            x = urllib.request.urlopen(url)
+            print(x)
+            stuff = json.load(x)
+            print(stuff)
+            sys.stdout.flush()
+            if stuff['meals'] is None:
+                return render_template("recipe_results.html", recipes=None)
+            ids = ""
+            output = ""
+            for meal in stuff['meals']:
+                meal_id = meal["idMeal"]
+                url = "https://www.themealdb.com/api/json/v1/1/lookup.php?i=" + meal_id
+                x = urllib.request.urlopen(url)
+                print(x)
+                mealdets = json.load(x)
+                print(mealdets)
+                if mealdets["meals"] is None:
+                    continue
+                output = output+"<br><h2>" + mealdets["meals"][0]["strMeal"] + "</h2><br><p>" + mealdets["meals"][0]["strInstructions"]+"</p><br><br>"
+            if output == "":
+                output = "<p>No results Found :(</p><br>"
+            print(output)
+            sys.stdout.flush()
+            toPrint = "<head><title>Search Results</title></head><body><h1>Recipe Suggestions</h1><br>" + output + "<a href='recipes'>Return to Recipes Page</a></body>"
+            return toPrint
+        elif request.method == 'GET':
+            return render_template('recipes.html')
+    abort(404)
+    return ''
+
+@app.route("/recipes.js")
+def recone():
+    return render_template("recipes.js")
 
 if __name__=="__main__":
     setup = initialize_db()

@@ -1,0 +1,18 @@
+{% extends 'base.html' %}
+
+{% block title %}
+  <title>Search Results</title>
+{% endblock %}
+
+{% block content %}
+
+  {% if recipes %}
+    <h1>Search Results:</h1>
+    {{ recipes }}
+  {% else %}
+    <h1>No matching results found :(</h1>
+  {% endif %}
+
+  <a href='/recipes'>Return to Recipes Page</a>  
+
+{% endblock %}
