@@ -4,6 +4,9 @@
 </head>
 <body onload="doxml()">
   <h1>Get Recipe Suggestions</h1>
+  {% if date %}
+  <p id="date">{{ date }}</p>
+  {% endif %}
 
   <h1>Select from Breakfast</h1>
   <div id="B"></div>
@@ -19,5 +22,5 @@
 
   <br>
   <br>
-  <a href={{ url_for('mealspage') }}>Back to Meals Page</a>
+  <a href={{ url_for('mealspage', date=date) }}>Back to Meals Page</a>
 </body>

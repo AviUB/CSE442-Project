@@ -1,101 +1,105 @@
 //Copied from the mealspage.js
 
 function doxml(){
-    xmlB();
-    xmlL();
-    xmlD();
-    xmlS();
+    date = document.getElementById("date").innerHTML;
+    console.log("date is: " + date);
+    xmlB(date);
+    xmlL(date);
+    xmlD(date);
+    xmlS(date);
     return true;
 }
 
-function xmlB() {
-  var x = new XMLHttpRequest();
-  var url = "/mealspage";
+function xmlB(date) {
+    var x = new XMLHttpRequest();
+    var url = "/mealspage/" + date;
 
 
-  x.onreadystatechange = function() {
-    if (this.readyState == 4 && this.status == 200) {
-        var jsonStuff = JSON.parse(this.responseText);
-        console.log("we got : " + this.responseText + " from the server");
-        B_response(jsonStuff);
+    x.onreadystatechange = function() {
+	if (this.readyState == 4 && this.status == 200) {
+            var jsonStuff = JSON.parse(this.responseText);
+            console.log("we got : " + this.responseText + " from the server");
+            B_response(jsonStuff);
 
-  }}
+	}}
 
-  x.open("POST", url, true);
-  x.setRequestHeader('content-type', 'application/x-www-form-urlencoded;charset=UTF-8');
-  x.send("name=zb");
-
-}
-
-
-function xmlL() {
-  var x = new XMLHttpRequest();
-  var url = "/mealspage";
-
-
-  x.onreadystatechange = function() {
-    if (this.readyState == 4 && this.status == 200) {
-        var jsonStuff = JSON.parse(this.responseText);
-        console.log("we got : " + this.responseText + " from the server");
-        L_response(jsonStuff);
-
-  }}
-
-  x.open("POST", url, true);
-  x.setRequestHeader('content-type', 'application/x-www-form-urlencoded;charset=UTF-8');
-  x.send("name=zl");
+    x.open("POST", url, true);
+    x.setRequestHeader('content-type', 'application/x-www-form-urlencoded;charset=UTF-8');
+    x.send("name=zb");
 
 }
 
-function xmlD() {
-  var x = new XMLHttpRequest();
-  var url = "/mealspage";
+
+function xmlL(date) {
+    var x = new XMLHttpRequest();
+    var url = "/mealspage/" + date;
 
 
-  x.onreadystatechange = function() {
-    if (this.readyState == 4 && this.status == 200) {
-        var jsonStuff = JSON.parse(this.responseText);
-        console.log("we got : " + this.responseText + " from the server");
-        D_response(jsonStuff);
+    x.onreadystatechange = function() {
+	if (this.readyState == 4 && this.status == 200) {
+            var jsonStuff = JSON.parse(this.responseText);
+            console.log("we got : " + this.responseText + " from the server");
+            L_response(jsonStuff);
 
-  }}
+	}}
 
-  x.open("POST", url, true);
-  x.setRequestHeader('content-type', 'application/x-www-form-urlencoded;charset=UTF-8');
-  x.send("name=zd");
+    x.open("POST", url, true);
+    x.setRequestHeader('content-type', 'application/x-www-form-urlencoded;charset=UTF-8');
+    x.send("name=zl");
 
 }
 
-function xmlS() {
-  var x = new XMLHttpRequest();
-  var url = "/mealspage";
+function xmlD(date) {
+    var x = new XMLHttpRequest();
+    var url = "/mealspage/" + date;
 
 
-  x.onreadystatechange = function() {
-    if (this.readyState == 4 && this.status == 200) {
-        var jsonStuff = JSON.parse(this.responseText);
-        console.log("we got : " + this.responseText + " from the server");
-        S_response(jsonStuff);
-  }}
+    x.onreadystatechange = function() {
+	if (this.readyState == 4 && this.status == 200) {
+            var jsonStuff = JSON.parse(this.responseText);
+            console.log("we got : " + this.responseText + " from the server");
+            D_response(jsonStuff);
 
-  x.open("POST", url, true);
-  x.setRequestHeader('content-type', 'application/x-www-form-urlencoded;charset=UTF-8');
-  x.send("name=zs");
+	}}
+
+    x.open("POST", url, true);
+    x.setRequestHeader('content-type', 'application/x-www-form-urlencoded;charset=UTF-8');
+    x.send("name=zd");
+
+}
+
+function xmlS(date) {
+    var x = new XMLHttpRequest();
+    var url = "/mealspage/" + date;
+
+
+    x.onreadystatechange = function() {
+	if (this.readyState == 4 && this.status == 200) {
+            var jsonStuff = JSON.parse(this.responseText);
+            console.log("we got : " + this.responseText + " from the server");
+            S_response(jsonStuff);
+	}}
+
+    x.open("POST", url, true);
+    x.setRequestHeader('content-type', 'application/x-www-form-urlencoded;charset=UTF-8');
+    x.send("name=zs");
 
 }
 
 function B_response(jsonStuff) {
-  // json stuff will be the food info from the api that we get from our server
-  //var foodElement = jsonStuff["1"]; //do something with jsonStuff
-  b = document.getElementById("B")
+    // json stuff will be the food info from the api that we get from our server
+    //var foodElement = jsonStuff["1"]; //do something with jsonStuff
+    b = document.getElementById("B")
     while (b.hasChildNodes()) {
 	b.removeChild(b.firstChild);
     }
     
     
     var f = document.createElement("form");
+    date = document.getElementById("date").innerHTML;
+    link = '/recipes/' + date;
     f.setAttribute('method', 'post');
-    f.setAttribute('action', '/recipes');
+    f.setAttribute('action', link);
 
     for (let i = 2; i < 9; i++) {
 	if (jsonStuff[i.toString()] != ""){
@@ -140,15 +144,17 @@ function B_response(jsonStuff) {
 }
 
 function L_response(jsonStuff) {
-  b = document.getElementById("L")
+    b = document.getElementById("L")
     while (b.hasChildNodes()) {
 	b.removeChild(b.firstChild);
     }
     
     
     var f = document.createElement("form");
+    date = document.getElementById("date").innerHTML;
+    link = '/recipes/' + date;
     f.setAttribute('method', 'post');
-    f.setAttribute('action', '/recipes');
+    f.setAttribute('action', link);
 
     for (let i = 2; i < 9; i++) {
 	if (jsonStuff[i.toString()] != ""){
@@ -193,15 +199,17 @@ function L_response(jsonStuff) {
 }
 
 function D_response(jsonStuff) {
-  b = document.getElementById("D")
+    b = document.getElementById("D")
     while (b.hasChildNodes()) {
 	b.removeChild(b.firstChild);
     }
     
     
     var f = document.createElement("form");
+    date = document.getElementById("date").innerHTML;
+    link = '/recipes/' + date;
     f.setAttribute('method', 'post');
-    f.setAttribute('action', '/recipes');
+    f.setAttribute('action', link);
 
     for (let i = 2; i < 9; i++) {
 	if (jsonStuff[i.toString()] != ""){
@@ -246,15 +254,17 @@ function D_response(jsonStuff) {
 
 
 function S_response(jsonStuff) {
-  b = document.getElementById("S")
+    b = document.getElementById("S")
     while (b.hasChildNodes()) {
 	b.removeChild(b.firstChild);
     }
     
     
     var f = document.createElement("form");
+    date = document.getElementById("date").innerHTML;
+    link = '/recipes/' + date;
     f.setAttribute('method', 'post');
-    f.setAttribute('action', '/recipes');
+    f.setAttribute('action', link);
 
     for (let i = 2; i < 9; i++) {
 	if (jsonStuff[i.toString()] != ""){
