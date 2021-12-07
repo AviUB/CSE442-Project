@@ -662,9 +662,10 @@ def recipe_page():
             ingred = ""
             if len(request.form.getlist("foods")) == 0:
                 output = "<p>No results Found :(</p>"
-                return render_template("recipe_results.html", recipes=output)
+                toPrint = "<head><title>Search Results</title></head><body><h1>Recipe Suggestions</h1><br>" + output + "<a href='recipes'>Return to Recipes Page</a></body>"
+                return toPrint
             for food in request.form.getlist("foods"):
-                ingred = ingred + food
+                ingred = ingred + urllib.parse.quote_plus(food)
             #ingred = ingred[:-1] #chop off last comma
             print("opendb meal search")
             sys.stdout.flush()
@@ -675,7 +676,7 @@ def recipe_page():
             print(stuff)
             sys.stdout.flush()
             if stuff['meals'] is None:
-                return render_template("recipe_results.html", recipes="<p>No results found :(</p>")
+                return render_template("recipe_results.html", recipes=None)
             ids = ""
             output = ""
             for meal in stuff['meals']:
@@ -689,10 +690,11 @@ def recipe_page():
                     continue
                 output = output+"<br><h2>" + mealdets["meals"][0]["strMeal"] + "</h2><br><p>" + mealdets["meals"][0]["strInstructions"]+"</p><br><br>"
             if output == "":
-                output = "<p>No results Found :(</p>"
+                output = "<p>No results Found :(</p><br>"
             print(output)
             sys.stdout.flush()
-            return render_template("recipe_results.html", recipes=output)
+            toPrint = "<head><title>Search Results</title></head><body><h1>Recipe Suggestions</h1><br>" + output + "<a href='recipes'>Return to Recipes Page</a></body>"
+            return toPrint
         elif request.method == 'GET':
             return render_template('recipes.html')
     abort(404)
