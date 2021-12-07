@@ -19,7 +19,7 @@ function xmlB(date) {
 	if (this.readyState == 4 && this.status == 200) {
             var jsonStuff = JSON.parse(this.responseText);
             console.log("we got : " + this.responseText + " from the server");
-            B_response(jsonStuff);
+            B_response(jsonStuff, date);
 
 	}}
 
@@ -39,7 +39,7 @@ function xmlL(date) {
 	if (this.readyState == 4 && this.status == 200) {
             var jsonStuff = JSON.parse(this.responseText);
             console.log("we got : " + this.responseText + " from the server");
-            L_response(jsonStuff);
+            L_response(jsonStuff, date);
 
 	}}
 
@@ -58,7 +58,7 @@ function xmlD(date) {
 	if (this.readyState == 4 && this.status == 200) {
             var jsonStuff = JSON.parse(this.responseText);
             console.log("we got : " + this.responseText + " from the server");
-            D_response(jsonStuff);
+            D_response(jsonStuff, date);
 
 	}}
 
@@ -77,7 +77,7 @@ function xmlS(date) {
 	if (this.readyState == 4 && this.status == 200) {
             var jsonStuff = JSON.parse(this.responseText);
             console.log("we got : " + this.responseText + " from the server");
-            S_response(jsonStuff);
+            S_response(jsonStuff, date);
 	}}
 
     x.open("POST", url, true);
@@ -86,22 +86,21 @@ function xmlS(date) {
 
 }
 
-function B_response(jsonStuff) {
+function B_response(jsonStuff, date) {
     // json stuff will be the food info from the api that we get from our server
     //var foodElement = jsonStuff["1"]; //do something with jsonStuff
-    b = document.getElementById("B")
+    b = document.getElementById("B");
     while (b.hasChildNodes()) {
 	b.removeChild(b.firstChild);
     }
     
     
     var f = document.createElement("form");
-    date = document.getElementById("date").innerHTML;
     link = '/recipes/' + date;
     f.setAttribute('method', 'post');
     f.setAttribute('action', link);
 
-    for (let i = 2; i < 9; i++) {
+    for (let i = 1; i < 9; i++) {
 	if (jsonStuff[i.toString()] != ""){
 	    trimLen = jsonStuff[i.toString()][0].indexOf(",");
 	    if(trimLen == -1){
@@ -143,7 +142,7 @@ function B_response(jsonStuff) {
 
 }
 
-function L_response(jsonStuff) {
+function L_response(jsonStuff, date) {
     b = document.getElementById("L")
     while (b.hasChildNodes()) {
 	b.removeChild(b.firstChild);
@@ -151,12 +150,11 @@ function L_response(jsonStuff) {
     
     
     var f = document.createElement("form");
-    date = document.getElementById("date").innerHTML;
     link = '/recipes/' + date;
     f.setAttribute('method', 'post');
     f.setAttribute('action', link);
 
-    for (let i = 2; i < 9; i++) {
+    for (let i = 1; i < 9; i++) {
 	if (jsonStuff[i.toString()] != ""){
 	    trimLen = jsonStuff[i.toString()][0].indexOf(",");
 	    if(trimLen == -1){
@@ -198,7 +196,7 @@ function L_response(jsonStuff) {
 
 }
 
-function D_response(jsonStuff) {
+function D_response(jsonStuff, date) {
     b = document.getElementById("D")
     while (b.hasChildNodes()) {
 	b.removeChild(b.firstChild);
@@ -206,12 +204,11 @@ function D_response(jsonStuff) {
     
     
     var f = document.createElement("form");
-    date = document.getElementById("date").innerHTML;
     link = '/recipes/' + date;
     f.setAttribute('method', 'post');
     f.setAttribute('action', link);
 
-    for (let i = 2; i < 9; i++) {
+    for (let i = 1; i < 9; i++) {
 	if (jsonStuff[i.toString()] != ""){
 	    trimLen = jsonStuff[i.toString()][0].indexOf(",");
 	    if(trimLen == -1){
@@ -253,7 +250,7 @@ function D_response(jsonStuff) {
 }
 
 
-function S_response(jsonStuff) {
+function S_response(jsonStuff, date) {
     b = document.getElementById("S")
     while (b.hasChildNodes()) {
 	b.removeChild(b.firstChild);
@@ -261,12 +258,11 @@ function S_response(jsonStuff) {
     
     
     var f = document.createElement("form");
-    date = document.getElementById("date").innerHTML;
     link = '/recipes/' + date;
     f.setAttribute('method', 'post');
     f.setAttribute('action', link);
 
-    for (let i = 2; i < 9; i++) {
+    for (let i = 1; i < 9; i++) {
 	if (jsonStuff[i.toString()] != ""){
 	    trimLen = jsonStuff[i.toString()][0].indexOf(",");
 	    if(trimLen == -1){

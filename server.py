@@ -1273,7 +1273,7 @@ def recipe_page(date):
                 output = "<p>No results Found :(</p><br>"
             print(output)
             sys.stdout.flush()
-            toPrint = "<head><title>Search Results</title></head><body><h1>Recipe Suggestions</h1><br>" + output + "<a href='recipes/" + date + "'>Return to Recipes Page</a></body>"
+            toPrint = "<head><title>Search Results</title></head><body><h1>Recipe Suggestions</h1><br>" + output + "<a href='" + date + "'>Return to Recipes Page</a></body>"
             return toPrint
         elif request.method == 'GET':
             return render_template('recipes.html', date=date)
