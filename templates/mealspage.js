@@ -179,6 +179,7 @@ function removeFood(num, meal) {
   x.open("POST", url, true);
   x.setRequestHeader('content-type', 'application/x-www-form-urlencoded;charset=UTF-8');
   x.send("name=" + num.toString() + meal);
+  caloriestotal();
 
 }
 
