@@ -472,6 +472,7 @@ function caloriestotal() {
     console.log(totalcals)
     const strrr= "Your daily total is " + totalcals.toString() + "calories"
     document.getElementById("H").innerHTML = strrr
+    getRecCals();
    
 
 }
