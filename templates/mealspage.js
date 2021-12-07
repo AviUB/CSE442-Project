@@ -473,7 +473,14 @@ function caloriestotal() {
     const strrr= "Your daily total is " + totalcals.toString() + "calories"
     document.getElementById("H").innerHTML = strrr
     getRecCals();
-   
+    rcaa = document.getElementById("C").innerHTML
+    if(totalcals>rec){
+        console.log("you went over your cals")
+    }
+    if(totalcals<rec){
+        console.log("You stayed within your cals")
+    }
+
 
 }
 
