@@ -1243,7 +1243,7 @@ def recipe_page(date):
             ingred = ""
             if len(request.form.getlist("foods")) == 0:
                 output = "<p>No results Found :(</p>"
-                toPrint = "<head><title>Search Results</title></head><body><h1>Recipe Suggestions</h1><br>" + output + "<a href='recipes'>Return to Recipes Page</a></body>"
+                toPrint = "<head><title>Search Results</title></head><body><h1>Recipe Suggestions</h1><br>" + output + "<a href='/calendar'>Return to Calendar Page</a></body>"
                 return toPrint
             for food in request.form.getlist("foods"):
                 ingred = ingred + urllib.parse.quote_plus(food)
