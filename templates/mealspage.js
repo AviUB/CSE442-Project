@@ -197,6 +197,7 @@ function xmlBreakfast() {
   x.open("POST", url, true);
   x.setRequestHeader('content-type', 'application/x-www-form-urlencoded;charset=UTF-8');
   x.send("name=b" + foodSent);
+  caloriestotal();
 
 }
 
@@ -215,6 +216,7 @@ function xmlLunch() {
   x.open("POST", url, true);
   x.setRequestHeader('content-type', 'application/x-www-form-urlencoded;charset=UTF-8');
   x.send("name=l" + foodSent);
+  caloriestotal();
 
 }
 
@@ -233,6 +235,7 @@ function xmlDinner() {
   x.open("POST", url, true);
   x.setRequestHeader('content-type', 'application/x-www-form-urlencoded;charset=UTF-8');
   x.send("name=d" + foodSent);
+  caloriestotal();
 
 }
 
@@ -251,6 +254,7 @@ function xmlSnacks() {
   x.open("POST", url, true);
   x.setRequestHeader('content-type', 'application/x-www-form-urlencoded;charset=UTF-8');
   x.send("name=s" + foodSent);
+  caloriestotal();
 
 }
 
