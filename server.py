@@ -52,6 +52,19 @@ def valid_login(username, password):
     else:
         return False
 
+#ensure given user actually exists
+def verify_user(username):
+    conn = psycopg2.connect(db_config)
+    cur = conn.cursor()
+    cur.execute("SELECT * FROM users WHERE username = %s;", (username, ))
+    account = cur.fetchone()
+    conn.commit()
+    conn.close()
+    if account is None:
+        return False
+    else:
+        return True
+    
 def verify_login(username, password):
     conn = psycopg2.connect(db_config)
     cur = conn.cursor()
@@ -655,7 +668,7 @@ def getHash(username):
 
 @app.route('/recipes', methods=["GET", "POST"])
 def recipe_page():
-    if 'username' in session:
+    if 'username' in session and verify_user(session['username']):
         if request.method == 'POST':
             print(request.form.getlist("foods"))
             sys.stdout.flush()
