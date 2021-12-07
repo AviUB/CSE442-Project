@@ -983,7 +983,8 @@ def mealspage(date):
             # MAYBE CHECK IF @@ IS IN THERE FIRST SO WE DON'T GET POTENTIAL ERRORS?
             htmlArray = theHTML.split("@@")
             injection = "<script>setPath('/mealspage/" + str(month) +"-"+ str(day) +"-"+ str(year) + "');</script>"
-            return htmlArray[0] + injection + htmlArray[1]
+            injectionTwo = "<a href='../recipes/" + str(month) +"-"+ str(day) +"-"+ str(year) + "'>Get Recipe Suggestions for this Date!</a>"
+            return htmlArray[0] + injection + injectionTwo + htmlArray[1]
             #return render_template('mealspage2.html')
 
         elif request.method == 'POST':
