@@ -70,21 +70,21 @@ def initialize_db():
     #Create db tables
     conn = psycopg2.connect(db_config)
     cur = conn.cursor()
-    cur.execute("DROP TABLE IF EXISTS users")
+    #cur.execute("DROP TABLE IF EXISTS users")
     #feet, inches, weight, age, gender(0-male, 1-female, 2-other), activity(1-little,2-light,3-moderate,4-very active,5-extra active)
     cur.execute("CREATE TABLE IF NOT EXISTS users (username varchar, password varchar, feet int, inches int, weight int, age int, gender int, activity int)")
 
     #cur.execute("INSERT INTO users (username, password) VALUES (%s, %s)", ("Jake", "password"))
 
-    cur.execute("DROP TABLE IF EXISTS ACHS")
+    #cur.execute("DROP TABLE IF EXISTS ACHS")
     sql ="CREATE TABLE IF NOT EXISTS ACHS(USERNAME VARCHAR PRIMARY KEY, LOGINS INT, MEALSMADE INT, ACH1 BOOLEAN NOT NULL, ACH2 BOOLEAN NOT NULL, ACH3 BOOLEAN NOT NULL)"
     cur.execute(sql)
     #cur.execute("INSERT INTO ACHS(USERNAME, LOGINS, MEALSMADE, ACH1, ACH2, ACH3) VALUES ('Jake', 0, 0, 'no', 'no', 'no')")
 
-    cur.execute("DROP TABLE IF EXISTS bmeals")
-    cur.execute("DROP TABLE IF EXISTS lmeals")
-    cur.execute("DROP TABLE IF EXISTS dmeals")
-    cur.execute("DROP TABLE IF EXISTS smeals")
+    #cur.execute("DROP TABLE IF EXISTS bmeals")
+    #cur.execute("DROP TABLE IF EXISTS lmeals")
+    #cur.execute("DROP TABLE IF EXISTS dmeals")
+    #cur.execute("DROP TABLE IF EXISTS smeals")
     #there is now a date associated with each set of foods that make up a meal
     #go into the code to make sure we add this date column to all appropriate places
     cur.execute("CREATE TABLE IF NOT EXISTS bmeals(USERNAME VARCHAR, DATE VARCHAR, NOMEALS INT, M1 VARCHAR, M2 VARCHAR, M3 VARCHAR, M4 VARCHAR, M5 VARCHAR, M6 VARCHAR, M7 VARCHAR, M8 VARCHAR)")
@@ -110,18 +110,18 @@ def initialize_db():
 
 
 
-    hashkey = hashlib.pbkdf2_hmac('sha256', bytes("blahblah", 'utf-8'), bytes("Jake", 'utf-8'), 100000)
-    cur.execute("INSERT INTO users (username, password, feet, inches, weight, age, gender, activity) VALUES (%s, %s, %s, %s, %s, %s, %s, %s)", ("Jake", hashkey.hex(), 5, 8, 180, 21, 0, 2))
+    #hashkey = hashlib.pbkdf2_hmac('sha256', bytes("blahblah", 'utf-8'), bytes("Jake", 'utf-8'), 100000)
+    #cur.execute("INSERT INTO users (username, password, feet, inches, weight, age, gender, activity) VALUES (%s, %s, %s, %s, %s, %s, %s, %s)", ("Jake", hashkey.hex(), 5, 8, 180, 21, 0, 2))
 
 
-    cur.execute("INSERT INTO ACHS(USERNAME, LOGINS, MEALSMADE, ACH1, ACH2, ACH3) VALUES (%s, 0, 0, 'no', 'no', 'no')", ("Jake",))
+    #cur.execute("INSERT INTO ACHS(USERNAME, LOGINS, MEALSMADE, ACH1, ACH2, ACH3) VALUES (%s, 0, 0, 'no', 'no', 'no')", ("Jake",))
 
-    strng = "initialized food item space                                                             "
-    cur.execute("INSERT INTO bmeals(USERNAME, DATE, NOMEALS, M1, M2, M3, M4, M5, M6, M7, M8) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)", ("Jake", "10-10-1960", 0, strng, strng, strng, strng, strng, strng, strng, strng))
-    cur.execute("INSERT INTO lmeals(USERNAME, DATE, NOMEALS, M1, M2, M3, M4, M5, M6, M7, M8) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)", ("Jake", "10-10-1960", 0, strng, strng, strng, strng, strng, strng, strng, strng))
-    cur.execute("INSERT INTO dmeals(USERNAME, DATE, NOMEALS, M1, M2, M3, M4, M5, M6, M7, M8) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)", ("Jake", "10-10-1960", 0, strng, strng, strng, strng, strng, strng, strng, strng))
-    cur.execute("INSERT INTO smeals(USERNAME, DATE, NOMEALS, M1, M2, M3, M4, M5, M6, M7, M8) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)", ("Jake", "10-10-1960", 0, strng, strng, strng, strng, strng, strng, strng, strng))
-    conn.commit()
+    #strng = "initialized food item space                                                             "
+    #cur.execute("INSERT INTO bmeals(USERNAME, DATE, NOMEALS, M1, M2, M3, M4, M5, M6, M7, M8) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)", ("Jake", "10-10-1960", 0, strng, strng, strng, strng, strng, strng, strng, strng))
+    #cur.execute("INSERT INTO lmeals(USERNAME, DATE, NOMEALS, M1, M2, M3, M4, M5, M6, M7, M8) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)", ("Jake", "10-10-1960", 0, strng, strng, strng, strng, strng, strng, strng, strng))
+    #cur.execute("INSERT INTO dmeals(USERNAME, DATE, NOMEALS, M1, M2, M3, M4, M5, M6, M7, M8) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)", ("Jake", "10-10-1960", 0, strng, strng, strng, strng, strng, strng, strng, strng))
+    #cur.execute("INSERT INTO smeals(USERNAME, DATE, NOMEALS, M1, M2, M3, M4, M5, M6, M7, M8) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)", ("Jake", "10-10-1960", 0, strng, strng, strng, strng, strng, strng, strng, strng))
+    #conn.commit()
         # then add myself to database
     """    print("IT WAS FALSE")
     else:
