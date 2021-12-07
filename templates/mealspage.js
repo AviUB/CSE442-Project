@@ -368,17 +368,79 @@ function S_response(jsonStuff) {
 }
 
 function caloriestotal() {
-  b = document.getElementById("S")
-  while (b.hasChildNodes()) {
-    for(let i=1; i< 9; i++){
+    a = document.getElementById("B")
+    b = document.getElementById("S")
+    c = document.getElementById("D")
+    d = document.getElementById("L")
+    paragraphsA = B.getElementsByTagName("p");
+    paragraphsB = D.getElementsByTagName("p");
+    paragraphsC = L.getElementsByTagName("p");
 
-      b = document.getElementById("S")
-      var TextInsideS = S.getElementsByTagName('p')[i].innerHTML;
-      console.log(TextInsideS)
-      console.log(i)
+    paragraphs = S.getElementsByTagName("p");
+    totalcals= 0
+
+    console.log(paragraphs.length)
+    if(paragraphs.length>0){
+        for(let i = 1; i < paragraphs.length; i++) {
+            b = document.getElementById("S")
+            var TextInsideS = S.getElementsByTagName('p')[i].innerHTML;
+            console.log(TextInsideS)
+            const myArr = TextInsideS.split("|");
+            cals= myArr[1]
+            var res = parseInt(cals.substring(0, 7));//get first 5 chars
+            totalcals = totalcals + res
+            console.log(res + "<br>")
+            console.log(i)
+        }
     }
-  }
 
+
+    if(paragraphsA.length>0){
+        for(let i = 1; i < paragraphsA.length; i++) {
+            b = document.getElementById("S")
+            var TextInsideS = B.getElementsByTagName('p')[i].innerHTML;
+            console.log(TextInsideS)
+            const myArr = TextInsideS.split("|");
+            cals= myArr[1]
+            var res = parseInt(cals.substring(0, 7));//get first 5 chars
+            totalcals = totalcals + res
+            console.log(res + "<br>")
+            console.log(i)
+        }
+
+    }
+
+    if(paragraphsB.length>0){
+        for(let i = 1; i < paragraphsB.length; i++) {
+            b = document.getElementById("S")
+            var TextInsideS = D.getElementsByTagName('p')[i].innerHTML;
+            console.log(TextInsideS)
+            const myArr = TextInsideS.split("|");
+            cals= myArr[1]
+            var res = parseInt(cals.substring(0, 7));//get first 5 chars
+            totalcals = totalcals + res
+            console.log(res + "<br>")
+            console.log(i)
+        }
+    }
+
+
+    if(paragraphsC.length>0){
+        for(let i = 1; i < paragraphsC.length; i++) {
+            b = document.getElementById("S")
+            var TextInsideS = L.getElementsByTagName('p')[i].innerHTML;
+            console.log(TextInsideS)
+            const myArr = TextInsideS.split("|");
+            cals= myArr[1]
+            var res = parseInt(cals.substring(0, 7));//get first 5 chars
+            totalcals = totalcals + res
+            console.log(res + "<br>")
+            console.log(i)
+        }
+    }
+    console.log(totalcals)
+    const strrr= "Your daily total is " + totalcals.toString() + "calories"
+    document.getElementById("H").innerHTML = strrr
 
 }
 
