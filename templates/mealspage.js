@@ -394,6 +394,7 @@ function parseRecCal(someJSON) {
     // {"Rec": int (calorie number)}
     console.log("Here is your recommended daily calorie intake"+someJSON["Rec"]);
     recCals = someJSON["Rec"];
+    console.log(recCals);
     document.getElementById("C").innerHTML = recCals
 }
 
