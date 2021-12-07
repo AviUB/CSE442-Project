@@ -1,7 +1,7 @@
 //Copied from the mealspage.js
 
 function doxml(){
-    xmlb();
+    xmlB();
     xmlL();
     xmlD();
     xmlS();
@@ -97,19 +97,19 @@ function B_response(jsonStuff) {
     f.setAttribute('method', 'post');
     f.setAttribute('action', '/recipes');
 
-    for (let i = 1; i < 9; i++) {
+    for (let i = 2; i < 9; i++) {
 	if (jsonStuff[i.toString()] != ""){
 	    trimLen = jsonStuff[i.toString()][0].indexOf(",");
 	    if(trimLen == -1){
 		trimLen = jsonStuff[i.toString()][0].indexOf(" | ");
 	    }
 	    var ch = document.createElement("input");
-	    ident = "food" + i;
+	    ident = "foodB" + i;
 	    ch.setAttribute("id", ident)
 	    var lb = document.createElement("label");
 	    var brk = document.createElement("br")
 	    lb.setAttribute("for", ident);
-	    ch.type = "checkbox";
+	    ch.type = "radio";
 	    if(trimLen == -1){
 		ch.text = jsonStuff[i.toString()][0];
 		ch.value = jsonStuff[i.toString()][0];
@@ -150,19 +150,19 @@ function L_response(jsonStuff) {
     f.setAttribute('method', 'post');
     f.setAttribute('action', '/recipes');
 
-    for (let i = 1; i < 9; i++) {
+    for (let i = 2; i < 9; i++) {
 	if (jsonStuff[i.toString()] != ""){
 	    trimLen = jsonStuff[i.toString()][0].indexOf(",");
 	    if(trimLen == -1){
 		trimLen = jsonStuff[i.toString()][0].indexOf(" | ");
 	    }
 	    var ch = document.createElement("input");
-	    ident = "food" + i;
+	    ident = "foodL" + i;
 	    ch.setAttribute("id", ident)
 	    var lb = document.createElement("label");
 	    var brk = document.createElement("br")
 	    lb.setAttribute("for", ident);
-	    ch.type = "checkbox";
+	    ch.type = "radio";
 	    if(trimLen == -1){
 		ch.text = jsonStuff[i.toString()][0];
 		ch.value = jsonStuff[i.toString()][0];
@@ -188,7 +188,7 @@ function L_response(jsonStuff) {
     sub.type = "submit"
     sub.value = "Find Recipes"
     f.append(sub)
-    document.getElementById("B").appendChild(f);
+    document.getElementById("L").appendChild(f);
 
 }
 
@@ -203,19 +203,19 @@ function D_response(jsonStuff) {
     f.setAttribute('method', 'post');
     f.setAttribute('action', '/recipes');
 
-    for (let i = 1; i < 9; i++) {
+    for (let i = 2; i < 9; i++) {
 	if (jsonStuff[i.toString()] != ""){
 	    trimLen = jsonStuff[i.toString()][0].indexOf(",");
 	    if(trimLen == -1){
 		trimLen = jsonStuff[i.toString()][0].indexOf(" | ");
 	    }
 	    var ch = document.createElement("input");
-	    ident = "food" + i;
+	    ident = "foodD" + i;
 	    ch.setAttribute("id", ident)
 	    var lb = document.createElement("label");
 	    var brk = document.createElement("br")
 	    lb.setAttribute("for", ident);
-	    ch.type = "checkbox";
+	    ch.type = "radio";
 	    if(trimLen == -1){
 		ch.text = jsonStuff[i.toString()][0];
 		ch.value = jsonStuff[i.toString()][0];
@@ -241,7 +241,7 @@ function D_response(jsonStuff) {
     sub.type = "submit"
     sub.value = "Find Recipes"
     f.append(sub)
-    document.getElementById("B").appendChild(f);
+    document.getElementById("D").appendChild(f);
 }
 
 
@@ -256,19 +256,19 @@ function S_response(jsonStuff) {
     f.setAttribute('method', 'post');
     f.setAttribute('action', '/recipes');
 
-    for (let i = 1; i < 9; i++) {
+    for (let i = 2; i < 9; i++) {
 	if (jsonStuff[i.toString()] != ""){
 	    trimLen = jsonStuff[i.toString()][0].indexOf(",");
 	    if(trimLen == -1){
 		trimLen = jsonStuff[i.toString()][0].indexOf(" | ");
 	    }
 	    var ch = document.createElement("input");
-	    ident = "food" + i;
+	    ident = "foodS" + i;
 	    ch.setAttribute("id", ident)
 	    var lb = document.createElement("label");
 	    var brk = document.createElement("br")
 	    lb.setAttribute("for", ident);
-	    ch.type = "checkbox";
+	    ch.type = "radio";
 	    if(trimLen == -1){
 		ch.text = jsonStuff[i.toString()][0];
 		ch.value = jsonStuff[i.toString()][0];
@@ -294,6 +294,6 @@ function S_response(jsonStuff) {
     sub.type = "submit"
     sub.value = "Find Recipes"
     f.append(sub)
-    document.getElementById("B").appendChild(f);
+    document.getElementById("S").appendChild(f);
 
 }
