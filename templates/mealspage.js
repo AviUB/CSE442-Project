@@ -474,11 +474,13 @@ function caloriestotal() {
     document.getElementById("H").innerHTML = strrr
     getRecCals();
     rcaa = document.getElementById("C").innerHTML
-    if(totalcals>rec){
+    if(totalcals>rcaa){
         console.log("you went over your cals")
+        document.getElementById("O").innerHTML ="you went over your cals"
     }
-    if(totalcals<rec){
-        console.log("You stayed within your cals")
+    if(totalcals<rcaa){
+        console.log("you stayed within your cals")
+        document.getElementById("O").innerHTML ="you stayed within your cals"
     }
 
 
